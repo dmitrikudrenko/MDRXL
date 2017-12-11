@@ -5,7 +5,6 @@ import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxView;
 import io.github.dmitrikudrenko.mdrxl.mvp.SingleExecutionStateStrategy;
-import io.github.dmitrikudrenko.mdrxl.sample.model.Data;
 
 @StateStrategyType(SkipStrategy.class)
 public interface SampleView extends RxView {
@@ -15,7 +14,7 @@ public interface SampleView extends RxView {
     @StateStrategyType(SingleExecutionStateStrategy.class)
     void stopLoading();
 
-    void showData(Data data);
+    void showData(String data);
 
-    void showError(Throwable error);
+    void showError(String error);
 }

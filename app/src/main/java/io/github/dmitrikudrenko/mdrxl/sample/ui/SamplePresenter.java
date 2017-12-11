@@ -7,6 +7,7 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.model.Data;
 import io.github.dmitrikudrenko.mdrxl.sample.model.DataLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.model.DataRepository;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -14,12 +15,15 @@ import javax.inject.Provider;
 @InjectViewState
 public class SamplePresenter extends RxPresenter<SampleView> {
     private final Provider<DataLoader> dataLoaderProvider;
+    private final DataRepository dataRepository;
 
     @Inject
     SamplePresenter(final RxLoaderManager loaderManager,
-                    final Provider<DataLoader> dataLoaderProvider) {
+                    final Provider<DataLoader> dataLoaderProvider,
+                    final DataRepository dataRepository) {
         super(loaderManager);
         this.dataLoaderProvider = dataLoaderProvider;
+        this.dataRepository = dataRepository;
     }
 
     @Override
@@ -33,6 +37,11 @@ public class SamplePresenter extends RxPresenter<SampleView> {
         getViewState().stopLoading();
     }
 
+    void onDataChanged(final String data) {
+        final int number = Integer.valueOf(data);
+        dataRepository.save(Data.create(number));
+    }
+
     private class DataLoaderCallbacks extends RxLoaderCallbacks<Data> {
 
         @Override
@@ -44,13 +53,13 @@ public class SamplePresenter extends RxPresenter<SampleView> {
         @Override
         protected void onSuccess(final int id, final Data data) {
             getViewState().stopLoading();
-            getViewState().showData(data);
+            getViewState().showData(String.valueOf(data.getId()));
         }
 
         @Override
         protected void onError(final int id, final Throwable error) {
             getViewState().stopLoading();
-            getViewState().showError(error);
+            getViewState().showError(error.getMessage());
         }
     }
 }

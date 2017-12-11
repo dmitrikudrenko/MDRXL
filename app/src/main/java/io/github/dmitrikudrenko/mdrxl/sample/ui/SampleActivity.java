@@ -2,7 +2,9 @@ package io.github.dmitrikudrenko.mdrxl.sample.ui;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.widget.TextView;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.Toast;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Module;
@@ -12,7 +14,6 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
-import io.github.dmitrikudrenko.mdrxl.sample.model.Data;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -27,7 +28,9 @@ public class SampleActivity extends RxActivity implements SampleView {
     SamplePresenter presenter;
 
     private SwipeRefreshLayout refreshLayout;
-    private TextView contentView;
+    private EditText contentView;
+
+    private boolean hasContentViewFocus;
 
     @ProvidePresenter
     public SamplePresenter providePresenter() {
@@ -44,6 +47,14 @@ public class SampleActivity extends RxActivity implements SampleView {
         refreshLayout = findViewById(R.id.refresh_layout);
         contentView = findViewById(R.id.content);
         refreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
+        contentView.setOnFocusChangeListener((v, hasFocus) -> hasContentViewFocus = hasFocus);
+        contentView.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                presenter.onDataChanged(v.getText().toString());
+                contentView.clearFocus();
+            }
+            return false;
+        });
     }
 
     @Override
@@ -63,13 +74,15 @@ public class SampleActivity extends RxActivity implements SampleView {
     }
 
     @Override
-    public void showData(final Data data) {
-        contentView.setText(String.valueOf(data.getId()));
+    public void showData(final String data) {
+        if (!hasContentViewFocus) {
+            contentView.setText(data);
+        }
     }
 
     @Override
-    public void showError(final Throwable error) {
-        contentView.setText(error.getMessage());
+    public void showError(final String error) {
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 
     @Override
