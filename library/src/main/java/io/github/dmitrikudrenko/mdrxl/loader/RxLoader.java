@@ -38,12 +38,12 @@ public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> {
     }
 
     private void onResult(final D data) {
-        Log.d(getClass().getSimpleName(), "onResult");
+        Log.d(getClass().getSimpleName(), "onResult " + data.toString());
         deliverResult(RxLoaderData.result(data));
     }
 
     private void onError(final Throwable error) {
-        Log.d(getClass().getSimpleName(), "onError");
+        Log.d(getClass().getSimpleName(), "onError " + error.getMessage());
         deliverResult(RxLoaderData.error(error));
     }
 

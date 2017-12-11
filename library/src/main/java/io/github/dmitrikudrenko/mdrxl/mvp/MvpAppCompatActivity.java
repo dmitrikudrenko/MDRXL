@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.arellomobile.mvp.MvpDelegate;
 
-public class MvpAppCompatActivity extends AppCompatActivity {
+public abstract class MvpAppCompatActivity extends AppCompatActivity {
     private MvpDelegate<? extends MvpAppCompatActivity> mMvpDelegate;
 
     @Override

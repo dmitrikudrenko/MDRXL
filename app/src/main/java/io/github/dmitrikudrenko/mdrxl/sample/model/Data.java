@@ -14,4 +14,11 @@ public final class Data {
     public int getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Data{" +
+                "id=" + id +
+                '}';
+    }
 }

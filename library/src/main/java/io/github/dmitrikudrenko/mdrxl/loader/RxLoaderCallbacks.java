@@ -25,7 +25,7 @@ public abstract class RxLoaderCallbacks<D> implements LoaderManager.LoaderCallba
 
     @Override
     public void onLoaderReset(final Loader<RxLoaderData<D>> loader) {
-        Log.d(getClass().getSimpleName(), "onLoaderReset");
+        Log.d(getClass().getSimpleName(), "onLoaderReset #" + loader.getId());
     }
 
     protected abstract RxLoader<D> getLoader(int id);

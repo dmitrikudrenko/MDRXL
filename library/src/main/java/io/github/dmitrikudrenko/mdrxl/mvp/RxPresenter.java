@@ -10,7 +10,7 @@ public abstract class RxPresenter<View extends RxView> extends MvpPresenter<View
         this.loaderManager = loaderManager;
     }
 
-    public RxLoaderManager getLoaderManager() {
+    protected RxLoaderManager getLoaderManager() {
         return loaderManager;
     }
 }
