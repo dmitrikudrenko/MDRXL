@@ -1,0 +1,23 @@
+apply plugin: 'com.android.application'
+apply from: '../android.gradle'
+
+android {
+    defaultConfig {
+        applicationId "io.github.dmitrikudrenko.mdrxl.sample"
+    }
+}
+
+dependencies {
+    implementation project(':library')
+
+    //unit test
+    testImplementation 'junit:junit:4.12'
+
+    //instrumentation test
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    //annotation processing
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+}

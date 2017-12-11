@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+apply from: '../android.gradle'
+
+dependencies {
+    //support
+    api 'com.android.support:appcompat-v7:26.1.0'
+
+    //unit test
+    testImplementation 'junit:junit:4.12'
+
+    //instrumentation test
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    //DI
+    api 'com.google.dagger:dagger:2.13'
+
+    //mvp
+    api 'com.arello-mobile:moxy:1.5.3'
+    api 'com.arello-mobile:moxy-android:1.5.3'
+
+    //rx
+    api 'io.reactivex:rxandroid:1.2.1'
+
+    //annotations
+    api 'com.google.code.findbugs:jsr305:3.0.1'
+}
