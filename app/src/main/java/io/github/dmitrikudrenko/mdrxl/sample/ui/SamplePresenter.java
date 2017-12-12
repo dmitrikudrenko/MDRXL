@@ -7,11 +7,12 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
-import io.github.dmitrikudrenko.mdrxl.sample.model.data.DataLoader;
-import io.github.dmitrikudrenko.mdrxl.sample.model.data.DataRepository;
+import io.github.dmitrikudrenko.mdrxl.sample.model.data.DataStorageCommand;
+import io.github.dmitrikudrenko.mdrxl.sample.model.data.local.DataLoader;
 import io.github.dmitrikudrenko.mdrxl.sample.model.settings.NetworkSettingsRepository;
 import io.github.dmitrikudrenko.mdrxl.sample.model.settings.Settings;
 import io.github.dmitrikudrenko.mdrxl.sample.model.settings.SettingsLoader;
+import rx.android.schedulers.AndroidSchedulers;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -24,19 +25,19 @@ public class SamplePresenter extends RxPresenter<SampleView> {
     private final Provider<DataLoader> dataLoaderProvider;
     private final Provider<SettingsLoader> settingsLoaderProvider;
 
-    private final DataRepository dataRepository;
+    private final DataStorageCommand dataStorageCommand;
     private final NetworkSettingsRepository networkSettingsRepository;
 
     @Inject
     SamplePresenter(final RxLoaderManager loaderManager,
                     final Provider<DataLoader> dataLoaderProvider,
                     final Provider<SettingsLoader> settingsLoaderProvider,
-                    final DataRepository dataRepository,
+                    final DataStorageCommand dataStorageCommand,
                     final NetworkSettingsRepository networkSettingsRepository) {
         super(loaderManager);
         this.dataLoaderProvider = dataLoaderProvider;
         this.settingsLoaderProvider = settingsLoaderProvider;
-        this.dataRepository = dataRepository;
+        this.dataStorageCommand = dataStorageCommand;
         this.networkSettingsRepository = networkSettingsRepository;
     }
 
@@ -54,7 +55,13 @@ public class SamplePresenter extends RxPresenter<SampleView> {
 
     void onDataChanged(final String data) {
         final int number = Integer.valueOf(data);
-        dataRepository.save(Data.create(number));
+        dataStorageCommand.save(Data.create(number))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(error -> {
+                    getViewState().showError(error.getMessage());
+                    getLoaderManager().getLoader(LOADER_ID_DATA).onContentChanged();
+                }, () -> {
+                });
     }
 
     void onSuccessSet() {

@@ -6,6 +6,7 @@ import android.util.Log;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subjects.BehaviorSubject;
 
 import javax.annotation.Nullable;
@@ -30,7 +31,7 @@ public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> {
         super.onStartLoading();
         if (subject == null) {
             subject = BehaviorSubject.create();
-            subjectSubscription = create().subscribe(subject);
+            subjectSubscription = create().subscribeOn(Schedulers.io()).subscribe(subject);
         }
 
         subscription = subject.observeOn(AndroidSchedulers.mainThread())
@@ -62,6 +63,15 @@ public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> {
         super.onReset();
         if (subjectSubscription != null) {
             subjectSubscription.unsubscribe();
+        }
+    }
+
+    @Override
+    public void onContentChanged() {
+        if (subject != null) {
+            final D data = subject.getValue();
+            Log.d(getClass().getSimpleName(), "onContentChanged " + data.toString());
+            deliverResult(RxLoaderData.result(data));
         }
     }
 }

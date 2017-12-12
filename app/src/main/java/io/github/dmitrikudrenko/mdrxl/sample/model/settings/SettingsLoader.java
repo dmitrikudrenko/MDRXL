@@ -7,21 +7,16 @@ import rx.Observable;
 import javax.inject.Inject;
 
 public final class SettingsLoader extends RxLoader<Settings> {
-    private final NetworkSettingsRepository networkPreferences;
+    private final NetworkSettingsRepository networkSettingsRepository;
 
     @Inject
-    SettingsLoader(final Context context, final NetworkSettingsRepository networkPreferences) {
+    SettingsLoader(final Context context, final NetworkSettingsRepository networkSettingsRepository) {
         super(context);
-        this.networkPreferences = networkPreferences;
+        this.networkSettingsRepository = networkSettingsRepository;
     }
 
     @Override
     protected Observable<Settings> create() {
-        return Observable.combineLatest(
-                networkPreferences.get(NetworkSettingsRepository.NetworkPreference.KEY_SUCCESS),
-                networkPreferences.get(NetworkSettingsRepository.NetworkPreference.KEY_TIMEOUT),
-                networkPreferences.get(NetworkSettingsRepository.NetworkPreference.KEY_ERROR),
-                Settings::new
-        );
+        return networkSettingsRepository.get();
     }
 }

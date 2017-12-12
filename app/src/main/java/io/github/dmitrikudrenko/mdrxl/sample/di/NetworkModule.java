@@ -9,10 +9,10 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.settings.NetworkSettingsRepos
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 @Module
-public class NetworkModule {
+class NetworkModule {
     @NetworkSettingsRepository.NetworkPreferences
     @Provides
-    public SharedPreferences provideNetworkSharedPreferences(final Context context) {
+    SharedPreferences provideNetworkSharedPreferences(final Context context) {
         return getDefaultSharedPreferences(context);
     }
 }

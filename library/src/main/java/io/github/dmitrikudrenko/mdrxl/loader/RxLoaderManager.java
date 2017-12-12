@@ -16,4 +16,9 @@ public final class RxLoaderManager {
         final Bundle arguments = args != null ? args.getArgs() : null;
         loaderManager.initLoader(id, arguments, callbacks);
     }
+
+    @SuppressWarnings("unchecked")
+    public <D> RxLoader<D> getLoader(final int id) {
+        return (RxLoader) loaderManager.getLoader(id);
+    }
 }

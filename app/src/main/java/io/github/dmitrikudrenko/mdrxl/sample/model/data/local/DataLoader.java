@@ -1,7 +1,8 @@
-package io.github.dmitrikudrenko.mdrxl.sample.model.data;
+package io.github.dmitrikudrenko.mdrxl.sample.model.data.local;
 
 import android.content.Context;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
 import rx.Observable;
 
 import javax.inject.Inject;

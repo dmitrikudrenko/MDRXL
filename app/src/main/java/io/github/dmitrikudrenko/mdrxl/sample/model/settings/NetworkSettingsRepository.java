@@ -3,8 +3,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.model.settings;
 import android.content.SharedPreferences;
 import android.support.annotation.StringDef;
 import rx.Observable;
-import rx.Subscriber;
-import rx.schedulers.Schedulers;
+import rx.subjects.BehaviorSubject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,52 +12,54 @@ import static io.github.dmitrikudrenko.mdrxl.sample.model.settings.NetworkSettin
 
 @Singleton
 public final class NetworkSettingsRepository {
-    public @interface NetworkPreferences {}
+    public @interface NetworkPreferences {
+    }
 
     @StringDef({KEY_TIMEOUT, KEY_ERROR, KEY_SUCCESS})
     public @interface NetworkPreference {
+        String KEY_SUCCESS = "success";
         String KEY_TIMEOUT = "timeout";
         String KEY_ERROR = "error";
-        String KEY_SUCCESS = "success";
     }
 
     private final SharedPreferences sharedPreferences;
 
+    private final BehaviorSubject<Settings> subject = BehaviorSubject.create();
+
     @Inject
-    public NetworkSettingsRepository(@NetworkPreferences final SharedPreferences sharedPreferences) {
+    NetworkSettingsRepository(@NetworkPreferences final SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
+        setup();
     }
 
-    public Observable<Boolean> get(@NetworkPreference final String preference) {
-        return asObservable(sharedPreferences, preference);
+    private void setup() {
+        subject.onNext(new Settings(
+                sharedPreferences.getBoolean(KEY_SUCCESS, false),
+                sharedPreferences.getBoolean(KEY_TIMEOUT, false),
+                sharedPreferences.getBoolean(KEY_ERROR, false)
+        ));
+        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+            if (sharedPreferences.getBoolean(key, false)) {
+                switch (key) {
+                    case KEY_SUCCESS:
+                        subject.onNext(Settings.success());
+                        break;
+                    case KEY_TIMEOUT:
+                        subject.onNext(Settings.timeout());
+                        break;
+                    case KEY_ERROR:
+                        subject.onNext(Settings.error());
+                        break;
+                }
+            }
+        });
+    }
+
+    public Observable<Settings> get() {
+        return subject;
     }
 
     public void set(@NetworkPreference final String preference, final boolean value) {
         sharedPreferences.edit().putBoolean(preference, value).apply();
-    }
-
-    private Observable<Boolean> asObservable(final SharedPreferences preferences, final String preferenceKey) {
-        return Observable.create(new Observable.OnSubscribe<Boolean>() {
-            @Override
-            public void call(final Subscriber<? super Boolean> subscriber) {
-                preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-                    @Override
-                    public void onSharedPreferenceChanged(final SharedPreferences preferences, final String key) {
-                        if (subscriber.isUnsubscribed()) {
-                            preferences.unregisterOnSharedPreferenceChangeListener(this);
-                        }
-                        if (key.equals(preferenceKey)) {
-                            produce(subscriber, preferences, preferenceKey);
-                        }
-                    }
-                });
-                produce(subscriber, preferences, preferenceKey);
-            }
-
-            private void produce(final Subscriber<? super Boolean> subscriber,
-                                 final SharedPreferences preferences, final String key) {
-                subscriber.onNext(preferences.getBoolean(key, false));
-            }
-        }).subscribeOn(Schedulers.io()).share();
     }
 }
