@@ -6,7 +6,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.SampleActivity;
 import javax.inject.Singleton;
 
 @Singleton
-@Component(modules = {CommonModule.class})
+@Component(modules = {CommonModule.class, NetworkModule.class})
 public interface ApplicationComponent {
     SampleActivity.SampleComponent plus(SampleActivity.SampleModule module);
 }

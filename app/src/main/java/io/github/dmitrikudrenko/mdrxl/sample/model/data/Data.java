@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.model;
+package io.github.dmitrikudrenko.mdrxl.sample.model.data;
 
 public final class Data {
     private final int id;
