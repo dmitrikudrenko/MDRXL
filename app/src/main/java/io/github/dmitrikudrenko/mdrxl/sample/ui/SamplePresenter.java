@@ -14,6 +14,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.settings.Settings;
 import io.github.dmitrikudrenko.mdrxl.sample.model.settings.SettingsLoader;
 import rx.android.schedulers.AndroidSchedulers;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
@@ -28,6 +29,7 @@ public class SamplePresenter extends RxPresenter<SampleView> {
     private final Provider<DataStorageCommand> dataStorageCommandProvider;
     private final NetworkSettingsRepository networkSettingsRepository;
 
+    @Nullable
     private Data data;
 
     @Inject
@@ -53,16 +55,36 @@ public class SamplePresenter extends RxPresenter<SampleView> {
     void onRefresh() {
         //???
         getViewState().stopLoading();
+        notifyViewState(data);
     }
 
-    void onDataChanged(final String name) {
+    void onDataChanged(@SampleView.Fields final String field, final String value) {
         final DataStorageCommand dataStorageCommand = dataStorageCommandProvider.get();
-        dataStorageCommand.save(Data.create(data.getId(), name))
+        dataStorageCommand.save(createNewData(field, value))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(error -> {
                     getViewState().showError(error.getMessage());
                     getLoaderManager().getLoader(LOADER_ID_DATA).onContentChanged();
                 }, () -> getViewState().showMessage("Data updated"));
+    }
+
+    private Data createNewData(final String field, final String value) {
+        final Data updated = data.copy();
+        switch (field) {
+            case SampleView.Fields.NAME:
+                updated.setName(value);
+                break;
+            case SampleView.Fields.FIRST_ATTRIBUTE:
+                updated.setFirstAttribute(value);
+                break;
+            case SampleView.Fields.SECOND_ATTRIBUTE:
+                updated.setSecondAttribute(value);
+                break;
+            case SampleView.Fields.THIRD_ATTRIBUTE:
+                updated.setThirdAttribute(value);
+                break;
+        }
+        return updated;
     }
 
     void onSuccessSet() {
@@ -79,8 +101,19 @@ public class SamplePresenter extends RxPresenter<SampleView> {
 
     private void onDataLoaded(final Data data) {
         this.data = data;
+        notifyViewState(data);
+    }
+
+    private void notifyViewState(@Nullable final Data data) {
+        if (data == null) {
+            return;
+        }
+
         getViewState().showId(String.valueOf(data.getId()));
         getViewState().showName(data.getName());
+        getViewState().showFirstAttribute(data.getFirstAttribute());
+        getViewState().showSecondAttribute(data.getSecondAttribute());
+        getViewState().showThirdAttribute(data.getThirdAttribute());
     }
 
     private class DataLoaderCallbacks extends RxLoaderCallbacks<Data> {

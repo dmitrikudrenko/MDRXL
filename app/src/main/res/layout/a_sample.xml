@@ -5,52 +5,105 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:descendantFocusability="beforeDescendants"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/id"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:editable="false"
-            android:focusableInTouchMode="false"
-            android:inputType="none"
-            android:textSize="20sp"/>
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:textSize="20sp"/>
-
-        <RadioGroup
-            android:id="@+id/group_network_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RadioButton
-                android:id="@+id/button_network_success"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Success"/>
+                android:text="ID"/>
 
-            <RadioButton
-                android:id="@+id/button_network_timeout"
+            <EditText
+                android:id="@+id/id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Timeout"/>
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:textSize="20sp"/>
 
-            <RadioButton
-                android:id="@+id/button_network_error"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Error"/>
-        </RadioGroup>
-    </LinearLayout>
+                android:text="NAME"/>
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FIRST ATTRIBUTE"/>
+
+            <EditText
+                android:id="@+id/first_attribute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SECOND ATTRIBUTE"/>
+
+            <EditText
+                android:id="@+id/second_attribute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="THIRD ATTRIBUTE"/>
+
+            <EditText
+                android:id="@+id/third_attribute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:textSize="20sp"/>
+
+            <RadioGroup
+                android:id="@+id/group_network_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/button_network_success"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Success"/>
+
+                <RadioButton
+                    android:id="@+id/button_network_timeout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Timeout"/>
+
+                <RadioButton
+                    android:id="@+id/button_network_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Error"/>
+            </RadioGroup>
+        </LinearLayout>
+    </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

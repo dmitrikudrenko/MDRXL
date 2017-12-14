@@ -2,6 +2,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.ui;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -31,12 +32,15 @@ public class SampleActivity extends RxActivity implements SampleView {
 
     private EditText dataIdView;
     private EditText dataNameView;
+    private EditText dataFirstAttributeView;
+    private EditText dataSecondAttributeView;
+    private EditText dataThirdAttributeView;
 
     private CompoundButton successButton;
     private CompoundButton timeoutButton;
     private CompoundButton errorButton;
 
-    private boolean hasContentViewFocus;
+    private View focusedView;
 
     @ProvidePresenter
     public SamplePresenter providePresenter() {
@@ -53,20 +57,20 @@ public class SampleActivity extends RxActivity implements SampleView {
         refreshLayout = findViewById(R.id.refresh_layout);
         dataIdView = findViewById(R.id.id);
         dataNameView = findViewById(R.id.name);
+        dataFirstAttributeView = findViewById(R.id.first_attribute);
+        dataSecondAttributeView = findViewById(R.id.second_attribute);
+        dataThirdAttributeView = findViewById(R.id.third_attribute);
+
         final RadioGroup settingsGroup = findViewById(R.id.group_network_settings);
         successButton = findViewById(R.id.button_network_success);
         timeoutButton = findViewById(R.id.button_network_timeout);
         errorButton = findViewById(R.id.button_network_error);
 
         refreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
-        dataNameView.setOnFocusChangeListener((v, hasFocus) -> hasContentViewFocus = hasFocus);
-        dataNameView.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                presenter.onDataChanged(v.getText().toString());
-                v.clearFocus();
-            }
-            return false;
-        });
+        setupInputView(dataNameView, Fields.NAME);
+        setupInputView(dataFirstAttributeView, Fields.FIRST_ATTRIBUTE);
+        setupInputView(dataSecondAttributeView, Fields.SECOND_ATTRIBUTE);
+        setupInputView(dataThirdAttributeView, Fields.THIRD_ATTRIBUTE);
 
         settingsGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == successButton.getId()) {
@@ -76,6 +80,26 @@ public class SampleActivity extends RxActivity implements SampleView {
             } else if (checkedId == errorButton.getId()) {
                 presenter.onErrorSet();
             }
+        });
+    }
+
+    private void setupInputView(final EditText inputView, final String tag) {
+        inputView.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                focusedView = inputView;
+            } else {
+                if (focusedView == inputView) {
+                    focusedView = null;
+                }
+                presenter.onRefresh();
+            }
+        });
+        inputView.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                presenter.onDataChanged(tag, v.getText().toString());
+                v.clearFocus();
+            }
+            return false;
         });
     }
 
@@ -102,8 +126,29 @@ public class SampleActivity extends RxActivity implements SampleView {
 
     @Override
     public void showName(final String value) {
-        if (!hasContentViewFocus) {
+        if (focusedView != dataNameView) {
             dataNameView.setText(value);
+        }
+    }
+
+    @Override
+    public void showFirstAttribute(final String value) {
+        if (focusedView != dataFirstAttributeView) {
+            dataFirstAttributeView.setText(value);
+        }
+    }
+
+    @Override
+    public void showSecondAttribute(final String value) {
+        if (focusedView != dataSecondAttributeView) {
+            dataSecondAttributeView.setText(value);
+        }
+    }
+
+    @Override
+    public void showThirdAttribute(final String value) {
+        if (focusedView != dataThirdAttributeView) {
+            dataThirdAttributeView.setText(value);
         }
     }
 
