@@ -7,7 +7,7 @@ import rx.Single;
 
 import javax.inject.Inject;
 
-public class DataRemoteRepository {
+public final class DataRemoteRepository {
     private final NetworkSettingsRepository networkSettingsRepository;
 
     @Inject

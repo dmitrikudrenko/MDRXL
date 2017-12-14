@@ -7,7 +7,7 @@ import rx.schedulers.Schedulers;
 
 import javax.inject.Inject;
 
-public class DataStorageCommand {
+public final class DataStorageCommand {
     private final DataRemoteRepository dataRemoteRepository;
     private final DataRepository dataRepository;
 
