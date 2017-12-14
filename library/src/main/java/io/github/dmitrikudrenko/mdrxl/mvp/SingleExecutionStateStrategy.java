@@ -8,7 +8,7 @@ import java.util.List;
 
 //clear commands queue
 //after execution command will be removed from queue
-public class SingleExecutionStateStrategy implements StateStrategy {
+public final class SingleExecutionStateStrategy implements StateStrategy {
     @Override
     public <View extends MvpView> void beforeApply(final List<ViewCommand<View>> currentState,
                                                    final ViewCommand<View> incomingCommand) {
