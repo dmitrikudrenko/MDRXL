@@ -14,7 +14,9 @@ public interface SampleView extends RxView {
     @StateStrategyType(SingleExecutionStateStrategy.class)
     void stopLoading();
 
-    void showData(String data);
+    void showId(String value);
+
+    void showName(String value);
 
     void showError(String error);
 

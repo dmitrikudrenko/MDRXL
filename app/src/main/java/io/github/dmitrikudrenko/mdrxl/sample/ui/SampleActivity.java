@@ -28,7 +28,9 @@ public class SampleActivity extends RxActivity implements SampleView {
     SamplePresenter presenter;
 
     private SwipeRefreshLayout refreshLayout;
-    private EditText contentView;
+
+    private EditText dataIdView;
+    private EditText dataNameView;
 
     private CompoundButton successButton;
     private CompoundButton timeoutButton;
@@ -49,18 +51,19 @@ public class SampleActivity extends RxActivity implements SampleView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_sample);
         refreshLayout = findViewById(R.id.refresh_layout);
-        contentView = findViewById(R.id.content);
+        dataIdView = findViewById(R.id.id);
+        dataNameView = findViewById(R.id.name);
         final RadioGroup settingsGroup = findViewById(R.id.group_network_settings);
         successButton = findViewById(R.id.button_network_success);
         timeoutButton = findViewById(R.id.button_network_timeout);
         errorButton = findViewById(R.id.button_network_error);
 
         refreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
-        contentView.setOnFocusChangeListener((v, hasFocus) -> hasContentViewFocus = hasFocus);
-        contentView.setOnEditorActionListener((v, actionId, event) -> {
+        dataNameView.setOnFocusChangeListener((v, hasFocus) -> hasContentViewFocus = hasFocus);
+        dataNameView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 presenter.onDataChanged(v.getText().toString());
-                contentView.clearFocus();
+                v.clearFocus();
             }
             return false;
         });
@@ -93,9 +96,14 @@ public class SampleActivity extends RxActivity implements SampleView {
     }
 
     @Override
-    public void showData(final String data) {
+    public void showId(final String value) {
+        dataIdView.setText(value);
+    }
+
+    @Override
+    public void showName(final String value) {
         if (!hasContentViewFocus) {
-            contentView.setText(data);
+            dataNameView.setText(value);
         }
     }
 

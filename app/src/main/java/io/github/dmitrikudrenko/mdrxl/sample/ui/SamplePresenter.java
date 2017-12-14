@@ -28,6 +28,8 @@ public class SamplePresenter extends RxPresenter<SampleView> {
     private final Provider<DataStorageCommand> dataStorageCommandProvider;
     private final NetworkSettingsRepository networkSettingsRepository;
 
+    private Data data;
+
     @Inject
     SamplePresenter(final RxLoaderManager loaderManager,
                     final Provider<DataLoader> dataLoaderProvider,
@@ -53,10 +55,9 @@ public class SamplePresenter extends RxPresenter<SampleView> {
         getViewState().stopLoading();
     }
 
-    void onDataChanged(final String data) {
-        final int number = Integer.valueOf(data);
+    void onDataChanged(final String name) {
         final DataStorageCommand dataStorageCommand = dataStorageCommandProvider.get();
-        dataStorageCommand.save(Data.create(number, ""))
+        dataStorageCommand.save(Data.create(data.getId(), name))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(error -> {
                     getViewState().showError(error.getMessage());
@@ -76,6 +77,12 @@ public class SamplePresenter extends RxPresenter<SampleView> {
         networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_ERROR);
     }
 
+    private void onDataLoaded(final Data data) {
+        this.data = data;
+        getViewState().showId(String.valueOf(data.getId()));
+        getViewState().showName(data.getName());
+    }
+
     private class DataLoaderCallbacks extends RxLoaderCallbacks<Data> {
 
         @Override
@@ -87,14 +94,14 @@ public class SamplePresenter extends RxPresenter<SampleView> {
         @Override
         protected void onSuccess(final int id, final Data data) {
             getViewState().stopLoading();
-            getViewState().showData(String.valueOf(data.getId()));
+            onDataLoaded(data);
         }
-
         @Override
         protected void onError(final int id, final Throwable error) {
             getViewState().stopLoading();
             getViewState().showError(error.getMessage());
         }
+
     }
 
     private class SettingsLoaderCallback extends RxLoaderCallbacks<Settings> {
