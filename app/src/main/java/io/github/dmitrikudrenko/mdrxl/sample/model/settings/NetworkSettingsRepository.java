@@ -59,7 +59,25 @@ public final class NetworkSettingsRepository {
         return subject;
     }
 
-    public void set(@NetworkPreference final String preference, final boolean value) {
-        sharedPreferences.edit().putBoolean(preference, value).apply();
+    public void set(@NetworkPreference final String preference) {
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        switch (preference) {
+            case KEY_SUCCESS:
+                editor.putBoolean(KEY_SUCCESS, true)
+                        .putBoolean(KEY_TIMEOUT, false)
+                        .putBoolean(KEY_ERROR, false);
+                break;
+            case KEY_TIMEOUT:
+                editor.putBoolean(KEY_SUCCESS, false)
+                        .putBoolean(KEY_TIMEOUT, true)
+                        .putBoolean(KEY_ERROR, false);
+                break;
+            case KEY_ERROR:
+                editor.putBoolean(KEY_SUCCESS, false)
+                        .putBoolean(KEY_TIMEOUT, false)
+                        .putBoolean(KEY_ERROR, true);
+                break;
+        }
+        editor.apply();
     }
 }

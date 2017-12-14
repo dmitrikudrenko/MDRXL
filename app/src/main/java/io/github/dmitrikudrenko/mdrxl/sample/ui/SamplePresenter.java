@@ -25,19 +25,19 @@ public class SamplePresenter extends RxPresenter<SampleView> {
     private final Provider<DataLoader> dataLoaderProvider;
     private final Provider<SettingsLoader> settingsLoaderProvider;
 
-    private final DataStorageCommand dataStorageCommand;
+    private final Provider<DataStorageCommand> dataStorageCommandProvider;
     private final NetworkSettingsRepository networkSettingsRepository;
 
     @Inject
     SamplePresenter(final RxLoaderManager loaderManager,
                     final Provider<DataLoader> dataLoaderProvider,
                     final Provider<SettingsLoader> settingsLoaderProvider,
-                    final DataStorageCommand dataStorageCommand,
+                    final Provider<DataStorageCommand> dataStorageCommandProvider,
                     final NetworkSettingsRepository networkSettingsRepository) {
         super(loaderManager);
         this.dataLoaderProvider = dataLoaderProvider;
         this.settingsLoaderProvider = settingsLoaderProvider;
-        this.dataStorageCommand = dataStorageCommand;
+        this.dataStorageCommandProvider = dataStorageCommandProvider;
         this.networkSettingsRepository = networkSettingsRepository;
     }
 
@@ -55,6 +55,7 @@ public class SamplePresenter extends RxPresenter<SampleView> {
 
     void onDataChanged(final String data) {
         final int number = Integer.valueOf(data);
+        final DataStorageCommand dataStorageCommand = dataStorageCommandProvider.get();
         dataStorageCommand.save(Data.create(number))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(error -> {
@@ -65,21 +66,15 @@ public class SamplePresenter extends RxPresenter<SampleView> {
     }
 
     void onSuccessSet() {
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_SUCCESS, true);
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_TIMEOUT, false);
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_ERROR, false);
+        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_SUCCESS);
     }
 
     void onTimeoutSet() {
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_SUCCESS, false);
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_TIMEOUT, true);
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_ERROR, false);
+        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_TIMEOUT);
     }
 
     void onErrorSet() {
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_SUCCESS, false);
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_TIMEOUT, false);
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_ERROR, true);
+        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_ERROR);
     }
 
     private class DataLoaderCallbacks extends RxLoaderCallbacks<Data> {
