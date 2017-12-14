@@ -30,7 +30,6 @@ public class SampleActivity extends RxActivity implements SampleView {
     private SwipeRefreshLayout refreshLayout;
     private EditText contentView;
 
-    private RadioGroup settingsGroup;
     private CompoundButton successButton;
     private CompoundButton timeoutButton;
     private CompoundButton errorButton;
@@ -51,7 +50,7 @@ public class SampleActivity extends RxActivity implements SampleView {
         setContentView(R.layout.a_sample);
         refreshLayout = findViewById(R.id.refresh_layout);
         contentView = findViewById(R.id.content);
-        settingsGroup = findViewById(R.id.group_network_settings);
+        final RadioGroup settingsGroup = findViewById(R.id.group_network_settings);
         successButton = findViewById(R.id.button_network_success);
         timeoutButton = findViewById(R.id.button_network_timeout);
         errorButton = findViewById(R.id.button_network_error);
