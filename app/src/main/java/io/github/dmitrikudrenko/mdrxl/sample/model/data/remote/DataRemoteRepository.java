@@ -1,23 +1,23 @@
 package io.github.dmitrikudrenko.mdrxl.sample.model.data.remote;
 
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
-import io.github.dmitrikudrenko.mdrxl.sample.model.settings.NetworkSettingsRepository;
+import io.github.dmitrikudrenko.mdrxl.sample.model.settings.Settings;
 import rx.Observable;
 import rx.Single;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 public final class DataRemoteRepository {
-    private final NetworkSettingsRepository networkSettingsRepository;
+    private final Provider<Settings> settingsProvider;
 
     @Inject
-    DataRemoteRepository(final NetworkSettingsRepository networkSettingsRepository) {
-        this.networkSettingsRepository = networkSettingsRepository;
+    DataRemoteRepository(final Provider<Settings> settingsProvider) {
+        this.settingsProvider = settingsProvider;
     }
 
     public Single<Data> save(final Data data) {
-        return networkSettingsRepository.get()
-                .take(1)
+        return Observable.just(settingsProvider.get())
                 .flatMap(settings -> {
                     if (settings.isSuccess()) {
                         return Observable.just(data);

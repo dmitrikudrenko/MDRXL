@@ -5,7 +5,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class CommonModule {
+public final class CommonModule {
     private final Context context;
 
     public CommonModule(final Context context) {

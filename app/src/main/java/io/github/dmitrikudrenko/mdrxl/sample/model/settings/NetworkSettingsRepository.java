@@ -55,6 +55,10 @@ public final class NetworkSettingsRepository {
         });
     }
 
+    public Settings getSync() {
+        return subject.getValue();
+    }
+
     public Observable<Settings> get() {
         return subject;
     }
