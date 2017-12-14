@@ -61,8 +61,7 @@ public class SamplePresenter extends RxPresenter<SampleView> {
                 .subscribe(error -> {
                     getViewState().showError(error.getMessage());
                     getLoaderManager().getLoader(LOADER_ID_DATA).onContentChanged();
-                }, () -> {
-                });
+                }, () -> getViewState().showMessage("Data updated"));
     }
 
     void onSuccessSet() {

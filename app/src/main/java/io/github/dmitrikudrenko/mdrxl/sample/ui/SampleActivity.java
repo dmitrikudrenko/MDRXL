@@ -102,7 +102,12 @@ public class SampleActivity extends RxActivity implements SampleView {
 
     @Override
     public void showError(final String error) {
-        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+        showToast(error);
+    }
+
+    @Override
+    public void showMessage(final String message) {
+        showToast(message);
     }
 
     @Override
@@ -123,6 +128,10 @@ public class SampleActivity extends RxActivity implements SampleView {
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
         return presenter;
+    }
+
+    private void showToast(final String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Module
