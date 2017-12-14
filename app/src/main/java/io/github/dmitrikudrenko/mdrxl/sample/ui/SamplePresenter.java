@@ -56,7 +56,7 @@ public class SamplePresenter extends RxPresenter<SampleView> {
     void onDataChanged(final String data) {
         final int number = Integer.valueOf(data);
         final DataStorageCommand dataStorageCommand = dataStorageCommandProvider.get();
-        dataStorageCommand.save(Data.create(number))
+        dataStorageCommand.save(Data.create(number, ""))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(error -> {
                     getViewState().showError(error.getMessage());

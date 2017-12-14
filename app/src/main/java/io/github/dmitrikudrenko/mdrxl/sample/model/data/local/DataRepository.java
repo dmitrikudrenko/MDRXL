@@ -17,10 +17,13 @@ public final class DataRepository {
 
     @Inject
     DataRepository() {
-        subject.onNext(Data.create(0));
+        subject.onNext(Data.create(0, "default name #0"));
 
         Observable.interval(INTERVAL_SEC, TimeUnit.SECONDS)
-                .map(step -> Data.create(subject.getValue().getId() + 1))
+                .map(step -> {
+                    int id = subject.getValue().getId();
+                    return Data.create(id + 1, "default name #" + id);
+                })
                 .subscribe(subject);
     }
 
