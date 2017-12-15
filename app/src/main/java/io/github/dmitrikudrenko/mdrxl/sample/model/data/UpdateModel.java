@@ -1,5 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.sample.model.data;
 
+import android.content.ContentValues;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,19 @@ public class UpdateModel {
 
     public void add(final String key, final Object value) {
         model.put(key, value);
+    }
+
+    public void fill(final ContentValues contentValues) {
+        for (final Map.Entry<String, Object> entry : model.entrySet()) {
+            final String key = entry.getKey();
+            final Object value = entry.getValue();
+            if (Integer.class.equals(value.getClass())) {
+                contentValues.put(key, (Integer) value);
+            } else if (String.class.equals(value.getClass())) {
+                contentValues.put(key, (String) value);
+            }
+            //TODO: support other types
+        }
     }
 
     public Data update(final Data data) {

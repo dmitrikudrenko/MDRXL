@@ -51,10 +51,11 @@ public class SamplePresenter extends RxPresenter<SampleView> {
         final DataStorageCommand dataStorageCommand = dataStorageCommandProvider.get();
         dataStorageCommand.save(createUpdateModel(field, value))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(error -> {
-                    getViewState().showError(error.getMessage());
-                    getLoaderManager().getLoader(LOADER_ID_DATA).onContentChanged();
-                }, () -> getViewState().showMessage("Data updated"));
+                .subscribe(() -> getViewState().showMessage("Data updated"),
+                        error -> {
+                            getViewState().showError(error.getMessage());
+                            getLoaderManager().getLoader(LOADER_ID_DATA).onContentChanged();
+                        });
     }
 
     private UpdateModel createUpdateModel(final String field, final String value) {
