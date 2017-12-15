@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.sample.model.data.local;
 
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
+import io.github.dmitrikudrenko.mdrxl.sample.model.data.UpdateModel;
 import rx.Observable;
 import rx.Single;
 import rx.subjects.BehaviorSubject;
@@ -46,6 +47,14 @@ public final class DataRepository {
 
     public Single<Data> save(final Data data) {
         return Single.fromCallable(() -> {
+            subject.onNext(data);
+            return data;
+        });
+    }
+
+    public Single<Data> save(final UpdateModel model) {
+        return Single.fromCallable(() -> {
+            final Data data = model.update(subject.getValue());
             subject.onNext(data);
             return data;
         });

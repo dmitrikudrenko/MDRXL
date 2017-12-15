@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.model.settings;
+package io.github.dmitrikudrenko.mdrxl.sample.settings;
 
 public final class Settings {
     private final boolean success;

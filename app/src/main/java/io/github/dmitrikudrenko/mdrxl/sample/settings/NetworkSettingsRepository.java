@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.model.settings;
+package io.github.dmitrikudrenko.mdrxl.sample.settings;
 
 import android.content.SharedPreferences;
 import android.support.annotation.StringDef;
@@ -8,7 +8,7 @@ import rx.subjects.BehaviorSubject;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import static io.github.dmitrikudrenko.mdrxl.sample.model.settings.NetworkSettingsRepository.NetworkPreference.*;
+import static io.github.dmitrikudrenko.mdrxl.sample.settings.NetworkSettingsRepository.NetworkPreference.*;
 
 @Singleton
 public final class NetworkSettingsRepository {

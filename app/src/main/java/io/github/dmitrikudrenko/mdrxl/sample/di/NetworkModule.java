@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import dagger.Module;
 import dagger.Provides;
-import io.github.dmitrikudrenko.mdrxl.sample.model.settings.NetworkSettingsRepository;
-import io.github.dmitrikudrenko.mdrxl.sample.model.settings.Settings;
+import io.github.dmitrikudrenko.mdrxl.sample.settings.NetworkSettingsRepository;
+import io.github.dmitrikudrenko.mdrxl.sample.settings.Settings;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 

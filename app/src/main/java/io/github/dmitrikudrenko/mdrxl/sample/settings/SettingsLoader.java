@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.model.settings;
+package io.github.dmitrikudrenko.mdrxl.sample.settings;
 
 import android.content.Context;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;

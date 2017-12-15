@@ -8,6 +8,7 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.DataStorageCommand;
+import io.github.dmitrikudrenko.mdrxl.sample.model.data.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.local.DataLoader;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -48,7 +49,7 @@ public class SamplePresenter extends RxPresenter<SampleView> {
 
     void onDataChanged(@SampleView.Fields final String field, final String value) {
         final DataStorageCommand dataStorageCommand = dataStorageCommandProvider.get();
-        dataStorageCommand.save(createNewData(field, value))
+        dataStorageCommand.save(createUpdateModel(field, value))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(error -> {
                     getViewState().showError(error.getMessage());
@@ -56,23 +57,8 @@ public class SamplePresenter extends RxPresenter<SampleView> {
                 }, () -> getViewState().showMessage("Data updated"));
     }
 
-    private Data createNewData(final String field, final String value) {
-        final Data updated = data.copy();
-        switch (field) {
-            case SampleView.Fields.NAME:
-                updated.setName(value);
-                break;
-            case SampleView.Fields.FIRST_ATTRIBUTE:
-                updated.setFirstAttribute(value);
-                break;
-            case SampleView.Fields.SECOND_ATTRIBUTE:
-                updated.setSecondAttribute(value);
-                break;
-            case SampleView.Fields.THIRD_ATTRIBUTE:
-                updated.setThirdAttribute(value);
-                break;
-        }
-        return updated;
+    private UpdateModel createUpdateModel(final String field, final String value) {
+        return UpdateModel.create(field, value);
     }
 
     private void onDataLoaded(final Data data) {

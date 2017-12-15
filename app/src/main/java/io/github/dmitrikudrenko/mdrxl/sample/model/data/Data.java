@@ -1,6 +1,18 @@
 package io.github.dmitrikudrenko.mdrxl.sample.model.data;
 
+import android.support.annotation.StringDef;
+
+import static io.github.dmitrikudrenko.mdrxl.sample.model.data.Data.Fields.*;
+
 public final class Data {
+    @StringDef({NAME, FIRST_ATTRIBUTE, SECOND_ATTRIBUTE, THIRD_ATTRIBUTE})
+    public @interface Fields {
+        String NAME = "NAME";
+        String FIRST_ATTRIBUTE = "FIRST_ATTRIBUTE";
+        String SECOND_ATTRIBUTE = "SECOND_ATTRIBUTE";
+        String THIRD_ATTRIBUTE = "THIRD_ATTRIBUTE";
+    }
+
     private final int id;
     private String name;
     private String firstAttribute;
@@ -50,6 +62,23 @@ public final class Data {
 
     public void setThirdAttribute(final String thirdAttribute) {
         this.thirdAttribute = thirdAttribute;
+    }
+
+    public void set(@Fields final String field, final Object value) {
+        switch (field) {
+            case NAME:
+                name = (String) value;
+                break;
+            case FIRST_ATTRIBUTE:
+                firstAttribute = (String) value;
+                break;
+            case SECOND_ATTRIBUTE:
+                secondAttribute = (String) value;
+                break;
+            case THIRD_ATTRIBUTE:
+                thirdAttribute = (String) value;
+                break;
+        }
     }
 
     public Data copy() {

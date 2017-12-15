@@ -7,9 +7,9 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
-import io.github.dmitrikudrenko.mdrxl.sample.model.settings.NetworkSettingsRepository;
-import io.github.dmitrikudrenko.mdrxl.sample.model.settings.Settings;
-import io.github.dmitrikudrenko.mdrxl.sample.model.settings.SettingsLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.settings.NetworkSettingsRepository;
+import io.github.dmitrikudrenko.mdrxl.sample.settings.Settings;
+import io.github.dmitrikudrenko.mdrxl.sample.settings.SettingsLoader;
 
 import javax.inject.Inject;
 import javax.inject.Provider;

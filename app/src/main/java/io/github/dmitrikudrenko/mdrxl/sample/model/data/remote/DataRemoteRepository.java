@@ -1,7 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.sample.model.data.remote;
 
-import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
-import io.github.dmitrikudrenko.mdrxl.sample.model.settings.Settings;
+import io.github.dmitrikudrenko.mdrxl.sample.model.data.UpdateModel;
+import io.github.dmitrikudrenko.mdrxl.sample.settings.Settings;
 import rx.Observable;
 import rx.Single;
 
@@ -16,11 +16,11 @@ public final class DataRemoteRepository {
         this.settingsProvider = settingsProvider;
     }
 
-    public Single<Data> save(final Data data) {
+    public Single<Boolean> save(final UpdateModel model) {
         return Observable.just(settingsProvider.get())
                 .flatMap(settings -> {
                     if (settings.isSuccess()) {
-                        return Observable.just(data);
+                        return Observable.just(true);
                     } else if (settings.isTimeout()) {
                         return Observable.error(new TimeoutException());
                     } else {
