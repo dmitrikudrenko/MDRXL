@@ -5,6 +5,7 @@ import com.arellomobile.mvp.InjectViewState;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
+import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.model.settings.NetworkSettingsRepository;
 import io.github.dmitrikudrenko.mdrxl.sample.model.settings.Settings;
@@ -15,7 +16,7 @@ import javax.inject.Provider;
 
 @InjectViewState
 public class SettingsPresenter extends RxPresenter<SettingsView> {
-    private static final int LOADER_ID_SETTINGS = 1;
+    private static final int LOADER_ID_SETTINGS = RxLoaders.generateId();
 
     private final NetworkSettingsRepository networkSettingsRepository;
     private final Provider<SettingsLoader> settingsLoaderProvider;

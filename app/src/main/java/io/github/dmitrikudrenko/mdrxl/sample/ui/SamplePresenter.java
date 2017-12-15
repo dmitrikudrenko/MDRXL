@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
+import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.DataStorageCommand;
@@ -16,7 +17,7 @@ import javax.inject.Provider;
 
 @InjectViewState
 public class SamplePresenter extends RxPresenter<SampleView> {
-    private static final int LOADER_ID_DATA = 0;
+    private static final int LOADER_ID_DATA = RxLoaders.generateId();
 
     private final Provider<DataLoader> dataLoaderProvider;
     private final Provider<DataStorageCommand> dataStorageCommandProvider;
