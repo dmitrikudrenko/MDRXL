@@ -39,10 +39,4 @@ public interface SampleView extends RxView {
     void showError(String error);
 
     void showMessage(String message);
-
-    void showSuccessSetting(boolean value);
-
-    void showTimeoutSetting(boolean value);
-
-    void showErrorSetting(boolean value);
 }

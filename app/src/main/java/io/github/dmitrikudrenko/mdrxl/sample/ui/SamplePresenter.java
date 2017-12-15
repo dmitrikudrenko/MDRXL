@@ -1,6 +1,5 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui;
 
-import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
@@ -9,9 +8,6 @@ import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.DataStorageCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.local.DataLoader;
-import io.github.dmitrikudrenko.mdrxl.sample.model.settings.NetworkSettingsRepository;
-import io.github.dmitrikudrenko.mdrxl.sample.model.settings.Settings;
-import io.github.dmitrikudrenko.mdrxl.sample.model.settings.SettingsLoader;
 import rx.android.schedulers.AndroidSchedulers;
 
 import javax.annotation.Nullable;
@@ -21,13 +17,9 @@ import javax.inject.Provider;
 @InjectViewState
 public class SamplePresenter extends RxPresenter<SampleView> {
     private static final int LOADER_ID_DATA = 0;
-    private static final int LOADER_ID_SETTINGS = 1;
 
     private final Provider<DataLoader> dataLoaderProvider;
-    private final Provider<SettingsLoader> settingsLoaderProvider;
-
     private final Provider<DataStorageCommand> dataStorageCommandProvider;
-    private final NetworkSettingsRepository networkSettingsRepository;
 
     @Nullable
     private Data data;
@@ -35,21 +27,16 @@ public class SamplePresenter extends RxPresenter<SampleView> {
     @Inject
     SamplePresenter(final RxLoaderManager loaderManager,
                     final Provider<DataLoader> dataLoaderProvider,
-                    final Provider<SettingsLoader> settingsLoaderProvider,
-                    final Provider<DataStorageCommand> dataStorageCommandProvider,
-                    final NetworkSettingsRepository networkSettingsRepository) {
+                    final Provider<DataStorageCommand> dataStorageCommandProvider) {
         super(loaderManager);
         this.dataLoaderProvider = dataLoaderProvider;
-        this.settingsLoaderProvider = settingsLoaderProvider;
         this.dataStorageCommandProvider = dataStorageCommandProvider;
-        this.networkSettingsRepository = networkSettingsRepository;
     }
 
     @Override
     public void attachView(final SampleView view) {
         super.attachView(view);
         getLoaderManager().init(LOADER_ID_DATA, null, new DataLoaderCallbacks());
-        getLoaderManager().init(LOADER_ID_SETTINGS, null, new SettingsLoaderCallback());
     }
 
     void onRefresh() {
@@ -87,18 +74,6 @@ public class SamplePresenter extends RxPresenter<SampleView> {
         return updated;
     }
 
-    void onSuccessSet() {
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_SUCCESS);
-    }
-
-    void onTimeoutSet() {
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_TIMEOUT);
-    }
-
-    void onErrorSet() {
-        networkSettingsRepository.set(NetworkSettingsRepository.NetworkPreference.KEY_ERROR);
-    }
-
     private void onDataLoaded(final Data data) {
         this.data = data;
         notifyViewState(data);
@@ -129,31 +104,12 @@ public class SamplePresenter extends RxPresenter<SampleView> {
             getViewState().stopLoading();
             onDataLoaded(data);
         }
+
         @Override
         protected void onError(final int id, final Throwable error) {
             getViewState().stopLoading();
             getViewState().showError(error.getMessage());
         }
 
-    }
-
-    private class SettingsLoaderCallback extends RxLoaderCallbacks<Settings> {
-
-        @Override
-        protected RxLoader<Settings> getLoader(final int id) {
-            return settingsLoaderProvider.get();
-        }
-
-        @Override
-        protected void onSuccess(final int id, final Settings data) {
-            getViewState().showSuccessSetting(data.isSuccess());
-            getViewState().showTimeoutSetting(data.isTimeout());
-            getViewState().showErrorSetting(data.isError());
-        }
-
-        @Override
-        protected void onError(final int id, final Throwable error) {
-            Log.e("SettingsLoaderCallback", error.getMessage(), error);
-        }
     }
 }

@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -23,10 +21,15 @@ import javax.inject.Provider;
 
 public class SampleActivity extends RxActivity implements SampleView {
     @Inject
-    Provider<SamplePresenter> presenterProvider;
+    Provider<SamplePresenter> samplePresenterProvider;
+
+    @Inject
+    Provider<SettingsPresenter> settingsPresenterProvider;
 
     @InjectPresenter
-    SamplePresenter presenter;
+    SamplePresenter samplePresenter;
+
+    SettingsPresenter settingsPresenter;
 
     private SwipeRefreshLayout refreshLayout;
 
@@ -36,18 +39,21 @@ public class SampleActivity extends RxActivity implements SampleView {
     private EditText dataSecondAttributeView;
     private EditText dataThirdAttributeView;
 
-    private CompoundButton successButton;
-    private CompoundButton timeoutButton;
-    private CompoundButton errorButton;
-
     private View focusedView;
 
     @ProvidePresenter
     public SamplePresenter providePresenter() {
-        if (presenter == null) {
-            presenter = presenterProvider.get();
+        if (samplePresenter == null) {
+            samplePresenter = samplePresenterProvider.get();
         }
-        return presenter;
+        return samplePresenter;
+    }
+
+    public SettingsPresenter getSettingsPresenter() {
+        if (settingsPresenter == null) {
+            settingsPresenter = settingsPresenterProvider.get();
+        }
+        return settingsPresenter;
     }
 
     @Override
@@ -61,26 +67,14 @@ public class SampleActivity extends RxActivity implements SampleView {
         dataSecondAttributeView = findViewById(R.id.second_attribute);
         dataThirdAttributeView = findViewById(R.id.third_attribute);
 
-        final RadioGroup settingsGroup = findViewById(R.id.group_network_settings);
-        successButton = findViewById(R.id.button_network_success);
-        timeoutButton = findViewById(R.id.button_network_timeout);
-        errorButton = findViewById(R.id.button_network_error);
-
-        refreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
+        refreshLayout.setOnRefreshListener(() -> samplePresenter.onRefresh());
         setupInputView(dataNameView, Fields.NAME);
         setupInputView(dataFirstAttributeView, Fields.FIRST_ATTRIBUTE);
         setupInputView(dataSecondAttributeView, Fields.SECOND_ATTRIBUTE);
         setupInputView(dataThirdAttributeView, Fields.THIRD_ATTRIBUTE);
 
-        settingsGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == successButton.getId()) {
-                presenter.onSuccessSet();
-            } else if (checkedId == timeoutButton.getId()) {
-                presenter.onTimeoutSet();
-            } else if (checkedId == errorButton.getId()) {
-                presenter.onErrorSet();
-            }
-        });
+        final SettingsViewGroup settingsViewGroup = new SettingsViewGroup(findViewById(R.id.content));
+        settingsViewGroup.attachPresenter(getSettingsPresenter());
     }
 
     private void setupInputView(final EditText inputView, final String tag) {
@@ -91,12 +85,12 @@ public class SampleActivity extends RxActivity implements SampleView {
                 if (focusedView == inputView) {
                     focusedView = null;
                 }
-                presenter.onRefresh();
+                samplePresenter.onRefresh();
             }
         });
         inputView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                presenter.onDataChanged(tag, v.getText().toString());
+                samplePresenter.onDataChanged(tag, v.getText().toString());
                 v.clearFocus();
             }
             return false;
@@ -105,7 +99,11 @@ public class SampleActivity extends RxActivity implements SampleView {
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        presenter = (SamplePresenter) getLastCustomNonConfigurationInstance();
+        final PresenterContainer container = (PresenterContainer) getLastCustomNonConfigurationInstance();
+        if (container != null) {
+            samplePresenter = container.getSamplePresenter();
+            settingsPresenter = container.getSettingsPresenter();
+        }
         SampleApplication.get().plus(new SampleModule()).inject(this);
     }
 
@@ -163,23 +161,8 @@ public class SampleActivity extends RxActivity implements SampleView {
     }
 
     @Override
-    public void showSuccessSetting(final boolean value) {
-        successButton.setChecked(value);
-    }
-
-    @Override
-    public void showTimeoutSetting(final boolean value) {
-        timeoutButton.setChecked(value);
-    }
-
-    @Override
-    public void showErrorSetting(final boolean value) {
-        errorButton.setChecked(value);
-    }
-
-    @Override
     public Object onRetainCustomNonConfigurationInstance() {
-        return presenter;
+        return new PresenterContainer(samplePresenter, settingsPresenter);
     }
 
     private void showToast(final String message) {
@@ -197,5 +180,24 @@ public class SampleActivity extends RxActivity implements SampleView {
     @Subcomponent(modules = SampleModule.class)
     public interface SampleComponent {
         void inject(SampleActivity activity);
+    }
+
+    private static class PresenterContainer {
+        private final SamplePresenter samplePresenter;
+        private final SettingsPresenter settingsPresenter;
+
+        PresenterContainer(final SamplePresenter samplePresenter,
+                           final SettingsPresenter settingsPresenter) {
+            this.samplePresenter = samplePresenter;
+            this.settingsPresenter = settingsPresenter;
+        }
+
+        SamplePresenter getSamplePresenter() {
+            return samplePresenter;
+        }
+
+        SettingsPresenter getSettingsPresenter() {
+            return settingsPresenter;
+        }
     }
 }
