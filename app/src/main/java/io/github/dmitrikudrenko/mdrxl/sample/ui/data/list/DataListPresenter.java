@@ -2,6 +2,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.ui.data.list;
 
 import com.arellomobile.mvp.InjectViewState;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
+import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
@@ -37,12 +38,12 @@ public class DataListPresenter extends RxPresenter<DataListView> {
     }
 
     void onItemSelected(final long id) {
-        //do nothing
+        getViewState().openDataDetails(id);
     }
 
     private class DataListLoaderCallbacks extends RxLoaderCallbacks<DataCursor> {
         @Override
-        protected RxLoader<DataCursor> getLoader(final int id) {
+        protected RxLoader<DataCursor> getLoader(final int id, final RxLoaderArguments args) {
             getViewState().startLoading();
             return loaderProvider.get();
         }

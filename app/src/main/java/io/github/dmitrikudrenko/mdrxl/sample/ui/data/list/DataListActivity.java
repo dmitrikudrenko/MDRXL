@@ -18,6 +18,7 @@ import io.github.dmitrikudrenko.mdrxl.mvp.RxActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.local.DataCursor;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.data.details.DataDetailsActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.settings.SettingsActivity;
 
 import javax.inject.Inject;
@@ -77,6 +78,11 @@ public class DataListActivity extends RxActivity implements DataListView {
     @Override
     public void showData(final DataCursor cursor) {
         adapter.set(cursor);
+    }
+
+    @Override
+    public void openDataDetails(final long id) {
+        startActivity(DataDetailsActivity.intent(this, id));
     }
 
     @Override

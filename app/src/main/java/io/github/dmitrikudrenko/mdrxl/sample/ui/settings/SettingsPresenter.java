@@ -3,6 +3,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.ui.settings;
 import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
+import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
@@ -51,7 +52,7 @@ public class SettingsPresenter extends RxPresenter<SettingsView> {
     private class SettingsLoaderCallback extends RxLoaderCallbacks<Settings> {
 
         @Override
-        protected RxLoader<Settings> getLoader(final int id) {
+        protected RxLoader<Settings> getLoader(final int id, RxLoaderArguments args) {
             return settingsLoaderProvider.get();
         }
 

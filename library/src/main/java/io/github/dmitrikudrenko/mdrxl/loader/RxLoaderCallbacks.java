@@ -9,7 +9,7 @@ public abstract class RxLoaderCallbacks<D> implements LoaderManager.LoaderCallba
     @Override
     public Loader<RxLoaderData<D>> onCreateLoader(final int id, final Bundle args) {
         Log.d(getClass().getSimpleName(), "onCreateLoader #" + id);
-        return getLoader(id);
+        return getLoader(id, RxLoaderArguments.create(args));
     }
 
     @Override
@@ -28,7 +28,7 @@ public abstract class RxLoaderCallbacks<D> implements LoaderManager.LoaderCallba
         Log.d(getClass().getSimpleName(), "onLoaderReset #" + loader.getId());
     }
 
-    protected abstract RxLoader<D> getLoader(int id);
+    protected abstract RxLoader<D> getLoader(int id, RxLoaderArguments args);
 
     protected abstract void onSuccess(int id, D data);
 

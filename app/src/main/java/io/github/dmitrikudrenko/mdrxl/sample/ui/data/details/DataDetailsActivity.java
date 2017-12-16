@@ -1,5 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.data.details;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -39,6 +41,7 @@ public class DataDetailsActivity extends RxActivity implements DataDetailsView {
     public DataDetailsPresenter providePresenter() {
         if (dataDetailsPresenter == null) {
             dataDetailsPresenter = samplePresenterProvider.get();
+            dataDetailsPresenter.setId(getIntent().getLongExtra("id", -1));
         }
         return dataDetailsPresenter;
     }
@@ -147,6 +150,11 @@ public class DataDetailsActivity extends RxActivity implements DataDetailsView {
 
     private void showToast(final String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static Intent intent(final Context context, final long id) {
+        return new Intent(context, DataDetailsActivity.class)
+                .putExtra("id", id);
     }
 
     @dagger.Module

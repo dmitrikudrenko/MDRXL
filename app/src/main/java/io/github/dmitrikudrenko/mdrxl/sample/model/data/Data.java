@@ -13,13 +13,13 @@ public final class Data {
         String THIRD_ATTRIBUTE = "THIRD_ATTRIBUTE";
     }
 
-    private final int id;
+    private final long id;
     private String name;
     private String firstAttribute;
     private String secondAttribute;
     private String thirdAttribute;
 
-    public Data(final int id, final String name, final String firstAttribute,
+    public Data(final long id, final String name, final String firstAttribute,
                 final String secondAttribute, final String thirdAttribute) {
         this.id = id;
         this.name = name;
@@ -28,7 +28,7 @@ public final class Data {
         this.thirdAttribute = thirdAttribute;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -79,16 +79,6 @@ public final class Data {
                 thirdAttribute = (String) value;
                 break;
         }
-    }
-
-    public Data copy() {
-        return new Data(
-                id,
-                name,
-                firstAttribute,
-                secondAttribute,
-                thirdAttribute
-        );
     }
 
     @Override

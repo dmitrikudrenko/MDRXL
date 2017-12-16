@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 public final class DataLoader extends RxLoader<Data> {
     private final DataRepository repository;
+    private long id;
 
     @Inject
     DataLoader(final Context context, final DataRepository repository) {
@@ -18,6 +19,10 @@ public final class DataLoader extends RxLoader<Data> {
 
     @Override
     protected Observable<Data> create() {
-        return repository.get(0);
+        return repository.get(id);
+    }
+
+    public void setId(final long id) {
+        this.id = id;
     }
 }

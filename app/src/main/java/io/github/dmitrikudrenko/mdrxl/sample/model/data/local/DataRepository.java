@@ -19,16 +19,16 @@ public final class DataRepository {
         this.helper = helper;
     }
 
-    public Observable<Data> get(final int id) {
+    public Observable<Data> get(final long id) {
         return Observable.just(getSync(id));
     }
 
-    private Data getSync(final int id) {
+    private Data getSync(final long id) {
         final SQLiteDatabase database = helper.getReadableDatabase();
         DataCursor cursor = null;
         try {
             cursor = new DataCursor(database.query(DataContract.TABLE_NAME, DataContract.PROJECTION,
-                    null, null, null, null, null));
+                    DataContract._ID + "=?", new String[] {String.valueOf(id)}, null, null, null));
             if (cursor.moveToNext()) {
                 return new Data(
                         cursor.getId(),

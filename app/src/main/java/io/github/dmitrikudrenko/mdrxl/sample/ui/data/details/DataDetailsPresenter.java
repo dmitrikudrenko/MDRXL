@@ -2,6 +2,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.ui.data.details;
 
 import com.arellomobile.mvp.InjectViewState;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
+import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
@@ -26,6 +27,8 @@ public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
     @Nullable
     private Data data;
 
+    private long id;
+
     @Inject
     DataDetailsPresenter(final RxLoaderManager loaderManager,
                          final Provider<DataLoader> dataLoaderProvider,
@@ -38,7 +41,9 @@ public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
     @Override
     public void attachView(final DataDetailsView view) {
         super.attachView(view);
-        getLoaderManager().init(LOADER_ID_DATA, null, new DataLoaderCallbacks());
+        final RxLoaderArguments args = new RxLoaderArguments();
+        args.putLong("id", id);
+        getLoaderManager().init(LOADER_ID_DATA, args, new DataLoaderCallbacks());
     }
 
     void onRefresh() {
@@ -79,12 +84,18 @@ public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
         getViewState().showThirdAttribute(data.getThirdAttribute());
     }
 
+    public void setId(final long id) {
+        this.id = id;
+    }
+
     private class DataLoaderCallbacks extends RxLoaderCallbacks<Data> {
 
         @Override
-        protected RxLoader<Data> getLoader(final int id) {
+        protected RxLoader<Data> getLoader(final int id, final RxLoaderArguments args) {
             getViewState().startLoading();
-            return dataLoaderProvider.get();
+            final DataLoader loader = dataLoaderProvider.get();
+            loader.setId(args.getLong("id"));
+            return loader;
         }
 
         @Override

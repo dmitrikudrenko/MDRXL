@@ -11,4 +11,6 @@ public interface DataListView extends RxView {
     void showError(String message);
 
     void showData(DataCursor cursor);
+
+    void openDataDetails(long id);
 }
