@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.ui.data.details;
+package io.github.dmitrikudrenko.mdrxl.sample.ui.settings;
 
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;

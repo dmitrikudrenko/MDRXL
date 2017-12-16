@@ -34,7 +34,7 @@ public final class NetworkSettingsRepository {
 
     private void setup() {
         subject.onNext(new Settings(
-                sharedPreferences.getBoolean(KEY_SUCCESS, false),
+                sharedPreferences.getBoolean(KEY_SUCCESS, true),
                 sharedPreferences.getBoolean(KEY_TIMEOUT, false),
                 sharedPreferences.getBoolean(KEY_ERROR, false)
         ));

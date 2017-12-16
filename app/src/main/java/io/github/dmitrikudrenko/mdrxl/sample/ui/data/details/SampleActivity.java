@@ -23,13 +23,8 @@ public class SampleActivity extends RxActivity implements SampleView {
     @Inject
     Provider<SamplePresenter> samplePresenterProvider;
 
-    @Inject
-    Provider<SettingsPresenter> settingsPresenterProvider;
-
     @InjectPresenter
     SamplePresenter samplePresenter;
-
-    SettingsPresenter settingsPresenter;
 
     private SwipeRefreshLayout refreshLayout;
 
@@ -49,13 +44,6 @@ public class SampleActivity extends RxActivity implements SampleView {
         return samplePresenter;
     }
 
-    public SettingsPresenter getSettingsPresenter() {
-        if (settingsPresenter == null) {
-            settingsPresenter = settingsPresenterProvider.get();
-        }
-        return settingsPresenter;
-    }
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,9 +60,6 @@ public class SampleActivity extends RxActivity implements SampleView {
         setupInputView(dataFirstAttributeView, Fields.FIRST_ATTRIBUTE);
         setupInputView(dataSecondAttributeView, Fields.SECOND_ATTRIBUTE);
         setupInputView(dataThirdAttributeView, Fields.THIRD_ATTRIBUTE);
-
-        final SettingsViewGroup settingsViewGroup = new SettingsViewGroup(findViewById(R.id.content));
-        settingsViewGroup.attachPresenter(getSettingsPresenter());
     }
 
     private void setupInputView(final EditText inputView, final String tag) {
@@ -99,11 +84,7 @@ public class SampleActivity extends RxActivity implements SampleView {
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        final PresenterContainer container = (PresenterContainer) getLastCustomNonConfigurationInstance();
-        if (container != null) {
-            samplePresenter = container.getSamplePresenter();
-            settingsPresenter = container.getSettingsPresenter();
-        }
+        samplePresenter = (SamplePresenter) getLastCustomNonConfigurationInstance();
         SampleApplication.get().plus(new SampleModule()).inject(this);
     }
 
@@ -162,7 +143,7 @@ public class SampleActivity extends RxActivity implements SampleView {
 
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
-        return new PresenterContainer(samplePresenter, settingsPresenter);
+        return samplePresenter;
     }
 
     private void showToast(final String message) {
@@ -180,24 +161,5 @@ public class SampleActivity extends RxActivity implements SampleView {
     @Subcomponent(modules = SampleModule.class)
     public interface SampleComponent {
         void inject(SampleActivity activity);
-    }
-
-    private static class PresenterContainer {
-        private final SamplePresenter samplePresenter;
-        private final SettingsPresenter settingsPresenter;
-
-        PresenterContainer(final SamplePresenter samplePresenter,
-                           final SettingsPresenter settingsPresenter) {
-            this.samplePresenter = samplePresenter;
-            this.settingsPresenter = settingsPresenter;
-        }
-
-        SamplePresenter getSamplePresenter() {
-            return samplePresenter;
-        }
-
-        SettingsPresenter getSettingsPresenter() {
-            return settingsPresenter;
-        }
     }
 }
