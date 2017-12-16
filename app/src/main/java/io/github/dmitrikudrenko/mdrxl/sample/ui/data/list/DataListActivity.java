@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import dagger.Module;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
@@ -82,7 +81,7 @@ public class DataListActivity extends RxActivity implements DataListView {
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        SampleApplication.get().plus(new DataListModule()).inject(this);
+        SampleApplication.get().plus(new Module()).inject(this);
     }
 
     @Override
@@ -99,16 +98,16 @@ public class DataListActivity extends RxActivity implements DataListView {
         return super.onOptionsItemSelected(item);
     }
 
-    @Module
-    public class DataListModule {
+    @dagger.Module
+    public class Module {
         @Provides
         RxLoaderManager provideLoaderManager() {
             return new RxLoaderManager(getSupportLoaderManager());
         }
     }
 
-    @Subcomponent(modules = DataListModule.class)
-    public interface DataListComponent {
+    @Subcomponent(modules = Module.class)
+    public interface Component {
         void inject(DataListActivity activity);
     }
 }

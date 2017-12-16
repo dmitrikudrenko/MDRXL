@@ -8,10 +8,10 @@ import io.github.dmitrikudrenko.mdrxl.mvp.RxView;
 import io.github.dmitrikudrenko.mdrxl.mvp.SingleExecutionStateStrategy;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
 
-import static io.github.dmitrikudrenko.mdrxl.sample.ui.data.details.SampleView.Fields.*;
+import static io.github.dmitrikudrenko.mdrxl.sample.ui.data.details.DataDetailsView.Fields.*;
 
 @StateStrategyType(SkipStrategy.class)
-public interface SampleView extends RxView {
+public interface DataDetailsView extends RxView {
     @StringDef({NAME, FIRST_ATTRIBUTE, SECOND_ATTRIBUTE, THIRD_ATTRIBUTE})
     @interface Fields {
         String NAME = Data.Fields.NAME;

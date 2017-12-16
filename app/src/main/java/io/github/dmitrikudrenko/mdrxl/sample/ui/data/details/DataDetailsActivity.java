@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import dagger.Module;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
@@ -19,12 +18,12 @@ import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class SampleActivity extends RxActivity implements SampleView {
+public class DataDetailsActivity extends RxActivity implements DataDetailsView {
     @Inject
-    Provider<SamplePresenter> samplePresenterProvider;
+    Provider<DataDetailsPresenter> samplePresenterProvider;
 
     @InjectPresenter
-    SamplePresenter samplePresenter;
+    DataDetailsPresenter dataDetailsPresenter;
 
     private SwipeRefreshLayout refreshLayout;
 
@@ -37,11 +36,11 @@ public class SampleActivity extends RxActivity implements SampleView {
     private View focusedView;
 
     @ProvidePresenter
-    public SamplePresenter providePresenter() {
-        if (samplePresenter == null) {
-            samplePresenter = samplePresenterProvider.get();
+    public DataDetailsPresenter providePresenter() {
+        if (dataDetailsPresenter == null) {
+            dataDetailsPresenter = samplePresenterProvider.get();
         }
-        return samplePresenter;
+        return dataDetailsPresenter;
     }
 
     @Override
@@ -55,7 +54,7 @@ public class SampleActivity extends RxActivity implements SampleView {
         dataSecondAttributeView = findViewById(R.id.second_attribute);
         dataThirdAttributeView = findViewById(R.id.third_attribute);
 
-        refreshLayout.setOnRefreshListener(() -> samplePresenter.onRefresh());
+        refreshLayout.setOnRefreshListener(() -> dataDetailsPresenter.onRefresh());
         setupInputView(dataNameView, Fields.NAME);
         setupInputView(dataFirstAttributeView, Fields.FIRST_ATTRIBUTE);
         setupInputView(dataSecondAttributeView, Fields.SECOND_ATTRIBUTE);
@@ -70,12 +69,12 @@ public class SampleActivity extends RxActivity implements SampleView {
                 if (focusedView == inputView) {
                     focusedView = null;
                 }
-                samplePresenter.onRefresh();
+                dataDetailsPresenter.onRefresh();
             }
         });
         inputView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                samplePresenter.onDataChanged(tag, v.getText().toString());
+                dataDetailsPresenter.onDataChanged(tag, v.getText().toString());
                 v.clearFocus();
             }
             return false;
@@ -84,8 +83,8 @@ public class SampleActivity extends RxActivity implements SampleView {
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        samplePresenter = (SamplePresenter) getLastCustomNonConfigurationInstance();
-        SampleApplication.get().plus(new SampleModule()).inject(this);
+        dataDetailsPresenter = (DataDetailsPresenter) getLastCustomNonConfigurationInstance();
+        SampleApplication.get().plus(new Module()).inject(this);
     }
 
     @Override
@@ -143,23 +142,23 @@ public class SampleActivity extends RxActivity implements SampleView {
 
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
-        return samplePresenter;
+        return dataDetailsPresenter;
     }
 
     private void showToast(final String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    @Module
-    public class SampleModule {
+    @dagger.Module
+    public class Module {
         @Provides
         RxLoaderManager provideLoaderManager() {
             return new RxLoaderManager(getSupportLoaderManager());
         }
     }
 
-    @Subcomponent(modules = SampleModule.class)
-    public interface SampleComponent {
-        void inject(SampleActivity activity);
+    @Subcomponent(modules = Module.class)
+    public interface Component {
+        void inject(DataDetailsActivity activity);
     }
 }

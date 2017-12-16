@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 @InjectViewState
-public class SamplePresenter extends RxPresenter<SampleView> {
+public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
     private static final int LOADER_ID_DATA = RxLoaders.generateId();
 
     private final Provider<DataLoader> dataLoaderProvider;
@@ -27,16 +27,16 @@ public class SamplePresenter extends RxPresenter<SampleView> {
     private Data data;
 
     @Inject
-    SamplePresenter(final RxLoaderManager loaderManager,
-                    final Provider<DataLoader> dataLoaderProvider,
-                    final Provider<DataStorageCommand> dataStorageCommandProvider) {
+    DataDetailsPresenter(final RxLoaderManager loaderManager,
+                         final Provider<DataLoader> dataLoaderProvider,
+                         final Provider<DataStorageCommand> dataStorageCommandProvider) {
         super(loaderManager);
         this.dataLoaderProvider = dataLoaderProvider;
         this.dataStorageCommandProvider = dataStorageCommandProvider;
     }
 
     @Override
-    public void attachView(final SampleView view) {
+    public void attachView(final DataDetailsView view) {
         super.attachView(view);
         getLoaderManager().init(LOADER_ID_DATA, null, new DataLoaderCallbacks());
     }
@@ -47,7 +47,7 @@ public class SamplePresenter extends RxPresenter<SampleView> {
         notifyViewState(data);
     }
 
-    void onDataChanged(@SampleView.Fields final String field, final String value) {
+    void onDataChanged(@DataDetailsView.Fields final String field, final String value) {
         final DataStorageCommand dataStorageCommand = dataStorageCommandProvider.get();
         dataStorageCommand.save(createUpdateModel(field, value))
                 .observeOn(AndroidSchedulers.mainThread())

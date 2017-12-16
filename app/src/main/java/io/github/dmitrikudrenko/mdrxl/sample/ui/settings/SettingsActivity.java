@@ -1,7 +1,6 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.settings;
 
 import android.os.Bundle;
-import dagger.Module;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
@@ -36,7 +35,7 @@ public class SettingsActivity extends RxActivity {
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
         settingsPresenter = (SettingsPresenter) getLastCustomNonConfigurationInstance();
-        SampleApplication.get().plus(new SettingsActivity.SettingsModule()).inject(this);
+        SampleApplication.get().plus(new Module()).inject(this);
     }
 
     @Override
@@ -44,16 +43,16 @@ public class SettingsActivity extends RxActivity {
         return settingsPresenter;
     }
 
-    @Module
-    public class SettingsModule {
+    @dagger.Module
+    public class Module {
         @Provides
         RxLoaderManager provideLoaderManager() {
             return new RxLoaderManager(getSupportLoaderManager());
         }
     }
 
-    @Subcomponent(modules = SettingsModule.class)
-    public interface SettingsComponent {
+    @Subcomponent(modules = Module.class)
+    public interface Component {
         void inject(SettingsActivity activity);
     }
 }
