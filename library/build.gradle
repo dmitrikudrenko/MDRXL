@@ -3,7 +3,7 @@ apply from: '../android.gradle'
 
 dependencies {
     //support
-    api 'com.android.support:appcompat-v7:26.1.0'
+    api "com.android.support:appcompat-v7:$supportVersion"
 
     //unit test
     testImplementation 'junit:junit:4.12'

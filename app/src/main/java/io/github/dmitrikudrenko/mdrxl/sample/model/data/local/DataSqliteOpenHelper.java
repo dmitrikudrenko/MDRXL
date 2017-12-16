@@ -6,13 +6,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class DataSqliteOpenHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Data.db";
     private static final int DATABASE_VERSION = 1;
 
     @Inject
-    public DataSqliteOpenHelper(final Context context) {
+    DataSqliteOpenHelper(final Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -29,13 +31,16 @@ public class DataSqliteOpenHelper extends SQLiteOpenHelper {
     }
 
     private void createStubData(final SQLiteDatabase db) {
-        final ContentValues cv = new ContentValues();
-        cv.put(DataContract._ID, 0);
-        cv.put(DataContract.COLUMN_NAME, "Name");
-        cv.put(DataContract.COLUMN_FIRST_ATTRIBUTE, "First attribute");
-        cv.put(DataContract.COLUMN_SECOND_ATTRIBUTE, "Second attribute");
-        cv.put(DataContract.COLUMN_THIRD_ATTRIBUTE, "Third attribute");
+        for (int i = 0; i < 5; i++) {
+            final ContentValues cv = new ContentValues();
 
-        db.insert(DataContract.TABLE_NAME, null, cv);
+            cv.put(DataContract._ID, i);
+            cv.put(DataContract.COLUMN_NAME, "Name #" + i);
+            cv.put(DataContract.COLUMN_FIRST_ATTRIBUTE, "First attribute #" + i);
+            cv.put(DataContract.COLUMN_SECOND_ATTRIBUTE, "Second attribute #" + i);
+            cv.put(DataContract.COLUMN_THIRD_ATTRIBUTE, "Third attribute #" + i);
+
+            db.insert(DataContract.TABLE_NAME, null, cv);
+        }
     }
 }

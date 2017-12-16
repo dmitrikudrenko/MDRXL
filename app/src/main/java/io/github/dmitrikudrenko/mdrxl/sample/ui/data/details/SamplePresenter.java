@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.ui;
+package io.github.dmitrikudrenko.mdrxl.sample.ui.data.details;
 
 import com.arellomobile.mvp.InjectViewState;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;

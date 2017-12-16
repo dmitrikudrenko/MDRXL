@@ -6,7 +6,6 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.UpdateModel;
 import rx.Completable;
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,19 +13,17 @@ import javax.inject.Singleton;
 @Singleton
 public final class DataRepository {
     private final DataSqliteOpenHelper helper;
-    private final BehaviorSubject<Data> subject = BehaviorSubject.create();
 
     @Inject
     DataRepository(final DataSqliteOpenHelper helper) {
         this.helper = helper;
-        subject.onNext(getSync());
     }
 
-    public Observable<Data> get() {
-        return subject;
+    public Observable<Data> get(final int id) {
+        return Observable.just(getSync(id));
     }
 
-    private Data getSync() {
+    private Data getSync(final int id) {
         final SQLiteDatabase database = helper.getReadableDatabase();
         DataCursor cursor = null;
         try {
@@ -52,11 +49,22 @@ public final class DataRepository {
     public Completable save(final UpdateModel model) {
         return Completable.fromAction(() -> {
             final SQLiteDatabase database = helper.getWritableDatabase();
-            final ContentValues cv = new ContentValues();
-            model.fill(cv);
-            database.update(DataContract.TABLE_NAME, cv, null, null);
+            database.beginTransaction();
+            try {
+                final ContentValues cv = new ContentValues();
+                model.fill(cv);
+                database.update(DataContract.TABLE_NAME, cv, null, null);
+            } finally {
+                database.endTransaction();
+            }
+        });
+    }
 
-            subject.onNext(getSync());
+    public Observable<DataCursor> get() {
+        return Observable.fromCallable(() -> {
+            final SQLiteDatabase database = helper.getReadableDatabase();
+            return new DataCursor(database.query(DataContract.TABLE_NAME, DataContract.PROJECTION,
+                    null, null, null, null, null));
         });
     }
 }

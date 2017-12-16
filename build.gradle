@@ -23,4 +23,6 @@ project.ext {
     androidCompileSdkVersion = 26
     androidMinSdkVersion = 21
     androidTargetSdkVersion = 26
+
+    supportVersion = "26.1.0"
 }

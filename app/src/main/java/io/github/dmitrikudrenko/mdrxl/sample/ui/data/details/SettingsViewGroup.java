@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.ui;
+package io.github.dmitrikudrenko.mdrxl.sample.ui.data.details;
 
 import android.view.View;
 import android.widget.CompoundButton;

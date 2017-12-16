@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.ui;
+package io.github.dmitrikudrenko.mdrxl.sample.ui.data.details;
 
 import android.support.annotation.StringDef;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
@@ -8,7 +8,7 @@ import io.github.dmitrikudrenko.mdrxl.mvp.RxView;
 import io.github.dmitrikudrenko.mdrxl.mvp.SingleExecutionStateStrategy;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
 
-import static io.github.dmitrikudrenko.mdrxl.sample.ui.SampleView.Fields.*;
+import static io.github.dmitrikudrenko.mdrxl.sample.ui.data.details.SampleView.Fields.*;
 
 @StateStrategyType(SkipStrategy.class)
 public interface SampleView extends RxView {
