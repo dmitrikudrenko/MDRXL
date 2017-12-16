@@ -65,7 +65,7 @@ public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
     }
 
     private UpdateModel createUpdateModel(final String field, final String value) {
-        return UpdateModel.create(field, value);
+        return UpdateModel.create(id, field, value);
     }
 
     private void onDataLoaded(final DataCursor data) {

@@ -10,14 +10,6 @@ public interface DataContract extends BaseColumns {
     String COLUMN_SECOND_ATTRIBUTE = "second_attribute";
     String COLUMN_THIRD_ATTRIBUTE = "third_attribute";
 
-    String[] PROJECTION = {
-            _ID,
-            COLUMN_NAME,
-            COLUMN_FIRST_ATTRIBUTE,
-            COLUMN_SECOND_ATTRIBUTE,
-            COLUMN_THIRD_ATTRIBUTE
-    };
-
     String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     _ID + " INTEGER PRIMARY KEY," +
@@ -25,4 +17,8 @@ public interface DataContract extends BaseColumns {
                     COLUMN_FIRST_ATTRIBUTE + " TEXT," +
                     COLUMN_SECOND_ATTRIBUTE + " TEXT," +
                     COLUMN_THIRD_ATTRIBUTE + " TEXT)";
+
+    String SELECT_ALL = "SELECT * FROM " + TABLE_NAME;
+    String BY_ID = _ID + "=?";
+    String SELECT_BY_ID = SELECT_ALL + " WHERE " + BY_ID;
 }

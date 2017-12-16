@@ -1,8 +1,9 @@
 package io.github.dmitrikudrenko.mdrxl.sample.model.data.local;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.UpdateModel;
+import io.github.dmitrikudrenko.mdrxl.sample.model.data.local.repository.Database;
+import io.github.dmitrikudrenko.mdrxl.sample.model.data.local.repository.IRepository;
 import rx.Completable;
 import rx.Observable;
 
@@ -10,37 +11,32 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public final class DataRepository {
-    private final DataSqliteOpenHelper helper;
+public final class DataRepository implements IRepository<DataCursor> {
+    private final Database database;
 
     @Inject
-    DataRepository(final DataSqliteOpenHelper helper) {
-        this.helper = helper;
+    DataRepository(final Database database) {
+        this.database = database;
     }
 
+    @Override
     public Observable<DataCursor> get(final long id) {
-        return Observable.fromCallable(() -> {
-            final SQLiteDatabase database = helper.getReadableDatabase();
-            return new DataCursor(database.query(DataContract.TABLE_NAME, DataContract.PROJECTION,
-                    DataContract._ID + "=?", new String[]{String.valueOf(id)},
-                    null, null, null));
-        });
+        return database.createQuery(DataContract.TABLE_NAME, DataContract.SELECT_BY_ID, String.valueOf(id))
+                .map(DataCursor::new);
+    }
+
+    @Override
+    public Observable<DataCursor> get() {
+        return database.createQuery(DataContract.TABLE_NAME, DataContract.SELECT_ALL)
+                .map(DataCursor::new);
     }
 
     public Completable save(final UpdateModel model) {
         return Completable.fromAction(() -> {
-            final SQLiteDatabase database = helper.getWritableDatabase();
             final ContentValues cv = new ContentValues();
             model.fill(cv);
-            database.update(DataContract.TABLE_NAME, cv, null, null);
-        });
-    }
-
-    public Observable<DataCursor> get() {
-        return Observable.fromCallable(() -> {
-            final SQLiteDatabase database = helper.getReadableDatabase();
-            return new DataCursor(database.query(DataContract.TABLE_NAME, DataContract.PROJECTION,
-                    null, null, null, null, null));
+            database.update(DataContract.TABLE_NAME, cv, DataContract.BY_ID,
+                    String.valueOf(model.getId()));
         });
     }
 }

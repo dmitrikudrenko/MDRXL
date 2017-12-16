@@ -7,9 +7,14 @@ import java.util.Map;
 
 public final class UpdateModel {
     private final Map<String, Object> model = new HashMap<>();
+    private final long id;
 
-    public static UpdateModel create(final String key, final Object value) {
-        final UpdateModel model = new UpdateModel();
+    public UpdateModel(final long id) {
+        this.id = id;
+    }
+
+    public static UpdateModel create(final long id, final String key, final Object value) {
+        final UpdateModel model = new UpdateModel(id);
         model.add(key, value);
         return model;
     }
@@ -31,10 +36,7 @@ public final class UpdateModel {
         }
     }
 
-    public Data update(final Data data) {
-        for (final Map.Entry<String, Object> entry : model.entrySet()) {
-            data.set(entry.getKey(), entry.getValue());
-        }
-        return data;
+    public long getId() {
+        return id;
     }
 }

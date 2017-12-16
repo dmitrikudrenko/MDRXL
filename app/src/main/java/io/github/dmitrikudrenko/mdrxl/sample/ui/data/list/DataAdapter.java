@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.data.list;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +85,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
 
         @Override
         public DataCursor get(final int index) {
+            if (cursor.isClosed()) {
+                Log.d("DataAdapter", "Cursor is closed: " + cursor.toString());
+            }
             if (cursor.moveToPosition(index)) {
                 return cursor;
             }
