@@ -31,11 +31,14 @@ public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> {
         super.onStartLoading();
         if (subject == null) {
             subject = BehaviorSubject.create();
-            subjectSubscription = create().subscribeOn(Schedulers.io()).subscribe(subject);
         }
 
         subscription = subject.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onResult, this::onError);
+
+        if (subjectSubscription == null) {
+            subjectSubscription = create().subscribeOn(Schedulers.io()).subscribe(subject);
+        }
     }
 
     void onResult(final D data) {
