@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class DataSqliteOpenHelper extends SQLiteOpenHelper {
+public final class DataSqliteOpenHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Data.db";
     private static final int DATABASE_VERSION = 1;
 

@@ -5,7 +5,7 @@ import android.content.ContentValues;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UpdateModel {
+public final class UpdateModel {
     private final Map<String, Object> model = new HashMap<>();
 
     public static UpdateModel create(final String key, final Object value) {
