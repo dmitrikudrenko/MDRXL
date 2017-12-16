@@ -7,9 +7,9 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
-import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.DataStorageCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.UpdateModel;
+import io.github.dmitrikudrenko.mdrxl.sample.model.data.local.DataCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.local.DataLoader;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -25,7 +25,7 @@ public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
     private final Provider<DataStorageCommand> dataStorageCommandProvider;
 
     @Nullable
-    private Data data;
+    private DataCursor data;
 
     private long id;
 
@@ -67,12 +67,12 @@ public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
         return UpdateModel.create(field, value);
     }
 
-    private void onDataLoaded(final Data data) {
+    private void onDataLoaded(final DataCursor data) {
         this.data = data;
         notifyViewState(data);
     }
 
-    private void notifyViewState(@Nullable final Data data) {
+    private void notifyViewState(@Nullable final DataCursor data) {
         if (data == null) {
             return;
         }
@@ -88,10 +88,10 @@ public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
         this.id = id;
     }
 
-    private class DataLoaderCallbacks extends RxLoaderCallbacks<Data> {
+    private class DataLoaderCallbacks extends RxLoaderCallbacks<DataCursor> {
 
         @Override
-        protected RxLoader<Data> getLoader(final int id, final RxLoaderArguments args) {
+        protected RxLoader<DataCursor> getLoader(final int id, final RxLoaderArguments args) {
             getViewState().startLoading();
             final DataLoader loader = dataLoaderProvider.get();
             loader.setId(args.getLong("id"));
@@ -99,7 +99,7 @@ public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
         }
 
         @Override
-        protected void onSuccess(final int id, final Data data) {
+        protected void onSuccess(final int id, final DataCursor data) {
             getViewState().stopLoading();
             onDataLoaded(data);
         }

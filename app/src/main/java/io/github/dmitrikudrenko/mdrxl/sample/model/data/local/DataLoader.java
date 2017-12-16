@@ -1,13 +1,12 @@
 package io.github.dmitrikudrenko.mdrxl.sample.model.data.local;
 
 import android.content.Context;
-import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
-import io.github.dmitrikudrenko.mdrxl.sample.model.data.Data;
+import io.github.dmitrikudrenko.mdrxl.loader.RxCursorLoader;
 import rx.Observable;
 
 import javax.inject.Inject;
 
-public final class DataLoader extends RxLoader<Data> {
+public final class DataLoader extends RxCursorLoader<DataCursor> {
     private final DataRepository repository;
     private long id;
 
@@ -18,7 +17,7 @@ public final class DataLoader extends RxLoader<Data> {
     }
 
     @Override
-    protected Observable<Data> create() {
+    protected Observable<DataCursor> create() {
         return repository.get(id);
     }
 
