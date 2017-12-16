@@ -70,7 +70,7 @@ public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
 
     private void onDataLoaded(final DataCursor data) {
         this.data = data;
-        data.moveToNext();
+        data.moveToFirst();
         notifyViewState(data);
     }
 
