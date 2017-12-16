@@ -2,6 +2,7 @@ package io.github.dmitrikudrenko.mdrxl.loader;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 public abstract class RxCursorLoader<C extends Cursor> extends RxLoader<C> {
     private C mCursor;
@@ -15,7 +16,8 @@ public abstract class RxCursorLoader<C extends Cursor> extends RxLoader<C> {
         final C oldCursor = mCursor;
         mCursor = cursor;
         super.onResult(cursor);
-        if (oldCursor != null && !oldCursor.isClosed()) {
+        if (oldCursor != null && !oldCursor.isClosed() && oldCursor != cursor) {
+            Log.d(getClass().getSimpleName(), "Close old cursor: " + oldCursor.toString());
             oldCursor.close();
         }
     }
