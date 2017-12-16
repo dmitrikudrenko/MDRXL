@@ -6,7 +6,7 @@ import rx.Observable;
 
 import javax.inject.Inject;
 
-public class DataListLoader extends RxLoader<DataCursor> {
+public final class DataListLoader extends RxLoader<DataCursor> {
     private final DataRepository repository;
 
     @Inject

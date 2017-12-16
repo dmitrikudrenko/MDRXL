@@ -3,14 +3,14 @@ package io.github.dmitrikudrenko.mdrxl.sample.model.data.local;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
-public class DataCursor extends CursorWrapper {
+public final class DataCursor extends CursorWrapper {
     private final int id;
     private final int name;
     private final int firstAttribute;
     private final int secondAttribute;
     private final int thirdAttribute;
 
-    public DataCursor(final Cursor cursor) {
+    DataCursor(final Cursor cursor) {
         super(cursor);
         id = cursor.getColumnIndex(DataContract._ID);
         name = cursor.getColumnIndex(DataContract.COLUMN_NAME);
