@@ -19,6 +19,7 @@ import javax.inject.Provider;
 
 @InjectViewState
 public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
+    private static final String ARG_ID = "id";
     private static final int LOADER_ID_DATA = RxLoaders.generateId();
 
     private final Provider<DataLoader> dataLoaderProvider;
@@ -42,7 +43,7 @@ public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
     public void attachView(final DataDetailsView view) {
         super.attachView(view);
         final RxLoaderArguments args = new RxLoaderArguments();
-        args.putLong("id", id);
+        args.putLong(ARG_ID, id);
         getLoaderManager().init(LOADER_ID_DATA, args, new DataLoaderCallbacks());
     }
 
@@ -94,7 +95,7 @@ public class DataDetailsPresenter extends RxPresenter<DataDetailsView> {
         protected RxLoader<DataCursor> getLoader(final int id, final RxLoaderArguments args) {
             getViewState().startLoading();
             final DataLoader loader = dataLoaderProvider.get();
-            loader.setId(args.getLong("id"));
+            loader.setId(args.getLong(ARG_ID));
             return loader;
         }
 

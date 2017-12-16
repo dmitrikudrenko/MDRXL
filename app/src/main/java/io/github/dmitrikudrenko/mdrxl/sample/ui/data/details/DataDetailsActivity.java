@@ -21,6 +21,8 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 public class DataDetailsActivity extends RxActivity implements DataDetailsView {
+    private static final String ARG_ID = "id";
+
     @Inject
     Provider<DataDetailsPresenter> samplePresenterProvider;
 
@@ -41,7 +43,7 @@ public class DataDetailsActivity extends RxActivity implements DataDetailsView {
     public DataDetailsPresenter providePresenter() {
         if (dataDetailsPresenter == null) {
             dataDetailsPresenter = samplePresenterProvider.get();
-            dataDetailsPresenter.setId(getIntent().getLongExtra("id", -1));
+            dataDetailsPresenter.setId(getIntent().getLongExtra(ARG_ID, -1));
         }
         return dataDetailsPresenter;
     }
@@ -154,7 +156,7 @@ public class DataDetailsActivity extends RxActivity implements DataDetailsView {
 
     public static Intent intent(final Context context, final long id) {
         return new Intent(context, DataDetailsActivity.class)
-                .putExtra("id", id);
+                .putExtra(ARG_ID, id);
     }
 
     @dagger.Module
