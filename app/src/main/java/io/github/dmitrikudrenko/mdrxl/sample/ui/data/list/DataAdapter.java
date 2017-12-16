@@ -12,10 +12,25 @@ import java.util.AbstractList;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder> {
     private DataList dataList;
+    private final OnItemClickListener itemClickListener;
+
+    DataAdapter(final OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+        setHasStableIds(true);
+    }
 
     public void set(final DataCursor cursor) {
         dataList = new DataList(cursor);
         notifyDataSetChanged();
+    }
+
+    private DataCursor getItem(final int position) {
+        return dataList.get(position);
+    }
+
+    @Override
+    public long getItemId(final int position) {
+        return getItem(position).getId();
     }
 
     @Override
@@ -26,7 +41,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
 
     @Override
     public void onBindViewHolder(final DataViewHolder holder, final int position) {
-        holder.bind(dataList.get(position));
+        holder.bind(getItem(position));
+        holder.itemView.setOnClickListener(v -> itemClickListener.onClick(holder.getItemId()));
     }
 
     @Override
@@ -78,5 +94,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
         public int size() {
             return cursor.getCount();
         }
+    }
+
+    interface OnItemClickListener {
+        void onClick(long id);
     }
 }

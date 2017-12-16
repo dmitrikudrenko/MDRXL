@@ -47,7 +47,7 @@ public class DataListActivity extends RxActivity implements DataListView {
 
         refreshLayout = findViewById(R.id.refresh_layout);
         final RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        adapter = new DataAdapter();
+        adapter = new DataAdapter(id -> presenter.onItemSelected(id));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));

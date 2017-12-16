@@ -36,6 +36,10 @@ public class DataListPresenter extends RxPresenter<DataListView> {
         getViewState().stopLoading();
     }
 
+    void onItemSelected(final long id) {
+        //do nothing
+    }
+
     private class DataListLoaderCallbacks extends RxLoaderCallbacks<DataCursor> {
         @Override
         protected RxLoader<DataCursor> getLoader(final int id) {
