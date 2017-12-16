@@ -12,8 +12,12 @@ public abstract class RxCursorLoader<C extends Cursor> extends RxLoader<C> {
 
     @Override
     void onResult(final C cursor) {
+        final C oldCursor = mCursor;
         mCursor = cursor;
         super.onResult(cursor);
+        if (oldCursor != null && !oldCursor.isClosed()) {
+            oldCursor.close();
+        }
     }
 
     @Override
