@@ -38,7 +38,7 @@ public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> {
                 .subscribe(this::onResult, this::onError);
     }
 
-    private void onResult(final D data) {
+    void onResult(final D data) {
         Log.d(getClass().getSimpleName(), "onResult " + data.toString());
         deliverResult(RxLoaderData.result(data));
     }
