@@ -54,25 +54,22 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
     static class DataViewHolder extends RecyclerView.ViewHolder {
         TextView id;
         TextView name;
-        TextView firstAttribute;
-        TextView secondAttribute;
-        TextView thirdAttribute;
+        TextView attributes;
+
+        private final String attributesFormat = "%s, %s, %s";
 
         DataViewHolder(final View itemView) {
             super(itemView);
             id = itemView.findViewById(R.id.data_id);
             name = itemView.findViewById(R.id.data_name);
-            firstAttribute = itemView.findViewById(R.id.data_first_attribute);
-            secondAttribute = itemView.findViewById(R.id.data_second_attribute);
-            thirdAttribute = itemView.findViewById(R.id.data_third_attribute);
+            attributes = itemView.findViewById(R.id.data_attributes);
         }
 
         void bind(final DataCursor cursor) {
             id.setText(String.valueOf(cursor.getId()));
             name.setText(cursor.getName());
-            firstAttribute.setText(cursor.getFirstAttribute());
-            secondAttribute.setText(cursor.getSecondAttribute());
-            thirdAttribute.setText(cursor.getThirdAttribute());
+            attributes.setText(String.format(attributesFormat,
+                    cursor.getFirstAttribute(), cursor.getSecondAttribute(), cursor.getThirdAttribute()));
         }
     }
 
