@@ -2,7 +2,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.di;
 
 import io.github.dmitrikudrenko.mdrxl.sample.ui.data.details.DataDetailsActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.data.list.DataListActivity;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.settings.SettingsActivity;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.settings.SettingsFragment;
 
 import javax.inject.Singleton;
 
@@ -13,5 +13,5 @@ public interface ApplicationComponent {
 
     DataListActivity.Component plus(DataListActivity.Module module);
 
-    SettingsActivity.Component plus(SettingsActivity.Module module);
+    SettingsFragment.Component plus(SettingsFragment.Module module);
 }

@@ -1,6 +1,5 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.settings;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,25 +7,47 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+import dagger.Provides;
+import dagger.Subcomponent;
+import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
+import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 public class SettingsFragment extends RxFragment implements SettingsView {
 
-    private SettingsController settingsController;
+    @Inject
+    Provider<SettingsPresenter> settingsPresenterProvider;
+
+    @InjectPresenter
+    SettingsPresenter settingsPresenter;
 
     private CompoundButton successButton;
     private CompoundButton timeoutButton;
     private CompoundButton errorButton;
 
-    @Override
-    public void onAttach(final Context context) {
-        super.onAttach(context);
-        if (context instanceof SettingsController) {
-            settingsController = (SettingsController) context;
-        } else {
-            throw new IllegalArgumentException("Context should implement SettingsController");
+    @ProvidePresenter
+    public SettingsPresenter providePresenter() {
+        if (settingsPresenter == null) {
+            settingsPresenter = settingsPresenterProvider.get();
         }
+        return settingsPresenter;
+    }
+
+    @Override
+    protected void beforeOnCreate(final Bundle savedInstanceState) {
+        SampleApplication.get().plus(new Module()).inject(this);
+    }
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        settingsPresenter = (SettingsPresenter) getLastCustomNonConfigurationInstance();
     }
 
     @Nullable
@@ -45,13 +66,18 @@ public class SettingsFragment extends RxFragment implements SettingsView {
         final RadioGroup settingsGroup = view.findViewById(R.id.group_network_settings);
         settingsGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == successButton.getId()) {
-                settingsController.onSuccessSet();
+                settingsPresenter.onSuccessSet();
             } else if (checkedId == timeoutButton.getId()) {
-                settingsController.onTimeoutSet();
+                settingsPresenter.onTimeoutSet();
             } else if (checkedId == errorButton.getId()) {
-                settingsController.onErrorSet();
+                settingsPresenter.onErrorSet();
             }
         });
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return settingsPresenter;
     }
 
     @Override
@@ -69,11 +95,16 @@ public class SettingsFragment extends RxFragment implements SettingsView {
         errorButton.setChecked(value);
     }
 
-    public interface SettingsController {
-        void onSuccessSet();
+    @dagger.Module
+    public class Module {
+        @Provides
+        RxLoaderManager provideLoaderManager() {
+            return new RxLoaderManager(getLoaderManager());
+        }
+    }
 
-        void onTimeoutSet();
-
-        void onErrorSet();
+    @Subcomponent(modules = Module.class)
+    public interface Component {
+        void inject(SettingsFragment fragment);
     }
 }
