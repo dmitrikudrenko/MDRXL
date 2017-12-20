@@ -1,13 +1,12 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.data.list;
 
-import io.github.dmitrikudrenko.mdrxl.mvp.RxView;
+import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.local.DataCursor;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.base.LoadingRxView;
 
-public interface DataListView extends RxView {
-    void startLoading();
-
-    void stopLoading();
-
+@StateStrategyType(SkipStrategy.class)
+public interface DataListView extends LoadingRxView {
     void showError(String message);
 
     void showData(DataCursor cursor);
