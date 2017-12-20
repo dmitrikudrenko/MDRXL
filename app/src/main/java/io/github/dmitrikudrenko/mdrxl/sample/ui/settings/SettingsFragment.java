@@ -47,7 +47,9 @@ public class SettingsFragment extends RxFragment implements SettingsView {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        settingsPresenter = (SettingsPresenter) getLastCustomNonConfigurationInstance();
+        if (settingsPresenter == null) {
+            settingsPresenter = (SettingsPresenter) getLastCustomNonConfigurationInstance();
+        }
     }
 
     @Nullable
@@ -80,19 +82,24 @@ public class SettingsFragment extends RxFragment implements SettingsView {
         return settingsPresenter;
     }
 
+    private void setButtonChecked(final CompoundButton compoundButton, final boolean value) {
+        compoundButton.setChecked(value);
+        compoundButton.jumpDrawablesToCurrentState();
+    }
+
     @Override
     public void showSuccessSetting(final boolean value) {
-        successButton.setChecked(value);
+        setButtonChecked(successButton, value);
     }
 
     @Override
     public void showTimeoutSetting(final boolean value) {
-        timeoutButton.setChecked(value);
+        setButtonChecked(timeoutButton, value);
     }
 
     @Override
     public void showErrorSetting(final boolean value) {
-        errorButton.setChecked(value);
+        setButtonChecked(errorButton, value);
     }
 
     @dagger.Module
