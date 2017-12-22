@@ -31,6 +31,8 @@ public class SettingsFragment extends RxFragment implements SettingsView {
     private CompoundButton timeoutButton;
     private CompoundButton errorButton;
 
+    private MuteableOnCheckedChangeListener onSettingsChangeListener;
+
     @ProvidePresenter
     public SettingsPresenter providePresenter() {
         if (settingsPresenter == null) {
@@ -66,7 +68,7 @@ public class SettingsFragment extends RxFragment implements SettingsView {
         errorButton = view.findViewById(R.id.button_network_error);
 
         final RadioGroup settingsGroup = view.findViewById(R.id.group_network_settings);
-        settingsGroup.setOnCheckedChangeListener((group, checkedId) -> {
+        onSettingsChangeListener = new MuteableOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == successButton.getId()) {
                 settingsPresenter.onSuccessSet();
             } else if (checkedId == timeoutButton.getId()) {
@@ -75,6 +77,7 @@ public class SettingsFragment extends RxFragment implements SettingsView {
                 settingsPresenter.onErrorSet();
             }
         });
+        settingsGroup.setOnCheckedChangeListener(onSettingsChangeListener);
     }
 
     @Override
@@ -83,8 +86,10 @@ public class SettingsFragment extends RxFragment implements SettingsView {
     }
 
     private void setButtonChecked(final CompoundButton compoundButton, final boolean value) {
+        onSettingsChangeListener.mute();
         compoundButton.setChecked(value);
         compoundButton.jumpDrawablesToCurrentState();
+        onSettingsChangeListener.unmute();
     }
 
     @Override
@@ -113,5 +118,29 @@ public class SettingsFragment extends RxFragment implements SettingsView {
     @Subcomponent(modules = Module.class)
     public interface Component {
         void inject(SettingsFragment fragment);
+    }
+
+    private class MuteableOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
+        private final RadioGroup.OnCheckedChangeListener onCheckedChangeListener;
+        private boolean mute;
+
+        public MuteableOnCheckedChangeListener(final RadioGroup.OnCheckedChangeListener onCheckedChangeListener) {
+            this.onCheckedChangeListener = onCheckedChangeListener;
+        }
+
+        @Override
+        public void onCheckedChanged(final RadioGroup group, final int checkedId) {
+            if (!mute) {
+                onCheckedChangeListener.onCheckedChanged(group, checkedId);
+            }
+        }
+
+        public void mute() {
+            this.mute = true;
+        }
+
+        public void unmute() {
+            this.mute = false;
+        }
     }
 }
