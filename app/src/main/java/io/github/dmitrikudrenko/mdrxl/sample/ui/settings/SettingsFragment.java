@@ -86,10 +86,12 @@ public class SettingsFragment extends RxFragment implements SettingsView {
     }
 
     private void setButtonChecked(final CompoundButton compoundButton, final boolean value) {
-        onSettingsChangeListener.mute();
-        compoundButton.setChecked(value);
-        compoundButton.jumpDrawablesToCurrentState();
-        onSettingsChangeListener.unmute();
+        if (compoundButton.isChecked() != value) {
+            onSettingsChangeListener.mute();
+            compoundButton.setChecked(value);
+            compoundButton.jumpDrawablesToCurrentState();
+            onSettingsChangeListener.unmute();
+        }
     }
 
     @Override

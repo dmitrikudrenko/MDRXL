@@ -11,6 +11,7 @@ dependencies {
     implementation project(':library')
     implementation "com.android.support:recyclerview-v7:$supportVersion"
     implementation 'com.squareup.sqlbrite:sqlbrite:1.1.2'
+    implementation 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
 
     //unit test
     testImplementation 'junit:junit:4.12'

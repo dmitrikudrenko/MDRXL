@@ -43,4 +43,8 @@ public final class Settings {
                 ", error=" + error +
                 '}';
     }
+
+    public boolean isValid() {
+        return success || timeout || error;
+    }
 }

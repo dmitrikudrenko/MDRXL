@@ -2,15 +2,15 @@ package io.github.dmitrikudrenko.mdrxl.sample.settings;
 
 import android.content.SharedPreferences;
 import android.support.annotation.StringDef;
+import com.f2prateek.rx.preferences.RxSharedPreferences;
+import rx.Completable;
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
+import rx.schedulers.Schedulers;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import static io.github.dmitrikudrenko.mdrxl.sample.settings.NetworkSettingsRepository.NetworkPreference.*;
 
-@Singleton
 public final class NetworkSettingsRepository {
     public @interface NetworkPreferences {
     }
@@ -23,65 +23,56 @@ public final class NetworkSettingsRepository {
     }
 
     private final SharedPreferences sharedPreferences;
-
-    private final BehaviorSubject<Settings> subject = BehaviorSubject.create();
+    private final RxSharedPreferences rxSharedPreferences;
 
     @Inject
     NetworkSettingsRepository(@NetworkPreferences final SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
-        setup();
+        this.rxSharedPreferences = RxSharedPreferences.create(sharedPreferences);
     }
 
-    private void setup() {
-        subject.onNext(new Settings(
-                sharedPreferences.getBoolean(KEY_SUCCESS, true),
-                sharedPreferences.getBoolean(KEY_TIMEOUT, false),
-                sharedPreferences.getBoolean(KEY_ERROR, false)
-        ));
-        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
-            if (sharedPreferences.getBoolean(key, false)) {
-                switch (key) {
-                    case KEY_SUCCESS:
-                        subject.onNext(Settings.success());
-                        break;
-                    case KEY_TIMEOUT:
-                        subject.onNext(Settings.timeout());
-                        break;
-                    case KEY_ERROR:
-                        subject.onNext(Settings.error());
-                        break;
-                }
-            }
-        });
-    }
-
+    @SuppressWarnings("ConstantConditions")
     public Settings getSync() {
-        return subject.getValue();
+        return new Settings(
+                rxSharedPreferences.getBoolean(KEY_SUCCESS,true).get(),
+                rxSharedPreferences.getBoolean(KEY_TIMEOUT, false).get(),
+                rxSharedPreferences.getBoolean(KEY_ERROR, false).get()
+        );
     }
 
     public Observable<Settings> get() {
-        return subject;
+        return Observable.combineLatest(
+                rxSharedPreferences.getBoolean(KEY_SUCCESS).asObservable(),
+                rxSharedPreferences.getBoolean(KEY_TIMEOUT).asObservable(),
+                rxSharedPreferences.getBoolean(KEY_ERROR).asObservable(),
+                Settings::new
+        ).filter(Settings::isValid);
     }
 
     public void set(@NetworkPreference final String preference) {
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        Completable.fromAction(() -> doSet(preference)).subscribeOn(Schedulers.io()).subscribe();
+    }
+
+    private void doSet(@NetworkPreference final String preference) {
+        Settings newSettings = null;
         switch (preference) {
             case KEY_SUCCESS:
-                editor.putBoolean(KEY_SUCCESS, true)
-                        .putBoolean(KEY_TIMEOUT, false)
-                        .putBoolean(KEY_ERROR, false);
+                newSettings = Settings.success();
                 break;
             case KEY_TIMEOUT:
-                editor.putBoolean(KEY_SUCCESS, false)
-                        .putBoolean(KEY_TIMEOUT, true)
-                        .putBoolean(KEY_ERROR, false);
+                newSettings = Settings.timeout();
                 break;
             case KEY_ERROR:
-                editor.putBoolean(KEY_SUCCESS, false)
-                        .putBoolean(KEY_TIMEOUT, false)
-                        .putBoolean(KEY_ERROR, true);
+                newSettings = Settings.error();
                 break;
         }
-        editor.apply();
+
+        if (newSettings != null) {
+            final SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(KEY_SUCCESS, newSettings.isSuccess())
+                    .putBoolean(KEY_TIMEOUT, newSettings.isTimeout())
+                    .putBoolean(KEY_ERROR, newSettings.isError());
+            editor.commit();
+        }
     }
 }
