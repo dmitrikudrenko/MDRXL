@@ -45,6 +45,14 @@ public class DataListFragment extends RxFragment implements DataListView {
     }
 
     @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (presenter == null) {
+            presenter = (DataListPresenter) getLastCustomNonConfigurationInstance();
+        }
+    }
+
+    @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
         SampleApplication.get().plus(new Module()).inject(this);
     }
