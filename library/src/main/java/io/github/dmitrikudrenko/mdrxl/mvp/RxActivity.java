@@ -12,4 +12,10 @@ public abstract class RxActivity extends MvpAppCompatActivity implements RxView 
     protected void beforeOnCreate(final Bundle savedInstanceState) {
         //to override
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

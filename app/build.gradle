@@ -10,6 +10,8 @@ android {
 dependencies {
     implementation project(':library')
     implementation "com.android.support:recyclerview-v7:$supportVersion"
+    implementation "com.android.support:design:$supportVersion"
+
     implementation 'com.squareup.sqlbrite:sqlbrite:1.1.2'
     implementation 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
 

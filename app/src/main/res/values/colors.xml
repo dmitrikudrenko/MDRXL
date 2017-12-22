@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="textColorPrimary">#e6000000</color>
+    <color name="actionBarColorPrimary">#fff</color>
 </resources>
