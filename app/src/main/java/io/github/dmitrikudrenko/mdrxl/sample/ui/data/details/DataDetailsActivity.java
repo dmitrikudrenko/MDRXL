@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -37,8 +36,6 @@ public class DataDetailsActivity extends RxActivity implements DataDetailsView {
     private EditText dataSecondAttributeView;
     private EditText dataThirdAttributeView;
 
-    private View focusedView;
-
     @ProvidePresenter
     public DataDetailsPresenter providePresenter() {
         if (dataDetailsPresenter == null) {
@@ -67,16 +64,6 @@ public class DataDetailsActivity extends RxActivity implements DataDetailsView {
     }
 
     private void setupInputView(final EditText inputView, final String tag) {
-        inputView.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                focusedView = inputView;
-            } else {
-                if (focusedView == inputView) {
-                    focusedView = null;
-                }
-                dataDetailsPresenter.onRefresh();
-            }
-        });
         inputView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 dataDetailsPresenter.onDataChanged(tag, v.getText().toString());
@@ -109,30 +96,22 @@ public class DataDetailsActivity extends RxActivity implements DataDetailsView {
 
     @Override
     public void showName(final String value) {
-        if (focusedView != dataNameView) {
-            dataNameView.setText(value);
-        }
+        dataNameView.setText(value);
     }
 
     @Override
     public void showFirstAttribute(final String value) {
-        if (focusedView != dataFirstAttributeView) {
-            dataFirstAttributeView.setText(value);
-        }
+        dataFirstAttributeView.setText(value);
     }
 
     @Override
     public void showSecondAttribute(final String value) {
-        if (focusedView != dataSecondAttributeView) {
-            dataSecondAttributeView.setText(value);
-        }
+        dataSecondAttributeView.setText(value);
     }
 
     @Override
     public void showThirdAttribute(final String value) {
-        if (focusedView != dataThirdAttributeView) {
-            dataThirdAttributeView.setText(value);
-        }
+        dataThirdAttributeView.setText(value);
     }
 
     @Override
