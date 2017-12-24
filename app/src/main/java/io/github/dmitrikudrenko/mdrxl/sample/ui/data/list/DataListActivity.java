@@ -47,6 +47,10 @@ public class DataListActivity extends BaseFragmentHolderRxActivity<DataListFragm
                 return false;
             }
         });
+        searchView.setOnCloseListener(() -> {
+            getFragment().onSearchClosed();
+            return false;
+        });
         return super.onPrepareOptionsMenu(menu);
     }
 

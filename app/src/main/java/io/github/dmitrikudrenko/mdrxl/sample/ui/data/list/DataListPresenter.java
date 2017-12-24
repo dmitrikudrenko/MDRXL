@@ -49,6 +49,10 @@ public class DataListPresenter extends RxPresenter<DataListView> {
         //do nothing
     }
 
+    void onSearchClosed() {
+
+    }
+
     private class DataListLoaderCallbacks extends RxLoaderCallbacks<DataCursor> {
         @Override
         protected RxLoader<DataCursor> getLoader(final int id, final RxLoaderArguments args) {

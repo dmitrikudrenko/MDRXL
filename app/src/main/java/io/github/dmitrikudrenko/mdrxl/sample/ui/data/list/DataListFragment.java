@@ -113,6 +113,10 @@ public class DataListFragment extends RxFragment implements DataListView {
         presenter.onSearchQueryChanged(query);
     }
 
+    public void onSearchClosed() {
+        presenter.onSearchClosed();
+    }
+
     @dagger.Module
     public class Module {
         @Provides
