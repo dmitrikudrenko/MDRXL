@@ -40,31 +40,37 @@ public final class GeraltWomenSqliteOpenHelper extends SQLiteOpenHelper {
     }
 
     private void createTrissMerigold(final SQLiteDatabase db) {
-        createGeraltWoman(db, 0, "Triss Merigold", null,
+        createGeraltWoman(db, 0, "Triss Merigold",
+                "https://scontent-sea1-1.cdninstagram.com/t51.2885-15/s480x480/e35/13277755_521560668030505_144398546_n.jpg",
                 "Witch", "Redhead");
     }
 
     private void createYennefer(final SQLiteDatabase db) {
-        createGeraltWoman(db, 1, "Yennefer from Vengerberg", null,
+        createGeraltWoman(db, 1, "Yennefer from Vengerberg",
+                "https://s-media-cache-ak0.pinimg.com/originals/6c/df/ed/6cdfed772817c6349e8e293e614ed04d.jpg",
                 "Witch", "Black");
     }
 
     private void createCiri(final SQLiteDatabase db) {
-        createGeraltWoman(db, 2, "Cirilla Fiona Elen Riannon", null,
+        createGeraltWoman(db, 2, "Cirilla Fiona Elen Riannon",
+                "https://gifyu.com/images/witcher3_2015_07_14_17_01_32_197.md.png",
                 "Princess of Cintra", "Silver");
     }
 
     private void createShani(final SQLiteDatabase db) {
-        createGeraltWoman(db, 3, "Shani", null, "Medic", "Redhead");
+        createGeraltWoman(db, 3, "Shani", "https://i.ytimg.com/vi/cYSNRR_5cd0/maxresdefault.jpg",
+                "Medic", "Redhead");
     }
 
     private void createSyanna(final SQLiteDatabase db) {
-        createGeraltWoman(db, 4, "Sylvia Anna", null,
+        createGeraltWoman(db, 4, "Sylvia Anna",
+                "https://img00.deviantart.net/df3e/i/2016/160/f/d/little_red_sylvia_anna_by_isaac77598-da5mscf.jpg",
                 "Anna Henrietta's sister", "Black");
     }
 
     private void createPassifloraProstitute(final SQLiteDatabase db) {
-        createGeraltWoman(db, 5, "Viola", null, "Prostitute", "Blonde");
+        createGeraltWoman(db, 5, "Viola", "https://i.ytimg.com/vi/uz7jE-M9L3o/maxresdefault.jpg",
+                "Prostitute", "Blonde");
     }
 
     private void createGeraltWoman(final SQLiteDatabase db, final long id, final String name,

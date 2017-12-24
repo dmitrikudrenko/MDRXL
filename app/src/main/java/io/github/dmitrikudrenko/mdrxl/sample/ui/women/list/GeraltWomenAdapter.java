@@ -5,9 +5,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.CircleTransform;
 
 import java.util.AbstractList;
 
@@ -52,24 +56,26 @@ public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomenAdapter.
     }
 
     static class GeraltWomanViewHolder extends RecyclerView.ViewHolder {
-        TextView id;
+        static final Transformation PHOTO_TRANSFORMATION = new CircleTransform();
+
+        ImageView photo;
         TextView name;
         TextView attributes;
 
-        private final String attributesFormat = "%s, %s, %s";
+        private final String attributesFormat = "%s, %s";
 
         GeraltWomanViewHolder(final View itemView) {
             super(itemView);
-            id = itemView.findViewById(R.id.id);
+            photo = itemView.findViewById(R.id.photo);
             name = itemView.findViewById(R.id.name);
             attributes = itemView.findViewById(R.id.attributes);
         }
 
         void bind(final GeraltWomenCursor cursor) {
-            id.setText(String.valueOf(cursor.getId()));
+            Picasso.with(photo.getContext()).load(cursor.getPhoto()).fit().centerCrop()
+                    .transform(PHOTO_TRANSFORMATION).into(photo);
             name.setText(cursor.getName());
-            attributes.setText(String.format(attributesFormat,
-                    cursor.getPhoto(), cursor.getProfession(), cursor.getHairColor()));
+            attributes.setText(String.format(attributesFormat, cursor.getProfession(), cursor.getHairColor()));
         }
     }
 
