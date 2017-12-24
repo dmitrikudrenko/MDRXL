@@ -10,7 +10,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomenDetailsNav
 import io.github.dmitrikudrenko.mdrxl.sample.ui.settings.SettingsActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.GeraltWomanActivity;
 
-public class GeraltWomenListActivity extends BaseFragmentHolderRxActivity<GeraltWomenFragment>
+public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWomenFragment>
         implements GeraltWomenDetailsNavigation {
 
     @Override
@@ -28,12 +28,10 @@ public class GeraltWomenListActivity extends BaseFragmentHolderRxActivity<Geralt
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
         final MenuItem item = menu.findItem(R.id.search);
+        item.setOnActionExpandListener(new SearchViewExpandListener(menu));
+
         final SearchView searchView = (SearchView) item.getActionView();
-        searchView.setOnQueryTextFocusChangeListener((view, queryTextFocused) -> {
-            if (!queryTextFocused) {
-                searchView.setIconified(true);
-            }
-        });
+        searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
@@ -65,5 +63,34 @@ public class GeraltWomenListActivity extends BaseFragmentHolderRxActivity<Geralt
     @Override
     public void navigateToGeraltWomanDetails(final long id) {
         startActivity(GeraltWomanActivity.intent(this, id));
+    }
+
+    private static class SearchViewExpandListener implements MenuItem.OnActionExpandListener {
+        private final Menu menu;
+
+        SearchViewExpandListener(final Menu menu) {
+            this.menu = menu;
+        }
+
+        @Override
+        public boolean onMenuItemActionExpand(final MenuItem item) {
+            onMenuItemAction(item, true);
+            return true;
+        }
+
+        @Override
+        public boolean onMenuItemActionCollapse(final MenuItem item) {
+            onMenuItemAction(item, false);
+            return true;
+        }
+
+        private void onMenuItemAction(final MenuItem item, final boolean expand) {
+            for (int i = 0; i < menu.size(); i++) {
+                final MenuItem menuItem = menu.getItem(i);
+                if (menuItem.getItemId() != item.getItemId()) {
+                    menuItem.setVisible(!expand);
+                }
+            }
+        }
     }
 }
