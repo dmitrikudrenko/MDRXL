@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.data.list.DataListActivity">
+        <activity android:name=".ui.women.list.GeraltWomenListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.data.details.DataDetailsActivity"/>
+        <activity android:name=".ui.women.details.GeraltWomanActivity"/>
         <activity android:name=".ui.settings.SettingsActivity"/>
     </application>
 </manifest>

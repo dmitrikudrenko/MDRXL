@@ -17,24 +17,24 @@ import javax.inject.Provider;
 
 @InjectViewState
 public class SettingsPresenter extends RxPresenter<SettingsView> {
-    private static final int LOADER_ID_SETTINGS = RxLoaders.generateId();
+    private static final int LOADER_ID = RxLoaders.generateId();
 
     private final NetworkSettingsRepository networkSettingsRepository;
-    private final Provider<SettingsLoader> settingsLoaderProvider;
+    private final Provider<SettingsLoader> loaderProvider;
 
     @Inject
     SettingsPresenter(final RxLoaderManager loaderManager,
                       final NetworkSettingsRepository networkSettingsRepository,
-                      final Provider<SettingsLoader> settingsLoaderProvider) {
+                      final Provider<SettingsLoader> loaderProvider) {
         super(loaderManager);
         this.networkSettingsRepository = networkSettingsRepository;
-        this.settingsLoaderProvider = settingsLoaderProvider;
+        this.loaderProvider = loaderProvider;
     }
 
     @Override
     public void attachView(final SettingsView view) {
         super.attachView(view);
-        getLoaderManager().init(LOADER_ID_SETTINGS, null, new SettingsLoaderCallback());
+        getLoaderManager().init(LOADER_ID, null, new SettingsLoaderCallback());
     }
 
     void onSuccessSet() {
@@ -52,8 +52,8 @@ public class SettingsPresenter extends RxPresenter<SettingsView> {
     private class SettingsLoaderCallback extends RxLoaderCallbacks<Settings> {
 
         @Override
-        protected RxLoader<Settings> getLoader(final int id, RxLoaderArguments args) {
-            return settingsLoaderProvider.get();
+        protected RxLoader<Settings> getLoader(final int id, final RxLoaderArguments args) {
+            return loaderProvider.get();
         }
 
         @Override
