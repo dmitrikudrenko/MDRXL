@@ -41,6 +41,14 @@ public class DataListPresenter extends RxPresenter<DataListView> {
         getViewState().openDataDetails(id);
     }
 
+    void onSearchQuerySubmitted(final String query) {
+
+    }
+
+    void onSearchQueryChanged(final String query) {
+        //do nothing
+    }
+
     private class DataListLoaderCallbacks extends RxLoaderCallbacks<DataCursor> {
         @Override
         protected RxLoader<DataCursor> getLoader(final int id, final RxLoaderArguments args) {

@@ -6,4 +6,5 @@
 
     <color name="textColorPrimary">#e6000000</color>
     <color name="actionBarColorPrimary">#fff</color>
+    <color name="actionBarColorSecondary">#aaffffff</color>
 </resources>
