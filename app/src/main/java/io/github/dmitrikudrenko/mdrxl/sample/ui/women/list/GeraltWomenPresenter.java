@@ -9,15 +9,19 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.Strings;
+import rx.subjects.BehaviorSubject;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+import java.util.concurrent.TimeUnit;
 
 @InjectViewState
 public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> {
     private static final int LOADER_ID = RxLoaders.generateId();
 
     private final Provider<GeraltWomenLoader> loaderProvider;
+    private final BehaviorSubject<String> searchQuerySubject = BehaviorSubject.create((String) null);
 
     private GeraltWomenLoader loader;
 
@@ -26,6 +30,11 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> {
                          final Provider<GeraltWomenLoader> loaderProvider) {
         super(loaderManager);
         this.loaderProvider = loaderProvider;
+        searchQuerySubject.filter(query -> loader != null)
+                .debounce(200, TimeUnit.MILLISECONDS)
+                .map(s -> Strings.isBlank(s) ? null : s)
+                .distinctUntilChanged()
+                .subscribe(query -> loader.setSearchQuery(query));
     }
 
     @Override
@@ -44,11 +53,11 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> {
     }
 
     void onSearchQuerySubmitted(final String query) {
-        loader.setSearchQuery(query);
+        //do nothing
     }
 
     void onSearchQueryChanged(final String query) {
-        //do nothing
+        searchQuerySubject.onNext(query);
     }
 
     void onSearchClosed() {
