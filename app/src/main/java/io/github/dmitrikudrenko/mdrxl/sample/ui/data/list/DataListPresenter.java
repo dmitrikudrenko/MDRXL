@@ -19,6 +19,8 @@ public class DataListPresenter extends RxPresenter<DataListView> {
 
     private final Provider<DataListLoader> loaderProvider;
 
+    private DataListLoader loader;
+
     @Inject
     DataListPresenter(final RxLoaderManager loaderManager,
                       final Provider<DataListLoader> loaderProvider) {
@@ -29,7 +31,7 @@ public class DataListPresenter extends RxPresenter<DataListView> {
     @Override
     public void attachView(final DataListView view) {
         super.attachView(view);
-        getLoaderManager().init(LOADER_ID, null, new DataListLoaderCallbacks());
+        loader = (DataListLoader) getLoaderManager().init(LOADER_ID, null, new DataListLoaderCallbacks());
     }
 
     void onRefresh() {
@@ -42,7 +44,7 @@ public class DataListPresenter extends RxPresenter<DataListView> {
     }
 
     void onSearchQuerySubmitted(final String query) {
-
+        loader.setSearchQuery(query);
     }
 
     void onSearchQueryChanged(final String query) {
@@ -50,7 +52,7 @@ public class DataListPresenter extends RxPresenter<DataListView> {
     }
 
     void onSearchClosed() {
-
+        loader.flushSearch();
     }
 
     private class DataListLoaderCallbacks extends RxLoaderCallbacks<DataCursor> {

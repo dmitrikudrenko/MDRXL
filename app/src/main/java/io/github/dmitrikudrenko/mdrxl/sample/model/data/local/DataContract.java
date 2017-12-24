@@ -21,4 +21,5 @@ public interface DataContract extends BaseColumns {
     String SELECT_ALL = "SELECT * FROM " + TABLE_NAME;
     String BY_ID = _ID + "=?";
     String SELECT_BY_ID = SELECT_ALL + " WHERE " + BY_ID;
+    String SELECT_WITH_QUERY = SELECT_ALL + " WHERE " + COLUMN_NAME + " LIKE ?";
 }

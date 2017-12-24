@@ -16,7 +16,7 @@ public final class SettingsLoader extends RxLoader<Settings> {
     }
 
     @Override
-    protected Observable<Settings> create() {
+    protected Observable<Settings> create(final String query) {
         return networkSettingsRepository.get();
     }
 }

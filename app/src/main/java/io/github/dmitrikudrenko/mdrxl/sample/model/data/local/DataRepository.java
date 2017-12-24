@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.sample.model.data.local;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.local.repository.Database;
 import io.github.dmitrikudrenko.mdrxl.sample.model.data.local.repository.IRepository;
@@ -27,8 +28,19 @@ public final class DataRepository implements IRepository<DataCursor> {
 
     @Override
     public Observable<DataCursor> get() {
-        return database.createQuery(DataContract.TABLE_NAME, DataContract.SELECT_ALL)
-                .map(DataCursor::new);
+        return get(null);
+    }
+
+    @Override
+    public Observable<DataCursor> get(final String query) {
+        final Observable<Cursor> databaseQuery;
+        if (query != null) {
+            databaseQuery = database.createQuery(DataContract.TABLE_NAME, DataContract.SELECT_WITH_QUERY,
+                    "%" + query + "%");
+        } else {
+            databaseQuery = database.createQuery(DataContract.TABLE_NAME, DataContract.SELECT_ALL);
+        }
+        return databaseQuery.map(DataCursor::new);
     }
 
     public Completable save(final UpdateModel model) {

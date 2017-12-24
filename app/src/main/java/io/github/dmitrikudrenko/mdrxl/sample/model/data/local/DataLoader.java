@@ -17,7 +17,7 @@ public final class DataLoader extends RxCursorLoader<DataCursor> {
     }
 
     @Override
-    protected Observable<DataCursor> create() {
+    protected Observable<DataCursor> create(final String query) {
         return repository.get(id);
     }
 

@@ -11,7 +11,7 @@ import rx.subjects.BehaviorSubject;
 
 import javax.annotation.Nullable;
 
-public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> {
+public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> implements SearchableLoader {
     @Nullable
     private BehaviorSubject<D> subject;
     @Nullable
@@ -19,11 +19,13 @@ public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> {
     @Nullable
     private Subscription subscription;
 
+    private final BehaviorSubject<String> searchQuerySubject = BehaviorSubject.create((String) null);
+
     public RxLoader(final Context context) {
         super(context);
     }
 
-    protected abstract Observable<D> create();
+    protected abstract Observable<D> create(String query);
 
     @Override
     protected void onStartLoading() {
@@ -37,7 +39,8 @@ public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> {
                 .subscribe(this::onResult, this::onError);
 
         if (subjectSubscription == null) {
-            subjectSubscription = create().subscribeOn(Schedulers.io()).subscribe(subject);
+            subjectSubscription = searchQuerySubject.flatMap(this::create)
+                    .subscribeOn(Schedulers.io()).subscribe(subject);
         }
     }
 
@@ -76,5 +79,15 @@ public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> {
             Log.d(getClass().getSimpleName(), "onContentChanged " + data.toString());
             deliverResult(RxLoaderData.result(data));
         }
+    }
+
+    @Override
+    public void setSearchQuery(final String query) {
+        searchQuerySubject.onNext(query);
+    }
+
+    @Override
+    public void flushSearch() {
+        searchQuerySubject.onNext(null);
     }
 }

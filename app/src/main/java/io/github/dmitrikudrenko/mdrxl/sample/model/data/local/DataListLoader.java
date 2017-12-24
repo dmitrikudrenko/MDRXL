@@ -16,7 +16,7 @@ public final class DataListLoader extends RxCursorLoader<DataCursor> {
     }
 
     @Override
-    protected Observable<DataCursor> create() {
-        return repository.get();
+    protected Observable<DataCursor> create(final String query) {
+        return repository.get(query);
     }
 }
