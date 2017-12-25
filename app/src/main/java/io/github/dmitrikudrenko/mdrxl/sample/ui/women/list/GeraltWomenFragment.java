@@ -32,6 +32,9 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     @Inject
     Provider<GeraltWomenPresenter> presenterProvider;
 
+    @Inject
+    Provider<GeraltWomenAdapter> adapterProvider;
+
     private SwipeRefreshLayout refreshLayout;
 
     private GeraltWomenAdapter adapter;
@@ -68,7 +71,8 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         refreshLayout = view.findViewById(R.id.refresh_layout);
         final RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        adapter = new GeraltWomenAdapter(id -> presenter.onItemSelected(id));
+        adapter = adapterProvider.get();
+        adapter.setItemClickListener(id -> presenter.onItemSelected(id));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));

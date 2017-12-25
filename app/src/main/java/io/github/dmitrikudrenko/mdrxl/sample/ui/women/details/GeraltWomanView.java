@@ -18,8 +18,6 @@ public interface GeraltWomanView extends LoadingRxView {
         String HAIR_COLOR = GeraltWoman.Fields.HAIR_COLOR;
     }
 
-    void showId(String value);
-
     void showName(String value);
 
     void showPhoto(String value);

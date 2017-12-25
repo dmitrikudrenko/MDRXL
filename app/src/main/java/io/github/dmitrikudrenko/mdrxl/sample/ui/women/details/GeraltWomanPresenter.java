@@ -79,7 +79,6 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
             return;
         }
 
-        getViewState().showId(String.valueOf(data.getId()));
         getViewState().showName(data.getName());
         getViewState().showPhoto(data.getPhoto());
         getViewState().showProfession(data.getProfession());

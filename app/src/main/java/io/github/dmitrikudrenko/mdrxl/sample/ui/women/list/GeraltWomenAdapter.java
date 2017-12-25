@@ -8,20 +8,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.CircleTransform;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageTransformer;
 
+import javax.inject.Inject;
 import java.util.AbstractList;
 
 public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomenAdapter.GeraltWomanViewHolder> {
-    private GeraltWomen geraltWomen;
-    private final OnItemClickListener itemClickListener;
+    private final Picasso picasso;
+    private final ImageTransformer imageTransformer;
 
-    GeraltWomenAdapter(final OnItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
+    private GeraltWomen geraltWomen;
+    private OnItemClickListener itemClickListener;
+
+    @Inject
+    GeraltWomenAdapter(final Picasso picasso, final ImageTransformer imageTransformer) {
+        this.picasso = picasso;
+        this.imageTransformer = imageTransformer;
         setHasStableIds(true);
+    }
+
+    void setItemClickListener(final OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 
     public void set(final GeraltWomenCursor cursor) {
@@ -40,8 +49,9 @@ public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomenAdapter.
 
     @Override
     public GeraltWomanViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        return new GeraltWomanViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.v_woman_item, parent, false));
+        final View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.v_woman_item, parent, false);
+        return new GeraltWomanViewHolder(itemView, picasso, imageTransformer);
     }
 
     @Override
@@ -56,24 +66,27 @@ public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomenAdapter.
     }
 
     static class GeraltWomanViewHolder extends RecyclerView.ViewHolder {
-        static final Transformation PHOTO_TRANSFORMATION = new CircleTransform();
-
         ImageView photo;
         TextView name;
         TextView attributes;
 
         private final String attributesFormat = "%s, %s";
 
-        GeraltWomanViewHolder(final View itemView) {
+        private final Picasso picasso;
+        private final ImageTransformer imageTransformer;
+
+        GeraltWomanViewHolder(final View itemView, final Picasso picasso, final ImageTransformer imageTransformer) {
             super(itemView);
             photo = itemView.findViewById(R.id.photo);
             name = itemView.findViewById(R.id.name);
             attributes = itemView.findViewById(R.id.attributes);
+
+            this.picasso = picasso;
+            this.imageTransformer = imageTransformer;
         }
 
         void bind(final GeraltWomenCursor cursor) {
-            Picasso.with(photo.getContext()).load(cursor.getPhoto()).fit().centerCrop()
-                    .transform(PHOTO_TRANSFORMATION).into(photo);
+            imageTransformer.photoTransform(picasso.load(cursor.getPhoto())).into(photo);
             name.setText(cursor.getName());
             attributes.setText(String.format(attributesFormat, cursor.getProfession(), cursor.getHairColor()));
         }

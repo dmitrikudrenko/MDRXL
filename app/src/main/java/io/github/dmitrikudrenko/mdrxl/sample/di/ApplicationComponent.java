@@ -7,7 +7,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.GeraltWomenFragment;
 import javax.inject.Singleton;
 
 @Singleton
-@dagger.Component(modules = {CommonModule.class, NetworkModule.class})
+@dagger.Component(modules = {CommonModule.class, NetworkModule.class, UiModule.class})
 public interface ApplicationComponent {
     GeraltWomanFragment.Component plus(GeraltWomanFragment.Module module);
 

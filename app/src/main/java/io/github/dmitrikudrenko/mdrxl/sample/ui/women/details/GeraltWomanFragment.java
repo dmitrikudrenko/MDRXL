@@ -8,15 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.squareup.picasso.Picasso;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageTransformer;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -27,16 +30,21 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     @Inject
     Provider<GeraltWomanPresenter> samplePresenterProvider;
 
+    @Inject
+    Picasso picasso;
+
+    @Inject
+    ImageTransformer imageTransformer;
+
     @InjectPresenter
     GeraltWomanPresenter geraltWomanPresenter;
 
     private SwipeRefreshLayout refreshLayout;
 
-    private EditText dataIdView;
-    private EditText dataNameView;
-    private EditText dataFirstAttributeView;
-    private EditText dataSecondAttributeView;
-    private EditText dataThirdAttributeView;
+    private ImageView photoView;
+    private EditText nameView;
+    private EditText professionView;
+    private EditText hairColorView;
 
     public static GeraltWomanFragment create(final long id) {
         final GeraltWomanFragment fragment = new GeraltWomanFragment();
@@ -78,17 +86,15 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         refreshLayout = view.findViewById(R.id.refresh_layout);
-        dataIdView = view.findViewById(R.id.id);
-        dataNameView = view.findViewById(R.id.name);
-        dataFirstAttributeView = view.findViewById(R.id.photo);
-        dataSecondAttributeView = view.findViewById(R.id.profession);
-        dataThirdAttributeView = view.findViewById(R.id.hair_color);
+        photoView = view.findViewById(R.id.photo);
+        nameView = view.findViewById(R.id.name);
+        professionView = view.findViewById(R.id.hair_color);
+        hairColorView = view.findViewById(R.id.profession);
 
         refreshLayout.setOnRefreshListener(() -> geraltWomanPresenter.onRefresh());
-        setupInputView(dataNameView, Fields.NAME);
-        setupInputView(dataFirstAttributeView, Fields.PHOTO);
-        setupInputView(dataSecondAttributeView, Fields.PROFESSION);
-        setupInputView(dataThirdAttributeView, Fields.HAIR_COLOR);
+        setupInputView(nameView, Fields.NAME);
+        setupInputView(professionView, Fields.PROFESSION);
+        setupInputView(hairColorView, Fields.HAIR_COLOR);
     }
 
     private void setupInputView(final EditText inputView, final String tag) {
@@ -112,28 +118,23 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     }
 
     @Override
-    public void showId(final String value) {
-        dataIdView.setText(value);
-    }
-
-    @Override
     public void showName(final String value) {
-        dataNameView.setText(value);
+        nameView.setText(value);
     }
 
     @Override
     public void showPhoto(final String value) {
-        dataFirstAttributeView.setText(value);
+        imageTransformer.photoTransform(picasso.load(value)).into(photoView);
     }
 
     @Override
     public void showProfession(final String value) {
-        dataSecondAttributeView.setText(value);
+        professionView.setText(value);
     }
 
     @Override
     public void showHairColor(final String value) {
-        dataThirdAttributeView.setText(value);
+        hairColorView.setText(value);
     }
 
     @Override
