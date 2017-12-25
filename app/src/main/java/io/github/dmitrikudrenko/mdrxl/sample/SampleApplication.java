@@ -1,12 +1,12 @@
 package io.github.dmitrikudrenko.mdrxl.sample;
 
-import android.app.Application;
 import android.os.StrictMode;
+import android.support.multidex.MultiDexApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.di.ApplicationComponent;
 import io.github.dmitrikudrenko.mdrxl.sample.di.CommonModule;
 import io.github.dmitrikudrenko.mdrxl.sample.di.DaggerApplicationComponent;
 
-public class SampleApplication extends Application {
+public class SampleApplication extends MultiDexApplication {
     private static ApplicationComponent applicationComponent;
 
     private static final StrictMode.ThreadPolicy DISK_THREAD_POLICY =

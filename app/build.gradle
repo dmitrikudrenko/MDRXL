@@ -4,17 +4,27 @@ apply from: '../android.gradle'
 android {
     defaultConfig {
         applicationId "io.github.dmitrikudrenko.mdrxl.sample"
+        multiDexEnabled true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/eclipse.inf'
+        exclude 'about_files/LICENSE-2.0.txt'
+        exclude 'plugin.xml'
+        exclude 'plugin.properties'
     }
 }
 
 dependencies {
     implementation project(':library')
+    implementation 'com.android.support:multidex:1.0.2'
     implementation "com.android.support:recyclerview-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
 
     implementation 'com.squareup.sqlbrite:sqlbrite:1.1.2'
     implementation 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.google.auto.factory:auto-factory:1.0-beta5'
 
     //unit test
     testImplementation 'junit:junit:4.12'
@@ -26,4 +36,5 @@ dependencies {
     //annotation processing
     annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+    annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta5'
 }

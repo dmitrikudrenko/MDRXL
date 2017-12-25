@@ -21,6 +21,8 @@ import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomenDetailsNavigation;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapter;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapterFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -33,7 +35,7 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     Provider<GeraltWomenPresenter> presenterProvider;
 
     @Inject
-    Provider<GeraltWomenAdapter> adapterProvider;
+    GeraltWomenAdapterFactory adapterFactory;
 
     private SwipeRefreshLayout refreshLayout;
 
@@ -71,8 +73,7 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         refreshLayout = view.findViewById(R.id.refresh_layout);
         final RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        adapter = adapterProvider.get();
-        adapter.setItemClickListener(id -> presenter.onItemSelected(id));
+        adapter = adapterFactory.create(id -> presenter.onItemSelected(id));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));

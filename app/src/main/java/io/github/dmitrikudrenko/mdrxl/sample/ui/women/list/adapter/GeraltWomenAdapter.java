@@ -1,36 +1,29 @@
-package io.github.dmitrikudrenko.mdrxl.sample.ui.women.list;
+package io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.squareup.picasso.Picasso;
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageTransformer;
 
-import javax.inject.Inject;
 import java.util.AbstractList;
 
-public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomenAdapter.GeraltWomanViewHolder> {
-    private final Picasso picasso;
-    private final ImageTransformer imageTransformer;
+@AutoFactory
+public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomanViewHolder> {
+    private final GeraltWomanViewHolderFactory viewHolderFactory;
+    private final OnItemClickListener itemClickListener;
 
     private GeraltWomen geraltWomen;
-    private OnItemClickListener itemClickListener;
 
-    @Inject
-    GeraltWomenAdapter(final Picasso picasso, final ImageTransformer imageTransformer) {
-        this.picasso = picasso;
-        this.imageTransformer = imageTransformer;
-        setHasStableIds(true);
-    }
-
-    void setItemClickListener(final OnItemClickListener itemClickListener) {
+    GeraltWomenAdapter(final OnItemClickListener itemClickListener,
+                       @Provided final GeraltWomanViewHolderFactory viewHolderFactory) {
         this.itemClickListener = itemClickListener;
+        this.viewHolderFactory = viewHolderFactory;
+        setHasStableIds(true);
     }
 
     public void set(final GeraltWomenCursor cursor) {
@@ -51,7 +44,7 @@ public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomenAdapter.
     public GeraltWomanViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         final View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.v_woman_item, parent, false);
-        return new GeraltWomanViewHolder(itemView, picasso, imageTransformer);
+        return viewHolderFactory.create(itemView);
     }
 
     @Override
@@ -63,33 +56,6 @@ public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomenAdapter.
     @Override
     public int getItemCount() {
         return geraltWomen != null ? geraltWomen.size() : 0;
-    }
-
-    static class GeraltWomanViewHolder extends RecyclerView.ViewHolder {
-        ImageView photo;
-        TextView name;
-        TextView attributes;
-
-        private final String attributesFormat = "%s, %s";
-
-        private final Picasso picasso;
-        private final ImageTransformer imageTransformer;
-
-        GeraltWomanViewHolder(final View itemView, final Picasso picasso, final ImageTransformer imageTransformer) {
-            super(itemView);
-            photo = itemView.findViewById(R.id.photo);
-            name = itemView.findViewById(R.id.name);
-            attributes = itemView.findViewById(R.id.attributes);
-
-            this.picasso = picasso;
-            this.imageTransformer = imageTransformer;
-        }
-
-        void bind(final GeraltWomenCursor cursor) {
-            imageTransformer.photoTransform(picasso.load(cursor.getPhoto())).into(photo);
-            name.setText(cursor.getName());
-            attributes.setText(String.format(attributesFormat, cursor.getProfession(), cursor.getHairColor()));
-        }
     }
 
     static class GeraltWomen extends AbstractList<GeraltWomenCursor> {
@@ -116,7 +82,7 @@ public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomenAdapter.
         }
     }
 
-    interface OnItemClickListener {
+    public interface OnItemClickListener {
         void onClick(long id);
     }
 }
