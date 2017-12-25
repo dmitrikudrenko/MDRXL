@@ -1,6 +1,8 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.details;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
@@ -9,34 +11,34 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.GeraltWomenStorageCommand;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import rx.android.schedulers.AndroidSchedulers;
 
 import javax.annotation.Nullable;
-import javax.inject.Inject;
 import javax.inject.Provider;
 
 @InjectViewState
+@AutoFactory
 public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
     private static final String ARG_ID = "id";
     private static final int LOADER_ID = RxLoaders.generateId();
 
-    private final Provider<GeraltWomanLoader> loaderProvider;
+    private final GeraltWomanLoaderFactory loaderFactory;
     private final Provider<GeraltWomenStorageCommand> storageCommandProvider;
+    private final long id;
 
     @Nullable
     private GeraltWomenCursor data;
 
-    private long id;
-
-    @Inject
-    GeraltWomanPresenter(final RxLoaderManager loaderManager,
-                         final Provider<GeraltWomanLoader> loaderProvider,
-                         final Provider<GeraltWomenStorageCommand> storageCommandProvider) {
+    GeraltWomanPresenter(@Provided final RxLoaderManager loaderManager,
+                         @Provided final GeraltWomanLoaderFactory loaderFactory,
+                         @Provided final Provider<GeraltWomenStorageCommand> storageCommandProvider,
+                         final long id) {
         super(loaderManager);
-        this.loaderProvider = loaderProvider;
+        this.loaderFactory = loaderFactory;
         this.storageCommandProvider = storageCommandProvider;
+        this.id = id;
     }
 
     @Override
@@ -85,18 +87,12 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
         getViewState().showHairColor(data.getHairColor());
     }
 
-    public void setId(final long id) {
-        this.id = id;
-    }
-
     private class LoaderCallbacks extends RxLoaderCallbacks<GeraltWomenCursor> {
 
         @Override
         protected RxLoader<GeraltWomenCursor> getLoader(final int id, final RxLoaderArguments args) {
             getViewState().startLoading();
-            final GeraltWomanLoader loader = loaderProvider.get();
-            loader.setId(args.getLong(ARG_ID));
-            return loader;
+            return loaderFactory.create(args.getLong(ARG_ID));
         }
 
         @Override

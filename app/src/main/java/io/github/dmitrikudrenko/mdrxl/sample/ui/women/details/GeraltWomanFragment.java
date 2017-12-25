@@ -22,13 +22,12 @@ import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageTransformer;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     private static final String ARG_ID = "arg_id";
 
     @Inject
-    Provider<GeraltWomanPresenter> samplePresenterProvider;
+    GeraltWomanPresenterFactory presenterFactory;
 
     @Inject
     Picasso picasso;
@@ -57,8 +56,7 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     @ProvidePresenter
     public GeraltWomanPresenter providePresenter() {
         if (geraltWomanPresenter == null) {
-            geraltWomanPresenter = samplePresenterProvider.get();
-            geraltWomanPresenter.setId(getArguments().getLong(ARG_ID));
+            geraltWomanPresenter = presenterFactory.create(getArguments().getLong(ARG_ID));
         }
         return geraltWomanPresenter;
     }
