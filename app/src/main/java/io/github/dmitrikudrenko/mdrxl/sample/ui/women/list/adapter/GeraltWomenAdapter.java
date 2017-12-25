@@ -44,13 +44,14 @@ public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomanViewHold
     public GeraltWomanViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         final View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.v_woman_item, parent, false);
-        return viewHolderFactory.create(itemView);
+        final GeraltWomanViewHolder holder = viewHolderFactory.create(itemView);
+        itemView.setOnClickListener(v -> itemClickListener.onClick(holder.getItemId()));
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(final GeraltWomanViewHolder holder, final int position) {
         holder.bind(getItem(position));
-        holder.itemView.setOnClickListener(v -> itemClickListener.onClick(holder.getItemId()));
     }
 
     @Override
