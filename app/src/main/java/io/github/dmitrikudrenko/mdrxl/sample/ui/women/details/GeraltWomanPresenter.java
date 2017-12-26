@@ -11,12 +11,15 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.GeraltWomenStorageCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoader;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanId;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanScope;
 import rx.android.schedulers.AndroidSchedulers;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+@WomanScope
 @InjectViewState
 public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
     private static final String ARG_ID = "id";
@@ -24,19 +27,20 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
 
     private final Provider<GeraltWomanLoader> loaderProvider;
     private final Provider<GeraltWomenStorageCommand> storageCommandProvider;
+    private final long id;
 
     @Nullable
     private GeraltWomenCursor data;
 
-    private long id;
-
     @Inject
     GeraltWomanPresenter(final RxLoaderManager loaderManager,
                          final Provider<GeraltWomanLoader> loaderProvider,
-                         final Provider<GeraltWomenStorageCommand> storageCommandProvider) {
+                         final Provider<GeraltWomenStorageCommand> storageCommandProvider,
+                         @WomanId final long id) {
         super(loaderManager);
         this.loaderProvider = loaderProvider;
         this.storageCommandProvider = storageCommandProvider;
+        this.id = id;
     }
 
     @Override
@@ -83,10 +87,6 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
         getViewState().showPhoto(data.getPhoto());
         getViewState().showProfession(data.getProfession());
         getViewState().showHairColor(data.getHairColor());
-    }
-
-    public void setId(final long id) {
-        this.id = id;
     }
 
     private class LoaderCallbacks extends RxLoaderCallbacks<GeraltWomenCursor> {

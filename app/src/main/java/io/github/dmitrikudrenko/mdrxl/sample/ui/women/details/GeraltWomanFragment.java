@@ -19,6 +19,8 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanId;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanScope;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageTransformer;
 
 import javax.inject.Inject;
@@ -58,14 +60,13 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     public GeraltWomanPresenter providePresenter() {
         if (geraltWomanPresenter == null) {
             geraltWomanPresenter = samplePresenterProvider.get();
-            geraltWomanPresenter.setId(getArguments().getLong(ARG_ID));
         }
         return geraltWomanPresenter;
     }
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        SampleApplication.get().plus(new Module()).inject(this);
+        SampleApplication.get().plus(new Module(getArguments().getLong(ARG_ID))).inject(this);
     }
 
     @Override
@@ -153,12 +154,25 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
 
     @dagger.Module
     public class Module {
+        final long id;
+
+        public Module(final long id) {
+            this.id = id;
+        }
+
+        @WomanId
+        @Provides
+        long provideId() {
+            return id;
+        }
+
         @Provides
         RxLoaderManager provideLoaderManager() {
             return new RxLoaderManager(getLoaderManager());
         }
     }
 
+    @WomanScope
     @Subcomponent(modules = Module.class)
     public interface Component {
         void inject(GeraltWomanFragment activity);
