@@ -9,7 +9,7 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.GeraltWomenStorageCommand;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanId;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanScope;
@@ -25,7 +25,7 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
     private static final String ARG_ID = "id";
     private static final int LOADER_ID = RxLoaders.generateId();
 
-    private final Provider<GeraltWomanLoader> loaderProvider;
+    private final GeraltWomanLoaderFactory loaderFactory;
     private final Provider<GeraltWomenStorageCommand> storageCommandProvider;
     private final long id;
 
@@ -34,11 +34,11 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
 
     @Inject
     GeraltWomanPresenter(final RxLoaderManager loaderManager,
-                         final Provider<GeraltWomanLoader> loaderProvider,
+                         final GeraltWomanLoaderFactory loaderFactory,
                          final Provider<GeraltWomenStorageCommand> storageCommandProvider,
                          @WomanId final long id) {
         super(loaderManager);
-        this.loaderProvider = loaderProvider;
+        this.loaderFactory = loaderFactory;
         this.storageCommandProvider = storageCommandProvider;
         this.id = id;
     }
@@ -94,9 +94,7 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
         @Override
         protected RxLoader<GeraltWomenCursor> getLoader(final int id, final RxLoaderArguments args) {
             getViewState().startLoading();
-            final GeraltWomanLoader loader = loaderProvider.get();
-            loader.setId(args.getLong(ARG_ID));
-            return loader;
+            return loaderFactory.create(args.getLong(ARG_ID));
         }
 
         @Override
