@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.squareup.picasso.Picasso;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
@@ -21,7 +20,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanId;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanScope;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageTransformer;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -33,10 +32,7 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     Provider<GeraltWomanPresenter> samplePresenterProvider;
 
     @Inject
-    Picasso picasso;
-
-    @Inject
-    ImageTransformer imageTransformer;
+    ImageLoader imageLoader;
 
     @InjectPresenter
     GeraltWomanPresenter geraltWomanPresenter;
@@ -125,7 +121,7 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
 
     @Override
     public void showPhoto(final String value) {
-        imageTransformer.photoTransform(picasso.load(value)).into(photoView);
+        imageLoader.loadPhotoInto(value, photoView);
     }
 
     @Override

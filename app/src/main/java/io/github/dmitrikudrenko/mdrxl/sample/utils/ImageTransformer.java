@@ -14,7 +14,7 @@ public class ImageTransformer {
     private final Lazy<Transformation> photoTransformation;
 
     @Inject
-    public ImageTransformer(@PhotoTransformation final Lazy<Transformation> photoTransformation) {
+    ImageTransformer(@PhotoTransformation final Lazy<Transformation> photoTransformation) {
         this.photoTransformation = photoTransformation;
     }
 

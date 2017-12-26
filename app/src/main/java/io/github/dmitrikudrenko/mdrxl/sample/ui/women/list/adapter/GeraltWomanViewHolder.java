@@ -6,10 +6,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
-import com.squareup.picasso.Picasso;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageTransformer;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
 
 @AutoFactory
 class GeraltWomanViewHolder extends RecyclerView.ViewHolder {
@@ -19,22 +18,19 @@ class GeraltWomanViewHolder extends RecyclerView.ViewHolder {
     private final TextView name;
     private final TextView attributes;
 
-    private final Picasso picasso;
-    private final ImageTransformer imageTransformer;
+    private final ImageLoader imageLoader;
 
-    GeraltWomanViewHolder(final View itemView, @Provided final Picasso picasso,
-                          @Provided final ImageTransformer imageTransformer) {
+    GeraltWomanViewHolder(final View itemView, @Provided final ImageLoader imageLoader) {
         super(itemView);
         photo = itemView.findViewById(R.id.photo);
         name = itemView.findViewById(R.id.name);
         attributes = itemView.findViewById(R.id.attributes);
 
-        this.picasso = picasso;
-        this.imageTransformer = imageTransformer;
+        this.imageLoader = imageLoader;
     }
 
     void bind(final GeraltWomenCursor cursor) {
-        imageTransformer.photoTransform(picasso.load(cursor.getPhoto())).into(photo);
+        imageLoader.loadPhotoInto(cursor.getPhoto(), photo);
         name.setText(cursor.getName());
         attributes.setText(String.format(attributesFormat, cursor.getProfession(), cursor.getHairColor()));
     }
