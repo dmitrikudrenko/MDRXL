@@ -25,4 +25,6 @@ project.ext {
     androidTargetSdkVersion = 26
 
     supportVersion = "26.1.0"
+
+    butterKnifeVersion = "8.8.1"
 }

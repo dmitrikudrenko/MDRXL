@@ -25,6 +25,7 @@ dependencies {
     implementation 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.google.auto.factory:auto-factory:1.0-beta5'
+    implementation "com.jakewharton:butterknife:$butterKnifeVersion"
 
     //unit test
     testImplementation 'junit:junit:4.12'
@@ -37,4 +38,5 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
     annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta5'
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 }

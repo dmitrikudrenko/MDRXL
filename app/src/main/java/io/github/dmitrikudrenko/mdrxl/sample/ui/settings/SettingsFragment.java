@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
@@ -27,9 +29,12 @@ public class SettingsFragment extends RxFragment implements SettingsView {
     @InjectPresenter
     SettingsPresenter settingsPresenter;
 
-    private CompoundButton successButton;
-    private CompoundButton timeoutButton;
-    private CompoundButton errorButton;
+    @BindView(R.id.button_network_success)
+    CompoundButton successButton;
+    @BindView(R.id.button_network_timeout)
+    CompoundButton timeoutButton;
+    @BindView(R.id.button_network_error)
+    CompoundButton errorButton;
 
     private MuteableOnCheckedChangeListener onSettingsChangeListener;
 
@@ -63,9 +68,7 @@ public class SettingsFragment extends RxFragment implements SettingsView {
 
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
-        successButton = view.findViewById(R.id.button_network_success);
-        timeoutButton = view.findViewById(R.id.button_network_timeout);
-        errorButton = view.findViewById(R.id.button_network_error);
+        ButterKnife.bind(this, view);
 
         final RadioGroup settingsGroup = view.findViewById(R.id.group_network_settings);
         onSettingsChangeListener = new MuteableOnCheckedChangeListener((group, checkedId) -> {
@@ -126,7 +129,7 @@ public class SettingsFragment extends RxFragment implements SettingsView {
         private final RadioGroup.OnCheckedChangeListener onCheckedChangeListener;
         private boolean mute;
 
-        public MuteableOnCheckedChangeListener(final RadioGroup.OnCheckedChangeListener onCheckedChangeListener) {
+        MuteableOnCheckedChangeListener(final RadioGroup.OnCheckedChangeListener onCheckedChangeListener) {
             this.onCheckedChangeListener = onCheckedChangeListener;
         }
 
@@ -137,11 +140,11 @@ public class SettingsFragment extends RxFragment implements SettingsView {
             }
         }
 
-        public void mute() {
+        void mute() {
             this.mute = true;
         }
 
-        public void unmute() {
+        void unmute() {
             this.mute = false;
         }
     }

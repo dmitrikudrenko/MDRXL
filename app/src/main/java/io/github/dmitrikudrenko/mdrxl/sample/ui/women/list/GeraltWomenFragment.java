@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
@@ -37,7 +39,11 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     @Inject
     GeraltWomenAdapterFactory adapterFactory;
 
-    private SwipeRefreshLayout refreshLayout;
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
+
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
 
     private GeraltWomenAdapter adapter;
 
@@ -71,8 +77,7 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
 
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
-        refreshLayout = view.findViewById(R.id.refresh_layout);
-        final RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        ButterKnife.bind(this, view);
         adapter = adapterFactory.create(id -> presenter.onItemSelected(id));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

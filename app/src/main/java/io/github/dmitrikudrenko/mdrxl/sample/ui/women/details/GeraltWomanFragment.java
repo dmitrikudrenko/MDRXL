@@ -10,6 +10,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
@@ -37,12 +39,17 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     @InjectPresenter
     GeraltWomanPresenter geraltWomanPresenter;
 
-    private SwipeRefreshLayout refreshLayout;
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
 
-    private ImageView photoView;
-    private EditText nameView;
-    private EditText professionView;
-    private EditText hairColorView;
+    @BindView(R.id.photo)
+    ImageView photoView;
+    @BindView(R.id.name)
+    EditText nameView;
+    @BindView(R.id.profession)
+    EditText professionView;
+    @BindView(R.id.hair_color)
+    EditText hairColorView;
 
     public static GeraltWomanFragment create(final long id) {
         final GeraltWomanFragment fragment = new GeraltWomanFragment();
@@ -82,11 +89,7 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
 
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
-        refreshLayout = view.findViewById(R.id.refresh_layout);
-        photoView = view.findViewById(R.id.photo);
-        nameView = view.findViewById(R.id.name);
-        professionView = view.findViewById(R.id.hair_color);
-        hairColorView = view.findViewById(R.id.profession);
+        ButterKnife.bind(this, view);
 
         refreshLayout.setOnRefreshListener(() -> geraltWomanPresenter.onRefresh());
         setupInputView(nameView, Fields.NAME);
