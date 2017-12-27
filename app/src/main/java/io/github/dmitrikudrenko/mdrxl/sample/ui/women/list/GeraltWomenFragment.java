@@ -1,5 +1,6 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.list;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -39,11 +41,17 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     @Inject
     GeraltWomenAdapterFactory adapterFactory;
 
+    @Inject
+    Provider<DividerItemDecoration> decorationProvider;
+
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
+    @BindColor(R.color.list_divider)
+    int listDividerColor;
 
     private GeraltWomenAdapter adapter;
 
@@ -86,7 +94,7 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
         adapter = adapterFactory.create(id -> presenter.onItemSelected(id));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(decorationProvider.get());
         recyclerView.setAdapter(adapter);
 
         refreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
@@ -137,6 +145,13 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
         @Provides
         RxLoaderManager provideLoaderManager() {
             return new RxLoaderManager(getLoaderManager());
+        }
+
+        @Provides
+        DividerItemDecoration provideDividerItemDecoration() {
+            final DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+            itemDecoration.setDrawable(new ColorDrawable(listDividerColor));
+            return itemDecoration;
         }
     }
 
