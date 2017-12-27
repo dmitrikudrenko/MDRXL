@@ -5,9 +5,12 @@ import android.support.multidex.MultiDexApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.di.ApplicationComponent;
 import io.github.dmitrikudrenko.mdrxl.sample.di.CommonModule;
 import io.github.dmitrikudrenko.mdrxl.sample.di.DaggerApplicationComponent;
+import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanComponent;
+import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanModule;
 
 public class SampleApplication extends MultiDexApplication {
     private static ApplicationComponent applicationComponent;
+    private static WomanComponent womanComponent;
 
     private static final StrictMode.ThreadPolicy DISK_THREAD_POLICY =
             new StrictMode.ThreadPolicy.Builder()
@@ -37,5 +40,18 @@ public class SampleApplication extends MultiDexApplication {
 
     public static ApplicationComponent get() {
         return applicationComponent;
+    }
+
+    public static WomanComponent createWomanComponent(final long id) {
+        womanComponent = applicationComponent.plus(new WomanModule(id));
+        return womanComponent;
+    }
+
+    public static void releaseWomanComponent() {
+        womanComponent = null;
+    }
+
+    public static WomanComponent getWomanComponent() {
+        return womanComponent;
     }
 }

@@ -20,16 +20,13 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanId;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanScope;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 
 public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
-    private static final String ARG_ID = "arg_id";
-
     @Inject
     Provider<GeraltWomanPresenter> samplePresenterProvider;
 
@@ -51,12 +48,8 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     @BindView(R.id.hair_color)
     EditText hairColorView;
 
-    public static GeraltWomanFragment create(final long id) {
-        final GeraltWomanFragment fragment = new GeraltWomanFragment();
-        final Bundle args = new Bundle();
-        args.putLong(ARG_ID, id);
-        fragment.setArguments(args);
-        return fragment;
+    public static GeraltWomanFragment create() {
+        return new GeraltWomanFragment();
     }
 
     @ProvidePresenter
@@ -69,7 +62,7 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        SampleApplication.get().plus(new Module(getArguments().getLong(ARG_ID))).inject(this);
+        SampleApplication.getWomanComponent().plus(new Module()).inject(this);
     }
 
     @Override
@@ -153,27 +146,15 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
 
     @dagger.Module
     public class Module {
-        final long id;
-
-        public Module(final long id) {
-            this.id = id;
-        }
-
-        @WomanId
-        @Provides
-        long provideId() {
-            return id;
-        }
-
         @Provides
         RxLoaderManager provideLoaderManager() {
             return new RxLoaderManager(getLoaderManager());
         }
     }
 
-    @WomanScope
+    @FragmentScope
     @Subcomponent(modules = Module.class)
     public interface Component {
-        void inject(GeraltWomanFragment activity);
+        void inject(GeraltWomanFragment fragment);
     }
 }

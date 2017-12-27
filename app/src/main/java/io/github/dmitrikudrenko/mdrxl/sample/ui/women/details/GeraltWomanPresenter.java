@@ -7,19 +7,19 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
+import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanId;
 import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.GeraltWomenStorageCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanId;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.WomanScope;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.FragmentScope;
 import rx.android.schedulers.AndroidSchedulers;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-@WomanScope
+@FragmentScope
 @InjectViewState
 public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
     private static final String ARG_ID = "id";
