@@ -2,6 +2,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.contract.GeraltWomenPhotoContract;
 
 public class GeraltWomanPhotoCursor extends CursorWrapper {
     private final int id;
