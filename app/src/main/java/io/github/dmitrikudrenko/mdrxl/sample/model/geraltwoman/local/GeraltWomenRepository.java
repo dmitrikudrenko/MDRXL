@@ -35,11 +35,11 @@ public final class GeraltWomenRepository implements IRepository<GeraltWomenCurso
     public Observable<GeraltWomenCursor> get(final String query) {
         final Observable<Cursor> databaseQuery;
         if (query != null) {
-            String likeQuery = "%" + query + "%";
+            final String likeQuery = "%" + query + "%";
             databaseQuery = database.createQuery(GeraltWomenContract.TABLE_NAME, GeraltWomenContract.SELECT_WITH_QUERY,
                     likeQuery, likeQuery, likeQuery);
         } else {
-            databaseQuery = database.createQuery(GeraltWomenContract.TABLE_NAME, GeraltWomenContract.SELECT_ALL);
+            databaseQuery = database.createQuery(GeraltWomenContract.TABLE_NAME, GeraltWomenContract.SELECT_ALL_FOR_BROWSER);
         }
         return databaseQuery.map(GeraltWomenCursor::new);
     }

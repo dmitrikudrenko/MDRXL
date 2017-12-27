@@ -19,9 +19,13 @@ public interface GeraltWomenContract extends BaseColumns {
                     COLUMN_HAIR_COLOR + " TEXT)";
 
     String SELECT_ALL = "SELECT * FROM " + TABLE_NAME;
+    String SELECT_ALL_FOR_BROWSER = "SELECT " +
+            _ID + ", " + COLUMN_NAME + ", " + COLUMN_PHOTO + ", " + COLUMN_PROFESSION +
+            " FROM " + TABLE_NAME;
     String BY_ID = _ID + "=?";
     String SELECT_BY_ID = SELECT_ALL + " WHERE " + BY_ID;
-    String SELECT_WITH_QUERY = SELECT_ALL + " WHERE " +
+
+    String SELECT_WITH_QUERY = SELECT_ALL_FOR_BROWSER + " WHERE " +
             "(" +
             COLUMN_NAME + " LIKE ? OR " +
             COLUMN_PROFESSION + " LIKE ? OR " +
