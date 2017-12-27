@@ -1,6 +1,6 @@
 package io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local;
 
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.contract.GeraltWomenContract;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.contract.GeraltWomenPhotoContract;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.repository.Database;
 import rx.Observable;
 
@@ -8,11 +8,11 @@ import javax.inject.Inject;
 
 public class GeraltWomanPhotoRepository {
     private final Database database;
-    private final GeraltWomenContract contract;
+    private final GeraltWomenPhotoContract contract;
 
     @Inject
     GeraltWomanPhotoRepository(final Database database,
-                               final GeraltWomenContract contract) {
+                               final GeraltWomenPhotoContract contract) {
         this.database = database;
         this.contract = contract;
     }
