@@ -15,15 +15,22 @@ public final class GeraltWomenSqliteOpenHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "GeraltWoman.db";
     private static final int DATABASE_VERSION = 1;
 
+    private final GeraltWomenContract womenContract;
+    private final GeraltWomenPhotoContract womenPhotoContract;
+
     @Inject
-    GeraltWomenSqliteOpenHelper(final Context context) {
+    GeraltWomenSqliteOpenHelper(final Context context,
+                                final GeraltWomenContract womenContract,
+                                final GeraltWomenPhotoContract womenPhotoContract) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.womenContract = womenContract;
+        this.womenPhotoContract = womenPhotoContract;
     }
 
     @Override
     public void onCreate(final SQLiteDatabase db) {
-        db.execSQL(GeraltWomenContract.CREATE_TABLE);
-        db.execSQL(GeraltWomenPhotoContract.CREATE_TABLE);
+        db.execSQL(womenContract.createTable());
+        db.execSQL(womenPhotoContract.createTable());
 
         createWomen(db);
         createPhotos(db);
@@ -99,7 +106,7 @@ public final class GeraltWomenSqliteOpenHelper extends SQLiteOpenHelper {
         cv.put(GeraltWomenContract.COLUMN_PROFESSION, profession);
         cv.put(GeraltWomenContract.COLUMN_HAIR_COLOR, hairColor);
 
-        db.insert(GeraltWomenContract.TABLE_NAME, null, cv);
+        db.insert(womenContract.tableName(), null, cv);
     }
 
     private void createPhoto(final SQLiteDatabase db, final long id, final long womanId, final String url) {
@@ -109,6 +116,6 @@ public final class GeraltWomenSqliteOpenHelper extends SQLiteOpenHelper {
         cv.put(GeraltWomenPhotoContract.COLUMN_WOMAN_ID, womanId);
         cv.put(GeraltWomenPhotoContract.COLUMN_URL, url);
 
-        db.insert(GeraltWomenPhotoContract.TABLE_NAME, null, cv);
+        db.insert(womenPhotoContract.tableName(), null, cv);
     }
 }
