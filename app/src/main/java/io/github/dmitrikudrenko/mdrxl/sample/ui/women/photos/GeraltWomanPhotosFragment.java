@@ -34,7 +34,7 @@ public class GeraltWomanPhotosFragment extends RxFragment implements GeraltWoman
     GeraltWomanPhotosPresenter presenter;
 
     @BindView(R.id.pager)
-    private ViewPager viewPager;
+    ViewPager viewPager;
 
     @ProvidePresenter
     public GeraltWomanPhotosPresenter providePresenter() {
@@ -55,6 +55,10 @@ public class GeraltWomanPhotosFragment extends RxFragment implements GeraltWoman
         if (presenter == null) {
             presenter = (GeraltWomanPhotosPresenter) getLastCustomNonConfigurationInstance();
         }
+    }
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return presenter;
     }
 
     @Nullable

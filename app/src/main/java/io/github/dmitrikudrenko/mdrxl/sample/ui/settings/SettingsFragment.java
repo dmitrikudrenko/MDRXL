@@ -24,10 +24,10 @@ import javax.inject.Provider;
 public class SettingsFragment extends RxFragment implements SettingsView {
 
     @Inject
-    Provider<SettingsPresenter> settingsPresenterProvider;
+    Provider<SettingsPresenter> presenterProvider;
 
     @InjectPresenter
-    SettingsPresenter settingsPresenter;
+    SettingsPresenter presenter;
 
     @BindView(R.id.button_network_success)
     CompoundButton successButton;
@@ -40,10 +40,10 @@ public class SettingsFragment extends RxFragment implements SettingsView {
 
     @ProvidePresenter
     public SettingsPresenter providePresenter() {
-        if (settingsPresenter == null) {
-            settingsPresenter = settingsPresenterProvider.get();
+        if (presenter == null) {
+            presenter = presenterProvider.get();
         }
-        return settingsPresenter;
+        return presenter;
     }
 
     @Override
@@ -54,8 +54,8 @@ public class SettingsFragment extends RxFragment implements SettingsView {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (settingsPresenter == null) {
-            settingsPresenter = (SettingsPresenter) getLastCustomNonConfigurationInstance();
+        if (presenter == null) {
+            presenter = (SettingsPresenter) getLastCustomNonConfigurationInstance();
         }
     }
 
@@ -73,11 +73,11 @@ public class SettingsFragment extends RxFragment implements SettingsView {
         final RadioGroup settingsGroup = view.findViewById(R.id.group_network_settings);
         onSettingsChangeListener = new MuteableOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == successButton.getId()) {
-                settingsPresenter.onSuccessSet();
+                presenter.onSuccessSet();
             } else if (checkedId == timeoutButton.getId()) {
-                settingsPresenter.onTimeoutSet();
+                presenter.onTimeoutSet();
             } else if (checkedId == errorButton.getId()) {
-                settingsPresenter.onErrorSet();
+                presenter.onErrorSet();
             }
         });
         settingsGroup.setOnCheckedChangeListener(onSettingsChangeListener);
@@ -85,7 +85,7 @@ public class SettingsFragment extends RxFragment implements SettingsView {
 
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
-        return settingsPresenter;
+        return presenter;
     }
 
     private void setButtonChecked(final CompoundButton compoundButton, final boolean value) {

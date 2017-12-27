@@ -28,13 +28,13 @@ import javax.inject.Provider;
 
 public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     @Inject
-    Provider<GeraltWomanPresenter> samplePresenterProvider;
+    Provider<GeraltWomanPresenter> presenterProvider;
+
+    @InjectPresenter
+    GeraltWomanPresenter presenter;
 
     @Inject
     ImageLoader imageLoader;
-
-    @InjectPresenter
-    GeraltWomanPresenter geraltWomanPresenter;
 
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
@@ -54,10 +54,10 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
 
     @ProvidePresenter
     public GeraltWomanPresenter providePresenter() {
-        if (geraltWomanPresenter == null) {
-            geraltWomanPresenter = samplePresenterProvider.get();
+        if (presenter == null) {
+            presenter = presenterProvider.get();
         }
-        return geraltWomanPresenter;
+        return presenter;
     }
 
     @Override
@@ -68,8 +68,8 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (geraltWomanPresenter == null) {
-            geraltWomanPresenter = (GeraltWomanPresenter) getLastCustomNonConfigurationInstance();
+        if (presenter == null) {
+            presenter = (GeraltWomanPresenter) getLastCustomNonConfigurationInstance();
         }
     }
 
@@ -84,7 +84,7 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
 
-        refreshLayout.setOnRefreshListener(() -> geraltWomanPresenter.onRefresh());
+        refreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
         setupInputView(nameView, Fields.NAME);
         setupInputView(professionView, Fields.PROFESSION);
         setupInputView(hairColorView, Fields.HAIR_COLOR);
@@ -93,11 +93,16 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     private void setupInputView(final EditText inputView, final String tag) {
         inputView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                geraltWomanPresenter.onDataChanged(tag, v.getText().toString());
+                presenter.onDataChanged(tag, v.getText().toString());
                 v.clearFocus();
             }
             return false;
         });
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return presenter;
     }
 
     @Override

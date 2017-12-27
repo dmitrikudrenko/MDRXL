@@ -30,11 +30,11 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
-    @InjectPresenter
-    GeraltWomenPresenter presenter;
-
     @Inject
     Provider<GeraltWomenPresenter> presenterProvider;
+
+    @InjectPresenter
+    GeraltWomenPresenter presenter;
 
     @Inject
     GeraltWomenAdapterFactory adapterFactory;
@@ -66,6 +66,11 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
         SampleApplication.get().plus(new Module()).inject(this);
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return presenter;
     }
 
     @Nullable
