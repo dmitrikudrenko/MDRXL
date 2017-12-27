@@ -14,14 +14,12 @@ import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
 
 @AutoFactory
 class GeraltWomanViewHolder extends RecyclerView.ViewHolder {
-    private static final String attributesFormat = "%s, %s";
-
     @BindView(R.id.photo)
     ImageView photo;
     @BindView(R.id.name)
     TextView name;
-    @BindView(R.id.attributes)
-    TextView attributes;
+    @BindView(R.id.profession)
+    TextView profession;
 
     private final ImageLoader imageLoader;
 
@@ -35,6 +33,6 @@ class GeraltWomanViewHolder extends RecyclerView.ViewHolder {
     void bind(final GeraltWomenCursor cursor) {
         imageLoader.loadPhotoInto(cursor.getPhoto(), photo);
         name.setText(cursor.getName());
-        attributes.setText(String.format(attributesFormat, cursor.getProfession(), cursor.getHairColor()));
+        profession.setText(cursor.getProfession());
     }
 }
