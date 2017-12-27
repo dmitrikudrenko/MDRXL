@@ -21,8 +21,10 @@ public final class GeraltWomenSqliteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(final SQLiteDatabase db) {
         db.execSQL(GeraltWomenContract.CREATE_TABLE);
+        db.execSQL(GeraltWomenPhotoContract.CREATE_TABLE);
 
-        createStubData(db);
+        createWomen(db);
+        createPhotos(db);
     }
 
     @Override
@@ -30,13 +32,17 @@ public final class GeraltWomenSqliteOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    private void createStubData(final SQLiteDatabase db) {
+    private void createWomen(final SQLiteDatabase db) {
         createTrissMerigold(db);
         createYennefer(db);
         createCiri(db);
         createShani(db);
         createSyanna(db);
         createPassifloraProstitute(db);
+    }
+
+    private void createPhotos(final SQLiteDatabase db) {
+        createTrissMerigoldPhotos(db);
     }
 
     private void createTrissMerigold(final SQLiteDatabase db) {
@@ -73,6 +79,14 @@ public final class GeraltWomenSqliteOpenHelper extends SQLiteOpenHelper {
                 "Prostitute", "Blonde");
     }
 
+    private void createTrissMerigoldPhotos(final SQLiteDatabase db) {
+        createPhoto(db, 0, 0, "http://vignette1.wikia.nocookie.net/witcher/images/2/27/Triss-TW3-new-render.png/revision/latest?cb=20160402173701");
+        createPhoto(db, 1, 0, "https://i.ytimg.com/vi/2R6Xv4SqT4g/maxresdefault.jpg");
+        createPhoto(db, 2, 0, "https://media.alienwarearena.com/media/Triss-Merigold-of-Maribor-The-Witcher-.jpg");
+        createPhoto(db, 3, 0, "https://i.pinimg.com/736x/38/29/56/3829566e7c308837a612ae1b969809d7--witcher-triss-the-witcher.jpg");
+        createPhoto(db, 4, 0, "https://staticdelivery.nexusmods.com/images/952/5465880-1444428775.jpg");
+    }
+
     private void createGeraltWoman(final SQLiteDatabase db, final long id, final String name,
                                    final String photo, final String profession, final String hairColor) {
         final ContentValues cv = new ContentValues();
@@ -84,5 +98,15 @@ public final class GeraltWomenSqliteOpenHelper extends SQLiteOpenHelper {
         cv.put(GeraltWomenContract.COLUMN_HAIR_COLOR, hairColor);
 
         db.insert(GeraltWomenContract.TABLE_NAME, null, cv);
+    }
+
+    private void createPhoto(final SQLiteDatabase db, final long id, final long womanId, final String url) {
+        final ContentValues cv = new ContentValues();
+
+        cv.put(GeraltWomenPhotoContract._ID, id);
+        cv.put(GeraltWomenPhotoContract.COLUMN_WOMAN_ID, womanId);
+        cv.put(GeraltWomenPhotoContract.COLUMN_URL, url);
+
+        db.insert(GeraltWomenPhotoContract.TABLE_NAME, null, cv);
     }
 }
