@@ -2,6 +2,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.ui.women.details;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
@@ -20,6 +22,7 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomanPhotosNavigation;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
 
@@ -100,6 +103,11 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
         });
     }
 
+    @OnClick(R.id.photo)
+    void onPhotoClicked() {
+        presenter.onPhotoClicked();
+    }
+
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
         return presenter;
@@ -143,6 +151,14 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     @Override
     public void showMessage(final String message) {
         showToast(message);
+    }
+
+    @Override
+    public void openPhotoGallery() {
+        final FragmentActivity activity = getActivity();
+        if (activity instanceof GeraltWomanPhotosNavigation) {
+            ((GeraltWomanPhotosNavigation) activity).navigateToGeraltWomanPhotos();
+        }
     }
 
     private void showToast(final String message) {

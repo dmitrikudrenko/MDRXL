@@ -89,6 +89,10 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
         getViewState().showHairColor(data.getHairColor());
     }
 
+    void onPhotoClicked() {
+        getViewState().openPhotoGallery();
+    }
+
     private class LoaderCallbacks extends RxLoaderCallbacks<GeraltWomenCursor> {
 
         @Override

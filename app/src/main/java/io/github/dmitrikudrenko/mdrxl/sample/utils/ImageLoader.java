@@ -12,12 +12,16 @@ public class ImageLoader {
     private final ImageTransformer imageTransformer;
 
     @Inject
-    public ImageLoader(final Picasso picasso, final ImageTransformer imageTransformer) {
+    ImageLoader(final Picasso picasso, final ImageTransformer imageTransformer) {
         this.picasso = picasso;
         this.imageTransformer = imageTransformer;
     }
 
     public void loadPhotoInto(final String url, final ImageView imageView) {
         imageTransformer.photoTransform(picasso.load(url)).into(imageView);
+    }
+
+    public void loadBigPhotoInto(final String url, final ImageView imageView) {
+        picasso.load(url).into(imageView);
     }
 }

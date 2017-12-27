@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -17,6 +18,8 @@ import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoCursor;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotosAdapter;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotosAdapterFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.di.FragmentScope;
 
 import javax.inject.Inject;
@@ -33,8 +36,13 @@ public class GeraltWomanPhotosFragment extends RxFragment implements GeraltWoman
     @InjectPresenter
     GeraltWomanPhotosPresenter presenter;
 
+    @Inject
+    PhotosAdapterFactory adapterFactory;
+
     @BindView(R.id.pager)
     ViewPager viewPager;
+
+    private PhotosAdapter adapter;
 
     @ProvidePresenter
     public GeraltWomanPhotosPresenter providePresenter() {
@@ -56,6 +64,7 @@ public class GeraltWomanPhotosFragment extends RxFragment implements GeraltWoman
             presenter = (GeraltWomanPhotosPresenter) getLastCustomNonConfigurationInstance();
         }
     }
+
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
         return presenter;
@@ -71,16 +80,19 @@ public class GeraltWomanPhotosFragment extends RxFragment implements GeraltWoman
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
+
+        adapter = adapterFactory.create(getChildFragmentManager());
+        viewPager.setAdapter(adapter);
     }
 
     @Override
     public void showError(final String message) {
-
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showData(final GeraltWomanPhotoCursor cursor) {
-
+        adapter.setPhotos(cursor);
     }
 
     @dagger.Module

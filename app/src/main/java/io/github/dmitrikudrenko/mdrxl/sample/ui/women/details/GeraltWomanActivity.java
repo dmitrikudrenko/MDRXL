@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseFragmentHolderRxActivity;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomanPhotosNavigation;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.GeraltWomanPhotosActivity;
 
-public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWomanFragment> {
+public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWomanFragment>
+        implements GeraltWomanPhotosNavigation {
     private static final String ARG_ID = "id";
 
     public static Intent intent(final Context context, final long id) {
@@ -39,5 +42,10 @@ public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWoma
     public void finish() {
         SampleApplication.releaseWomanComponent();
         super.finish();
+    }
+
+    @Override
+    public void navigateToGeraltWomanPhotos() {
+        startActivity(GeraltWomanPhotosActivity.intent(this));
     }
 }

@@ -12,12 +12,12 @@ import static io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.GeraltWoman
 public interface GeraltWomanView extends LoadingRxView {
     @StringDef({NAME, PHOTO, PROFESSION, HAIR_COLOR})
     @interface Fields {
+
         String NAME = GeraltWoman.Fields.NAME;
         String PHOTO = GeraltWoman.Fields.PHOTO;
         String PROFESSION = GeraltWoman.Fields.PROFESSION;
         String HAIR_COLOR = GeraltWoman.Fields.HAIR_COLOR;
     }
-
     void showName(String value);
 
     void showPhoto(String value);
@@ -29,4 +29,6 @@ public interface GeraltWomanView extends LoadingRxView {
     void showError(String error);
 
     void showMessage(String message);
+
+    void openPhotoGallery();
 }

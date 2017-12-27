@@ -4,6 +4,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanComponent;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanModule;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.settings.SettingsFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.GeraltWomenFragment;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotoFragment;
 
 import javax.inject.Singleton;
 
@@ -15,4 +16,6 @@ public interface ApplicationComponent {
     GeraltWomenFragment.Component plus(GeraltWomenFragment.Module module);
 
     SettingsFragment.Component plus(SettingsFragment.Module module);
+
+    void inject(PhotoFragment fragment);
 }
