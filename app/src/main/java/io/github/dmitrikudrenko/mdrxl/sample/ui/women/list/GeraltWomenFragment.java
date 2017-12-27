@@ -23,7 +23,6 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomenDetailsNavigation;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapterFactory;
@@ -91,7 +90,7 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
-        adapter = adapterFactory.create(id -> presenter.onItemSelected(id));
+        adapter = adapterFactory.create(id -> presenter.onItemSelected(id), presenter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(decorationProvider.get());
@@ -116,8 +115,8 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     }
 
     @Override
-    public void showData(final GeraltWomenCursor cursor) {
-        adapter.set(cursor);
+    public void notifyDataChanged() {
+        adapter.notifyDataSetChanged();
     }
 
     @Override

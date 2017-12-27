@@ -9,11 +9,10 @@ import butterknife.ButterKnife;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
 
 @AutoFactory
-class GeraltWomanViewHolder extends RecyclerView.ViewHolder {
+public class GeraltWomanViewHolder extends RecyclerView.ViewHolder implements GeraltWomanHolder {
     @BindView(R.id.photo)
     ImageView photo;
     @BindView(R.id.name)
@@ -30,9 +29,18 @@ class GeraltWomanViewHolder extends RecyclerView.ViewHolder {
         this.imageLoader = imageLoader;
     }
 
-    void bind(final GeraltWomenCursor cursor) {
-        imageLoader.loadPhotoInto(cursor.getPhoto(), photo);
-        name.setText(cursor.getName());
-        profession.setText(cursor.getProfession());
+    @Override
+    public void showPhoto(final String value) {
+        imageLoader.loadPhotoInto(value, photo);
+    }
+
+    @Override
+    public void showName(final String value) {
+        name.setText(value);
+    }
+
+    @Override
+    public void showProfession(final String value) {
+        profession.setText(value);
     }
 }
