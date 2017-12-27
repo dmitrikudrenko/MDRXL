@@ -21,6 +21,7 @@
         </activity>
 
         <activity android:name=".ui.women.details.GeraltWomanActivity"/>
+        <activity android:name=".ui.women.photos.GeraltWomanPhotosActivity" android:theme="@style/PhotosTheme"/>
         <activity android:name=".ui.settings.SettingsActivity"/>
     </application>
 </manifest>
