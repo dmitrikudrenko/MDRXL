@@ -4,4 +4,5 @@ public interface GeraltWomanHolder {
     void showPhoto(String value);
     void showName(String value);
     void showProfession(String value);
+    void setSelected(boolean selected);
 }

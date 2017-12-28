@@ -8,6 +8,7 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
+import io.github.dmitrikudrenko.mdrxl.sample.di.Configuration;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenLoader;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.AdapterController;
@@ -25,16 +26,21 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
     private static final int LOADER_ID = RxLoaders.generateId();
 
     private final Provider<GeraltWomenLoader> loaderProvider;
+    private final boolean multiWindow;
     private final BehaviorSubject<String> searchQuerySubject = BehaviorSubject.create((String) null);
 
     private GeraltWomenLoader loader;
     private GeraltWomen data;
 
+    private int selectedItemPosition = Integer.MIN_VALUE;
+
     @Inject
     GeraltWomenPresenter(final RxLoaderManager loaderManager,
-                         final Provider<GeraltWomenLoader> loaderProvider) {
+                         final Provider<GeraltWomenLoader> loaderProvider,
+                         @Configuration final boolean multiWindow) {
         super(loaderManager);
         this.loaderProvider = loaderProvider;
+        this.multiWindow = multiWindow;
         searchQuerySubject.filter(query -> loader != null)
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .map(s -> Strings.isBlank(s) ? null : s)
@@ -53,8 +59,21 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
         getViewState().stopLoading();
     }
 
-    void onItemSelected(final long id) {
-        getViewState().openDataDetails(id);
+    void onItemSelected(final int position) {
+        final long itemId = getItemId(position);
+        if (multiWindow) {
+            if (position != selectedItemPosition) {
+                final int oldSelectedItemPosition = selectedItemPosition;
+                this.selectedItemPosition = position;
+
+                getViewState().notifyDataChanged(oldSelectedItemPosition);
+                getViewState().notifyDataChanged(position);
+
+                getViewState().openDataDetails(itemId);
+            }
+        } else {
+            getViewState().openDataDetails(itemId);
+        }
     }
 
     void onSearchQuerySubmitted(final String query) {
@@ -85,6 +104,7 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
         holder.showPhoto(cursor.getPhoto());
         holder.showName(cursor.getName());
         holder.showProfession(cursor.getProfession());
+        holder.setSelected(selectedItemPosition == position);
     }
 
     private void onDataLoaded(final GeraltWomen data) {

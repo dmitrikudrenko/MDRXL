@@ -13,7 +13,6 @@ public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWoma
     private static final String ARG_ID = "id";
 
     public static Intent intent(final Context context, final long id) {
-        SampleApplication.createWomanComponent(id);
         return new Intent(context, GeraltWomanActivity.class)
                 .putExtra(ARG_ID, id);
     }

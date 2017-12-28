@@ -90,7 +90,7 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
-        adapter = adapterFactory.create(id -> presenter.onItemSelected(id), presenter);
+        adapter = adapterFactory.create(position -> presenter.onItemSelected(position), presenter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(decorationProvider.get());
@@ -117,6 +117,11 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     @Override
     public void notifyDataChanged() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void notifyDataChanged(final int position) {
+        adapter.notifyItemChanged(position);
     }
 
     @Override
