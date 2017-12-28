@@ -46,6 +46,7 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     @Nullable
     @BindView(R.id.photo)
     ImageView photoView;
+    @Nullable
     @BindView(R.id.name)
     EditText nameView;
     @BindView(R.id.profession)
@@ -95,7 +96,11 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
         setupInputView(hairColorView, Fields.HAIR_COLOR);
     }
 
-    private void setupInputView(final EditText inputView, final String tag) {
+    private void setupInputView(@Nullable final EditText inputView, final String tag) {
+        if (inputView == null) {
+            return;
+        }
+
         inputView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 presenter.onDataChanged(tag, v.getText().toString());
@@ -128,7 +133,11 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
 
     @Override
     public void showName(final String value) {
-        nameView.setText(value);
+        if (nameView != null) {
+            nameView.setText(value);
+        } else {
+            ((GeraltWomanActivity) getActivity()).showTitle(value);
+        }
     }
 
     @Override

@@ -69,4 +69,13 @@ public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWoma
     void loadPhotoIntoToolbar(final String url) {
         imageLoader.loadFitCroppedImageInto(url, toolbarImageView);
     }
+
+    public void showTitle(final String value) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(value);
+        }
+        if (getCollapsingToolbarLayout() != null) {
+            getCollapsingToolbarLayout().setTitle(value);
+        }
+    }
 }

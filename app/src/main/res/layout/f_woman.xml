@@ -24,24 +24,12 @@
                 android:descendantFocusability="beforeDescendants"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical"
+                android:paddingBottom="8dp"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/name"
-                    android:paddingTop="8dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:textSize="18sp"/>
-                </android.support.design.widget.TextInputLayout>
+                <include layout="@layout/partial_woman_name"/>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
