@@ -16,6 +16,7 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.MuteableOnCheckedChangeListener;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -109,29 +110,5 @@ public class SettingsFragment extends BaseRxFragment implements SettingsView {
     @Subcomponent(modules = Module.class)
     public interface Component {
         void inject(SettingsFragment fragment);
-    }
-
-    private class MuteableOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
-        private final RadioGroup.OnCheckedChangeListener onCheckedChangeListener;
-        private boolean mute;
-
-        MuteableOnCheckedChangeListener(final RadioGroup.OnCheckedChangeListener onCheckedChangeListener) {
-            this.onCheckedChangeListener = onCheckedChangeListener;
-        }
-
-        @Override
-        public void onCheckedChanged(final RadioGroup group, final int checkedId) {
-            if (!mute) {
-                onCheckedChangeListener.onCheckedChanged(group, checkedId);
-            }
-        }
-
-        void mute() {
-            this.mute = true;
-        }
-
-        void unmute() {
-            this.mute = false;
-        }
     }
 }

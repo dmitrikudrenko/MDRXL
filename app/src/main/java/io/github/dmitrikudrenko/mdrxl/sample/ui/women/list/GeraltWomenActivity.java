@@ -9,6 +9,8 @@ import butterknife.BindView;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseFragmentHolderRxActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.settings.SettingsActivity;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.MuteableSearchViewOnQueryTextListener;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.SearchViewExpandListener;
 
 import javax.annotation.Nullable;
 
@@ -77,61 +79,5 @@ public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWome
         searchView.setQuery(value, false);
         searchView.clearFocus();
         onQueryTextListener.unmute();
-    }
-
-    private static class MuteableSearchViewOnQueryTextListener implements SearchView.OnQueryTextListener {
-        private final SearchView.OnQueryTextListener onQueryTextListener;
-        private boolean mute;
-
-        MuteableSearchViewOnQueryTextListener(final SearchView.OnQueryTextListener onQueryTextListener) {
-            this.onQueryTextListener = onQueryTextListener;
-        }
-
-        @Override
-        public boolean onQueryTextSubmit(final String query) {
-            return !mute && onQueryTextListener.onQueryTextSubmit(query);
-        }
-
-        @Override
-        public boolean onQueryTextChange(final String newText) {
-            return !mute && onQueryTextListener.onQueryTextChange(newText);
-        }
-
-        public void mute() {
-            this.mute = true;
-        }
-
-        public void unmute() {
-            this.mute = false;
-        }
-    }
-
-    private static class SearchViewExpandListener implements MenuItem.OnActionExpandListener {
-        private final Menu menu;
-
-        SearchViewExpandListener(final Menu menu) {
-            this.menu = menu;
-        }
-
-        @Override
-        public boolean onMenuItemActionExpand(final MenuItem item) {
-            onMenuItemAction(item, true);
-            return true;
-        }
-
-        @Override
-        public boolean onMenuItemActionCollapse(final MenuItem item) {
-            onMenuItemAction(item, false);
-            return true;
-        }
-
-        private void onMenuItemAction(final MenuItem item, final boolean expand) {
-            for (int i = 0; i < menu.size(); i++) {
-                final MenuItem menuItem = menu.getItem(i);
-                if (menuItem.getItemId() != item.getItemId()) {
-                    menuItem.setVisible(!expand);
-                }
-            }
-        }
     }
 }

@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ImageLoader;
 
 @AutoFactory
 public class GeraltWomanViewHolder extends RecyclerView.ViewHolder implements GeraltWomanHolder {

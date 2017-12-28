@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.utils;
+package io.github.dmitrikudrenko.mdrxl.sample.utils.ui;
 
 import android.content.Context;
 import android.widget.Toast;

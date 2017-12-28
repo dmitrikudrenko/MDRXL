@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.utils;
+package io.github.dmitrikudrenko.mdrxl.sample.utils.commons;
 
 import javax.annotation.Nullable;
 

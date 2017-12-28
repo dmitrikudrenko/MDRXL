@@ -15,7 +15,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomen
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.AdapterController;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomanHolder;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.Strings;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.commons.Strings;
 import rx.subjects.BehaviorSubject;
 
 import javax.annotation.Nullable;
@@ -24,7 +24,7 @@ import javax.inject.Provider;
 import java.util.AbstractList;
 import java.util.concurrent.TimeUnit;
 
-import static io.github.dmitrikudrenko.mdrxl.sample.utils.Preconditions.checkNotNull;
+import static io.github.dmitrikudrenko.mdrxl.sample.utils.commons.Preconditions.checkNotNull;
 
 @InjectViewState
 public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implements AdapterController<GeraltWomanHolder> {

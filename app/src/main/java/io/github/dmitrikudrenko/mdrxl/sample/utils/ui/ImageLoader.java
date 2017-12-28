@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.utils;
+package io.github.dmitrikudrenko.mdrxl.sample.utils.ui;
 
 import android.widget.ImageView;
 import com.squareup.picasso.Picasso;

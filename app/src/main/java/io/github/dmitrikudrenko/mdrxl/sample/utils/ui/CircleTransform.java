@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.utils;
+package io.github.dmitrikudrenko.mdrxl.sample.utils.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

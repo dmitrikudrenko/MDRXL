@@ -21,8 +21,8 @@ import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ToastFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ImageLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ToastFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;

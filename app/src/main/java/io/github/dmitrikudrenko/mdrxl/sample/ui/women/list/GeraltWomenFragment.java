@@ -23,7 +23,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapterFactory;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ToastFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ToastFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
