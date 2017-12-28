@@ -32,7 +32,7 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
     private GeraltWomenLoader loader;
     private GeraltWomen data;
 
-    private int selectedItemPosition = Integer.MIN_VALUE;
+    private long selectedItemId = Integer.MIN_VALUE;
 
     @Inject
     GeraltWomenPresenter(final RxLoaderManager loaderManager,
@@ -62,11 +62,14 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
     void onItemSelected(final int position) {
         final long itemId = getItemId(position);
         if (multiWindow) {
-            if (position != selectedItemPosition) {
-                final int oldSelectedItemPosition = selectedItemPosition;
-                this.selectedItemPosition = position;
+            if (itemId != selectedItemId) {
+                final long oldSelectedItemId = selectedItemId;
+                this.selectedItemId = itemId;
 
-                getViewState().notifyDataChanged(oldSelectedItemPosition);
+                final int oldSelectedItemPosition = getPosition(oldSelectedItemId);
+                if (oldSelectedItemPosition >= 0) {
+                    getViewState().notifyDataChanged(oldSelectedItemPosition);
+                }
                 getViewState().notifyDataChanged(position);
 
                 getViewState().openDataDetails(itemId);
@@ -88,6 +91,17 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
         loader.flushSearch();
     }
 
+    private int getPosition(final long itemId) {
+        int index = 0;
+        for (final GeraltWomenCursor cursor : data) {
+            if (cursor.getId() == itemId) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
     @Override
     public long getItemId(final int position) {
         return data.get(position).getId();
@@ -104,7 +118,7 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
         holder.showPhoto(cursor.getPhoto());
         holder.showName(cursor.getName());
         holder.showProfession(cursor.getProfession());
-        holder.setSelected(selectedItemPosition == position);
+        holder.setSelected(selectedItemId == cursor.getId());
     }
 
     private void onDataLoaded(final GeraltWomen data) {
