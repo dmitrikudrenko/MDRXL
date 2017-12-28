@@ -1,5 +1,6 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.list;
 
+import android.support.v7.util.DiffUtil;
 import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
@@ -16,10 +17,13 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomanHo
 import io.github.dmitrikudrenko.mdrxl.sample.utils.Strings;
 import rx.subjects.BehaviorSubject;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import java.util.AbstractList;
 import java.util.concurrent.TimeUnit;
+
+import static io.github.dmitrikudrenko.mdrxl.sample.utils.Preconditions.checkNotNull;
 
 @InjectViewState
 public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implements AdapterController<GeraltWomanHolder> {
@@ -79,7 +83,7 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
         }
     }
 
-    void onSearchQuerySubmitted(final String query) {
+    void onSearchQuerySubmitted(@SuppressWarnings("unused") final String query) {
         //do nothing
     }
 
@@ -121,9 +125,13 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
         holder.setSelected(selectedItemId == cursor.getId());
     }
 
-    private void onDataLoaded(final GeraltWomen data) {
-        this.data = data;
-        getViewState().notifyDataChanged();
+    private void onDataLoaded(final GeraltWomen newData) {
+        final GeraltWomen oldData = data != null ? data.copy() : null;
+        final GeraltWomenDiffUtilCallback callback = new GeraltWomenDiffUtilCallback(oldData, newData);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(callback);
+        this.data = newData;
+
+        getViewState().notifyDataChanged(diffResult);
 
         openFirstEntityIfShould();
     }
@@ -183,6 +191,45 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
         @Override
         public int size() {
             return cursor.getCount();
+        }
+
+        GeraltWomen copy() {
+            return new GeraltWomen(cursor);
+        }
+    }
+
+    private static class GeraltWomenDiffUtilCallback extends DiffUtil.Callback {
+        @Nullable
+        private final GeraltWomen oldData;
+        private final GeraltWomen newData;
+
+        GeraltWomenDiffUtilCallback(@Nullable final GeraltWomen oldData, final GeraltWomen newData) {
+            this.oldData = oldData;
+            this.newData = newData;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldData != null ? oldData.size() : 0;
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newData.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(final int oldItemPosition, final int newItemPosition) {
+            final GeraltWomenCursor oldItem = checkNotNull(oldData).get(oldItemPosition);
+            final GeraltWomenCursor newItem = newData.get(newItemPosition);
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(final int oldItemPosition, final int newItemPosition) {
+            final GeraltWomenCursor oldItem = checkNotNull(oldData).get(oldItemPosition);
+            final GeraltWomenCursor newItem = newData.get(newItemPosition);
+            return oldItem.areContentsTheSame(newItem);
         }
     }
 }

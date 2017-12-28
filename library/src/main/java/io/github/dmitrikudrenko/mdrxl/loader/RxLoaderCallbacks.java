@@ -19,7 +19,9 @@ public abstract class RxLoaderCallbacks<D> implements LoaderManager.LoaderCallba
         if (result.isSuccess()) {
             onSuccess(loader.getId(), result.getData());
         } else {
-            onError(loader.getId(), result.getError());
+            final Throwable error = result.getError();
+            onError(loader.getId(), error);
+            Log.e(getClass().getSimpleName(), error.getMessage(), error);
         }
     }
 

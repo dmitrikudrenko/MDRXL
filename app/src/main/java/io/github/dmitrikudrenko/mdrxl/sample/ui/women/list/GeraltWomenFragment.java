@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -104,13 +105,13 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
     }
 
     @Override
-    public void notifyDataChanged() {
-        adapter.notifyDataSetChanged();
+    public void notifyDataChanged(final int position) {
+        adapter.notifyItemChanged(position);
     }
 
     @Override
-    public void notifyDataChanged(final int position) {
-        adapter.notifyItemChanged(position);
+    public void notifyDataChanged(final DiffUtil.DiffResult result) {
+        result.dispatchUpdatesTo(adapter);
     }
 
     @Override

@@ -3,6 +3,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.contract.GeraltWomenContract;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.Objects;
 
 public final class GeraltWomenCursor extends CursorWrapper {
     private final int id;
@@ -38,5 +39,21 @@ public final class GeraltWomenCursor extends CursorWrapper {
 
     public String getHairColor() {
         return getString(hairColor);
+    }
+
+    public boolean areContentsTheSame(final GeraltWomenCursor that) {
+        if (!Objects.notEquals(getName(), that.getName())) {
+            return false;
+        }
+        if (!Objects.notEquals(getPhoto(), that.getPhoto())) {
+            return false;
+        }
+        if (!Objects.notEquals(getProfession(), that.getProfession())) {
+            return false;
+        }
+        if (!Objects.notEquals(getHairColor(), that.getHairColor())) {
+            return false;
+        }
+        return true;
     }
 }
