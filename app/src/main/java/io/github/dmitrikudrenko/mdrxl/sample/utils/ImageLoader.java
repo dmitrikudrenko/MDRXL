@@ -21,7 +21,11 @@ public class ImageLoader {
         imageTransformer.photoTransform(picasso.load(url)).into(imageView);
     }
 
-    public void loadBigPhotoInto(final String url, final ImageView imageView) {
+    public void loadFullSizeImageInto(final String url, final ImageView imageView) {
         picasso.load(url).into(imageView);
+    }
+
+    public void loadFitCroppedImageInto(final String url, final ImageView imageView) {
+        picasso.load(url).fit().centerCrop().into(imageView);
     }
 }

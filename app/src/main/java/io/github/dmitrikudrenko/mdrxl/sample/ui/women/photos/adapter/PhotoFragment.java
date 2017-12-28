@@ -49,6 +49,6 @@ public class PhotoFragment extends Fragment {
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
 
-        imageLoader.loadBigPhotoInto(getArguments().getString(ARG_URL), photoView);
+        imageLoader.loadFullSizeImageInto(getArguments().getString(ARG_URL), photoView);
     }
 }

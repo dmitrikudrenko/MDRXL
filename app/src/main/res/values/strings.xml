@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Geralt women</string>
+
+    <string name="name">Name</string>
+    <string name="profession">Profession</string>
+    <string name="hair_color">Hair Color</string>
 </resources>

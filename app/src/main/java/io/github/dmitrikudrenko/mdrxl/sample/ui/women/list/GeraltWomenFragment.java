@@ -1,6 +1,5 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.list;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -49,7 +48,7 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
-    @BindColor(R.color.list_divider)
+    @BindColor(R.color.listDivider)
     int listDividerColor;
 
     private GeraltWomenAdapter adapter;
@@ -153,9 +152,7 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
 
         @Provides
         DividerItemDecoration provideDividerItemDecoration() {
-            final DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-            itemDecoration.setDrawable(new ColorDrawable(listDividerColor));
-            return itemDecoration;
+            return new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         }
     }
 

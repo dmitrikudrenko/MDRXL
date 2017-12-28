@@ -14,6 +14,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Optional;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
@@ -42,6 +43,7 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
 
+    @Nullable
     @BindView(R.id.photo)
     ImageView photoView;
     @BindView(R.id.name)
@@ -103,6 +105,7 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
         });
     }
 
+    @Optional
     @OnClick(R.id.photo)
     void onPhotoClicked() {
         presenter.onPhotoClicked();
@@ -130,7 +133,11 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
 
     @Override
     public void showPhoto(final String value) {
-        imageLoader.loadPhotoInto(value, photoView);
+        if (photoView != null) {
+            imageLoader.loadPhotoInto(value, photoView);
+        } else {
+            ((GeraltWomanActivity) getActivity()).loadPhotoIntoToolbar(value);
+        }
     }
 
     @Override

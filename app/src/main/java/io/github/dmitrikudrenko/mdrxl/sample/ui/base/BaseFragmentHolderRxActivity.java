@@ -20,7 +20,7 @@ public abstract class BaseFragmentHolderRxActivity<F extends RxFragment> extends
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.a_fragment_holder);
+        setContentView(contentView());
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -42,5 +42,9 @@ public abstract class BaseFragmentHolderRxActivity<F extends RxFragment> extends
 
     public Toolbar getToolbar() {
         return toolbar;
+    }
+
+    protected int contentView() {
+        return R.layout.a_fragment_holder;
     }
 }
