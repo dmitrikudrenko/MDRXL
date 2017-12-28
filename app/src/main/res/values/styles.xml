@@ -35,4 +35,9 @@
     </style>
 
     <style name="PhotosTheme" parent="Theme.AppCompat.NoActionBar"/>
+
+    <style name="WomanEditText">
+        <item name="android:inputType">textNoSuggestions</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>
