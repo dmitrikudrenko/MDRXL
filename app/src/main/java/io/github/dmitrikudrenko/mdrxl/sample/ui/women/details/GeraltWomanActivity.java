@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseFragmentHolderRxActivity;
@@ -74,5 +75,10 @@ public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWoma
         if (getCollapsingToolbarLayout() != null) {
             getCollapsingToolbarLayout().setTitle(value);
         }
+    }
+
+    @OnClick(R.id.toolbar_image)
+    void onPhotoClicked() {
+        getFragment().onPhotoClicked();
     }
 }
