@@ -15,4 +15,8 @@ public class Strings {
         }
         return true;
     }
+
+    public static boolean isNotBlank(@Nullable final String string) {
+        return !isBlank(string);
+    }
 }

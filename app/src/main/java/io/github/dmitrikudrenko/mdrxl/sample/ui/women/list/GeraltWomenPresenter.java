@@ -112,6 +112,13 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
         getViewState().notifyDataChanged();
     }
 
+    void onOptionsMenuPrepared() {
+        final String searchQuery = searchQuerySubject.getValue();
+        if (Strings.isNotBlank(searchQuery)) {
+            getViewState().showSearchQuery(searchQuery);
+        }
+    }
+
     private class LoaderCallbacks extends RxLoaderCallbacks<GeraltWomenCursor> {
 
         @Override

@@ -13,4 +13,6 @@ public interface GeraltWomenView extends LoadingRxView {
     void notifyDataChanged(int position);
 
     void openDataDetails(long id);
+
+    void showSearchQuery(String value);
 }

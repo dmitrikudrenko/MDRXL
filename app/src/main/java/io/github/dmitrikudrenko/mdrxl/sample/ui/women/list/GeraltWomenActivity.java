@@ -29,6 +29,10 @@ public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWome
 
     private GeraltWomanFragment geraltWomanFragment;
 
+    private MenuItem searchItem;
+    private SearchView searchView;
+    private MuteableSearchViewOnQueryTextListener onQueryTextListener;
+
     @Override
     protected GeraltWomenFragment createFragment() {
         return new GeraltWomenFragment();
@@ -52,12 +56,12 @@ public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWome
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
-        final MenuItem item = menu.findItem(R.id.search);
-        item.setOnActionExpandListener(new SearchViewExpandListener(menu));
+        searchItem = menu.findItem(R.id.search);
+        searchItem.setOnActionExpandListener(new SearchViewExpandListener(menu));
 
-        final SearchView searchView = (SearchView) item.getActionView();
+        searchView = (SearchView) searchItem.getActionView();
         searchView.setIconified(false);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        onQueryTextListener = new MuteableSearchViewOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
                 getFragment().onSearchQuerySubmitted(query);
@@ -70,10 +74,13 @@ public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWome
                 return false;
             }
         });
+        searchView.setOnQueryTextListener(onQueryTextListener);
         searchView.setOnCloseListener(() -> {
             getFragment().onSearchClosed();
             return false;
         });
+
+        getFragment().onOptionsMenuPrepared();
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -107,6 +114,41 @@ public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWome
     public void finish() {
         SampleApplication.releaseWomanComponent();
         super.finish();
+    }
+
+    public void showSearchQuery(final String value) {
+        onQueryTextListener.mute();
+        searchItem.expandActionView();
+        searchView.setQuery(value, false);
+        searchView.clearFocus();
+        onQueryTextListener.unmute();
+    }
+
+    private static class MuteableSearchViewOnQueryTextListener implements SearchView.OnQueryTextListener {
+        private final SearchView.OnQueryTextListener onQueryTextListener;
+        private boolean mute;
+
+        MuteableSearchViewOnQueryTextListener(final SearchView.OnQueryTextListener onQueryTextListener) {
+            this.onQueryTextListener = onQueryTextListener;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(final String query) {
+            return !mute && onQueryTextListener.onQueryTextSubmit(query);
+        }
+
+        @Override
+        public boolean onQueryTextChange(final String newText) {
+            return !mute && onQueryTextListener.onQueryTextChange(newText);
+        }
+
+        public void mute() {
+            this.mute = true;
+        }
+
+        public void unmute() {
+            this.mute = false;
+        }
     }
 
     private static class SearchViewExpandListener implements MenuItem.OnActionExpandListener {

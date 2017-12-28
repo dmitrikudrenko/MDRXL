@@ -131,6 +131,11 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
         }
     }
 
+    @Override
+    public void showSearchQuery(final String value) {
+        ((GeraltWomenActivity) getActivity()).showSearchQuery(value);
+    }
+
     public void onSearchQuerySubmitted(final String query) {
         presenter.onSearchQuerySubmitted(query);
     }
@@ -141,6 +146,10 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
 
     public void onSearchClosed() {
         presenter.onSearchClosed();
+    }
+
+    public void onOptionsMenuPrepared() {
+        presenter.onOptionsMenuPrepared();
     }
 
     @dagger.Module
