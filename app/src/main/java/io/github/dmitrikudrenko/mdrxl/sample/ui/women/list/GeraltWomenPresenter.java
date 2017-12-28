@@ -9,9 +9,10 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
-import io.github.dmitrikudrenko.mdrxl.sample.di.Configuration;
+import io.github.dmitrikudrenko.mdrxl.sample.di.MultiWindow;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.AdapterController;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomanHolder;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.Strings;
@@ -31,6 +32,8 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
 
     private final Provider<GeraltWomenLoader> loaderProvider;
     private final boolean multiWindow;
+    private final Router router;
+
     private final BehaviorSubject<String> searchQuerySubject = BehaviorSubject.create((String) null);
 
     private GeraltWomenLoader loader;
@@ -41,9 +44,11 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
     @Inject
     GeraltWomenPresenter(final RxLoaderManager loaderManager,
                          final Provider<GeraltWomenLoader> loaderProvider,
-                         @Configuration final boolean multiWindow) {
+                         final Router router,
+                         @MultiWindow final boolean multiWindow) {
         super(loaderManager);
         this.loaderProvider = loaderProvider;
+        this.router = router;
         this.multiWindow = multiWindow;
         searchQuerySubject.filter(query -> loader != null)
                 .debounce(200, TimeUnit.MILLISECONDS)
@@ -76,10 +81,10 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
                 }
                 getViewState().notifyDataChanged(position);
 
-                getViewState().openDataDetails(itemId);
+                router.openGeraltWoman(itemId);
             }
         } else {
-            getViewState().openDataDetails(itemId);
+            router.openGeraltWoman(itemId);
         }
     }
 

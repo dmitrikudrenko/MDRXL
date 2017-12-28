@@ -9,14 +9,11 @@ import butterknife.OnClick;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseFragmentHolderRxActivity;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomanPhotosNavigation;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.GeraltWomanPhotosActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
 
 import javax.inject.Inject;
 
-public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWomanFragment>
-        implements GeraltWomanPhotosNavigation {
+public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWomanFragment> {
     private static final String ARG_ID = "id";
 
     public static Intent intent(final Context context, final long id) {
@@ -46,17 +43,6 @@ public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWoma
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
         SampleApplication.get().inject(this);
-    }
-
-    @Override
-    public void finish() {
-        SampleApplication.releaseWomanComponent();
-        super.finish();
-    }
-
-    @Override
-    public void navigateToGeraltWomanPhotos() {
-        startActivity(GeraltWomanPhotosActivity.intent(this));
     }
 
     @Override

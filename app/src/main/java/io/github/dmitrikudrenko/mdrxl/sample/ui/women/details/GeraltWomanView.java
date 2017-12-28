@@ -29,6 +29,4 @@ public interface GeraltWomanView extends LoadingRxView {
     void showError(String error);
 
     void showMessage(String message);
-
-    void openPhotoGallery();
 }

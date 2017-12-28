@@ -1,33 +1,21 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.list;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import butterknife.BindView;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
-import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseFragmentHolderRxActivity;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomanPhotosNavigation;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomenDetailsNavigation;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.settings.SettingsActivity;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.GeraltWomanActivity;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.GeraltWomanFragment;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.GeraltWomanPhotosActivity;
 
 import javax.annotation.Nullable;
 
-public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWomenFragment>
-        implements GeraltWomenDetailsNavigation, GeraltWomanPhotosNavigation {
-    private static final String TAG_DETAILS_FRAGMENT = "details_fragment";
-
+public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWomenFragment> {
     @Nullable
     @BindView(R.id.details)
     ViewGroup detailsContainer;
-
-    private GeraltWomanFragment geraltWomanFragment;
 
     private MenuItem searchItem;
     private SearchView searchView;
@@ -36,15 +24,6 @@ public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWome
     @Override
     protected GeraltWomenFragment createFragment() {
         return new GeraltWomenFragment();
-    }
-
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            geraltWomanFragment = (GeraltWomanFragment) getSupportFragmentManager()
-                    .findFragmentByTag(TAG_DETAILS_FRAGMENT);
-        }
     }
 
     @Override
@@ -90,30 +69,6 @@ public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWome
             startActivity(new Intent(this, SettingsActivity.class));
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void navigateToGeraltWomanDetails(final long id) {
-        SampleApplication.createWomanComponent(id);
-        if (detailsContainer == null) {
-            startActivity(GeraltWomanActivity.intent(this, id));
-        } else {
-            geraltWomanFragment = GeraltWomanFragment.create();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.details, geraltWomanFragment, TAG_DETAILS_FRAGMENT)
-                    .commitNow();
-        }
-    }
-
-    @Override
-    public void navigateToGeraltWomanPhotos() {
-        startActivity(GeraltWomanPhotosActivity.intent(this));
-    }
-
-    @Override
-    public void finish() {
-        SampleApplication.releaseWomanComponent();
-        super.finish();
     }
 
     public void showSearchQuery(final String value) {

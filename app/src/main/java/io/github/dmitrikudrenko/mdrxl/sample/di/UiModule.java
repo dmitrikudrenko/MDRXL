@@ -27,9 +27,9 @@ class UiModule {
         return context.getResources();
     }
 
-    @Configuration
+    @MultiWindow
     @Provides
-    boolean provideTablet(final Resources resources) {
+    boolean provideMultiWindowConfiguration(final Resources resources) {
         return resources.getBoolean(R.bool.tablet);
     }
 }

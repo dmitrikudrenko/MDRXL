@@ -13,6 +13,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.GeraltWomenStorageCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
 import rx.android.schedulers.AndroidSchedulers;
 
 import javax.annotation.Nullable;
@@ -27,6 +28,7 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
 
     private final GeraltWomanLoaderFactory loaderFactory;
     private final Provider<GeraltWomenStorageCommand> storageCommandProvider;
+    private final Router router;
     private final long id;
 
     @Nullable
@@ -36,10 +38,12 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
     GeraltWomanPresenter(final RxLoaderManager loaderManager,
                          final GeraltWomanLoaderFactory loaderFactory,
                          final Provider<GeraltWomenStorageCommand> storageCommandProvider,
+                         final Router router,
                          @WomanId final long id) {
         super(loaderManager);
         this.loaderFactory = loaderFactory;
         this.storageCommandProvider = storageCommandProvider;
+        this.router = router;
         this.id = id;
     }
 
@@ -90,7 +94,7 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
     }
 
     void onPhotoClicked() {
-        getViewState().openPhotoGallery();
+        router.openGeraltWomanPhotos();
     }
 
     private class LoaderCallbacks extends RxLoaderCallbacks<GeraltWomenCursor> {

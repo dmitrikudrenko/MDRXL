@@ -47,10 +47,6 @@ public class SampleApplication extends MultiDexApplication {
         return womanComponent;
     }
 
-    public static void releaseWomanComponent() {
-        womanComponent = null;
-    }
-
     public static WomanComponent getWomanComponent() {
         return womanComponent;
     }

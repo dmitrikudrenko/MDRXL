@@ -2,7 +2,6 @@ package io.github.dmitrikudrenko.mdrxl.sample.ui.women.list;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.DividerItemDecoration;
@@ -18,10 +17,10 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
+import io.github.dmitrikudrenko.mdrxl.mvp.RxActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomenDetailsNavigation;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapterFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ToastFactory;
@@ -115,14 +114,6 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
     }
 
     @Override
-    public void openDataDetails(final long id) {
-        final FragmentActivity activity = getActivity();
-        if (activity instanceof GeraltWomenDetailsNavigation) {
-            ((GeraltWomenDetailsNavigation) activity).navigateToGeraltWomanDetails(id);
-        }
-    }
-
-    @Override
     public void showSearchQuery(final String value) {
         ((GeraltWomenActivity) getActivity()).showSearchQuery(value);
     }
@@ -148,6 +139,11 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
         @Provides
         RxLoaderManager provideLoaderManager() {
             return new RxLoaderManager(getLoaderManager());
+        }
+
+        @Provides
+        RxActivity provideActivity() {
+            return (RxActivity) getActivity();
         }
 
         @Provides
