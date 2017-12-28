@@ -19,7 +19,8 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWoman
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotosAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotosAdapterFactory;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ToastFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.ToastFactory;
 
 import javax.inject.Inject;
 
@@ -34,9 +35,6 @@ public class GeraltWomanPhotosFragment extends BaseRxFragment implements GeraltW
 
     @Inject
     PhotosAdapterFactory adapterFactory;
-
-    @Inject
-    ToastFactory toastFactory;
 
     @BindView(R.id.pager)
     ViewPager viewPager;
@@ -69,11 +67,6 @@ public class GeraltWomanPhotosFragment extends BaseRxFragment implements GeraltW
     }
 
     @Override
-    public void showError(final String message) {
-        toastFactory.showLong(message);
-    }
-
-    @Override
     public void showData(final GeraltWomanPhotoCursor cursor) {
         adapter.setPhotos(cursor);
     }
@@ -83,6 +76,11 @@ public class GeraltWomanPhotosFragment extends BaseRxFragment implements GeraltW
         @Provides
         RxLoaderManager provideLoaderManager() {
             return new RxLoaderManager(getLoaderManager());
+        }
+
+        @Provides
+        MessageFactory provideMessageFactory() {
+            return new ToastFactory(getContext());
         }
     }
 

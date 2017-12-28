@@ -23,7 +23,8 @@ import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapterFactory;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ToastFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.ToastFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -38,9 +39,6 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
 
     @Inject
     Provider<DividerItemDecoration> decorationProvider;
-
-    @Inject
-    ToastFactory toastFactory;
 
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
@@ -94,11 +92,6 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
     }
 
     @Override
-    public void showError(final String message) {
-        toastFactory.showLong(message);
-    }
-
-    @Override
     public void notifyDataChanged(final int position) {
         adapter.notifyItemChanged(position);
     }
@@ -144,6 +137,11 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
         @Provides
         DividerItemDecoration provideDividerItemDecoration() {
             return new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        }
+
+        @Provides
+        MessageFactory provideMessageFactory() {
+            return new ToastFactory(getContext());
         }
     }
 

@@ -7,8 +7,6 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.base.LoadingRxView;
 
 @StateStrategyType(SkipStrategy.class)
 public interface GeraltWomenView extends LoadingRxView {
-    void showError(String message);
-
     void notifyDataChanged(int position);
 
     void notifyDataChanged(DiffUtil.DiffResult result);

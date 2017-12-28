@@ -7,7 +7,7 @@ import com.squareup.picasso.Transformation;
 import dagger.Module;
 import dagger.Provides;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.CircleTransform;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.images.CircleTransform;
 
 @Module
 class UiModule {

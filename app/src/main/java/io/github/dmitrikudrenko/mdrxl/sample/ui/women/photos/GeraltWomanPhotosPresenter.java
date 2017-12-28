@@ -11,6 +11,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanId;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoLoaderFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
 
 import javax.inject.Inject;
 
@@ -21,14 +22,17 @@ public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosVie
     private static final int LOADER_ID = RxLoaders.generateId();
 
     private final GeraltWomanPhotoLoaderFactory loaderFactory;
+    private MessageFactory messageFactory;
     private final long womanId;
 
     @Inject
     GeraltWomanPhotosPresenter(final RxLoaderManager loaderManager,
                                final GeraltWomanPhotoLoaderFactory loaderFactory,
+                               final MessageFactory messageFactory,
                                @WomanId final long womanId) {
         super(loaderManager);
         this.loaderFactory = loaderFactory;
+        this.messageFactory = messageFactory;
         this.womanId = womanId;
     }
 
@@ -54,7 +58,7 @@ public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosVie
 
         @Override
         protected void onError(final int id, final Throwable error) {
-            getViewState().showError(error.getMessage());
+            messageFactory.showError(error.getMessage());
         }
     }
 }

@@ -9,7 +9,7 @@ import butterknife.OnClick;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseFragmentHolderRxActivity;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ImageLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.images.ImageLoader;
 
 import javax.inject.Inject;
 

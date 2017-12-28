@@ -21,8 +21,9 @@ import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ImageLoader;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ToastFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.images.ImageLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.ToastFactory;
 
 import javax.inject.Inject;
 
@@ -33,9 +34,6 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
 
     @Inject
     ImageLoader imageLoader;
-
-    @Inject
-    ToastFactory toastFactory;
 
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
@@ -138,16 +136,6 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
         hairColorView.setText(value);
     }
 
-    @Override
-    public void showError(final String error) {
-        toastFactory.showLong(error);
-    }
-
-    @Override
-    public void showMessage(final String message) {
-        toastFactory.showLong(message);
-    }
-
     @dagger.Module
     public class Module {
         @Provides
@@ -158,6 +146,11 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
         @Provides
         RxActivity provideActivity() {
             return (RxActivity) getActivity();
+        }
+
+        @Provides
+        MessageFactory provideMessageFactory() {
+            return new ToastFactory(getContext());
         }
     }
 

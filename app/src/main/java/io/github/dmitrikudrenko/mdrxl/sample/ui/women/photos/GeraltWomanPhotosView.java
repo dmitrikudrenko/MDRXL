@@ -7,7 +7,5 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWoman
 
 @StateStrategyType(SkipStrategy.class)
 public interface GeraltWomanPhotosView extends RxView {
-    void showError(String message);
-
     void showData(GeraltWomanPhotoCursor cursor);
 }

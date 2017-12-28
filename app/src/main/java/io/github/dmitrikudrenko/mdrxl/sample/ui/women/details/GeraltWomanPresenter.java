@@ -14,6 +14,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.GeraltWomenStorag
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
 import rx.android.schedulers.AndroidSchedulers;
 
 import javax.annotation.Nullable;
@@ -29,6 +30,7 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
     private final GeraltWomanLoaderFactory loaderFactory;
     private final Provider<GeraltWomenStorageCommand> storageCommandProvider;
     private final Router router;
+    private final MessageFactory messageFactory;
     private final long id;
 
     @Nullable
@@ -39,11 +41,13 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
                          final GeraltWomanLoaderFactory loaderFactory,
                          final Provider<GeraltWomenStorageCommand> storageCommandProvider,
                          final Router router,
+                         final MessageFactory messageFactory,
                          @WomanId final long id) {
         super(loaderManager);
         this.loaderFactory = loaderFactory;
         this.storageCommandProvider = storageCommandProvider;
         this.router = router;
+        this.messageFactory = messageFactory;
         this.id = id;
     }
 
@@ -65,9 +69,9 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
         final GeraltWomenStorageCommand geraltWomenStorageCommand = storageCommandProvider.get();
         geraltWomenStorageCommand.save(createUpdateModel(field, value))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> getViewState().showMessage("GeraltWoman updated"),
+                .subscribe(() -> messageFactory.showMessage("GeraltWoman updated"),
                         error -> {
-                            getViewState().showError(error.getMessage());
+                            messageFactory.showError(error.getMessage());
                             getLoaderManager().getLoader(LOADER_ID).onContentChanged();
                         });
     }
@@ -114,7 +118,7 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
         @Override
         protected void onError(final int id, final Throwable error) {
             getViewState().stopLoading();
-            getViewState().showError(error.getMessage());
+            messageFactory.showError(error.getMessage());
         }
 
     }

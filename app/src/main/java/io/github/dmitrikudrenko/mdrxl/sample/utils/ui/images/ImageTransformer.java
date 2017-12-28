@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.utils.ui;
+package io.github.dmitrikudrenko.mdrxl.sample.utils.ui.images;
 
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Transformation;

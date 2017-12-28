@@ -16,6 +16,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.AdapterController;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomanHolder;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.commons.Strings;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
 import rx.subjects.BehaviorSubject;
 
 import javax.annotation.Nullable;
@@ -33,6 +34,7 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
     private final Provider<GeraltWomenLoader> loaderProvider;
     private final boolean multiWindow;
     private final Router router;
+    private final MessageFactory messageFactory;
 
     private final BehaviorSubject<String> searchQuerySubject = BehaviorSubject.create((String) null);
 
@@ -45,10 +47,12 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
     GeraltWomenPresenter(final RxLoaderManager loaderManager,
                          final Provider<GeraltWomenLoader> loaderProvider,
                          final Router router,
+                         final MessageFactory messageFactory,
                          @MultiWindow final boolean multiWindow) {
         super(loaderManager);
         this.loaderProvider = loaderProvider;
         this.router = router;
+        this.messageFactory = messageFactory;
         this.multiWindow = multiWindow;
         searchQuerySubject.filter(query -> loader != null)
                 .debounce(200, TimeUnit.MILLISECONDS)
@@ -170,7 +174,7 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
 
         @Override
         protected void onError(final int id, final Throwable error) {
-            getViewState().showError(error.getMessage());
+            messageFactory.showError(error.getMessage());
         }
 
     }

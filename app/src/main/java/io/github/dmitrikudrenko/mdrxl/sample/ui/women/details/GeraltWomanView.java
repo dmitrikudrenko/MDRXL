@@ -25,8 +25,4 @@ public interface GeraltWomanView extends LoadingRxView {
     void showProfession(String value);
 
     void showHairColor(String value);
-
-    void showError(String error);
-
-    void showMessage(String message);
 }
