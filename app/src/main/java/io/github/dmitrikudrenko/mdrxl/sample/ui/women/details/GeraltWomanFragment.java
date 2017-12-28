@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,15 +42,15 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
     SwipeRefreshLayout refreshLayout;
 
     @Nullable
-    @BindView(R.id.photo)
-    ImageView photoView;
-    @Nullable
     @BindView(R.id.name)
     EditText nameView;
     @BindView(R.id.profession)
     EditText professionView;
     @BindView(R.id.hair_color)
     EditText hairColorView;
+    @Nullable
+    @BindView(R.id.gallery)
+    View galleryView;
 
     public static GeraltWomanFragment create() {
         return new GeraltWomanFragment();
@@ -102,7 +101,7 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
     }
 
     @Optional
-    @OnClick(R.id.photo)
+    @OnClick(R.id.gallery)
     void onPhotoClicked() {
         presenter.onPhotoClicked();
     }
@@ -128,9 +127,7 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
 
     @Override
     public void showPhoto(final String value) {
-        if (photoView != null) {
-            imageLoader.loadPhotoInto(value, photoView);
-        } else {
+        if (galleryView == null) {
             ((GeraltWomanActivity) getActivity()).loadPhotoIntoToolbar(value);
         }
     }

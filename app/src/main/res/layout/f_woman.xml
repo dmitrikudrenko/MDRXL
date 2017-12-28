@@ -58,6 +58,8 @@
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"/>
                 </android.support.design.widget.TextInputLayout>
+
+                <include layout="@layout/partial_woman_photo"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </android.support.v4.widget.NestedScrollView>
