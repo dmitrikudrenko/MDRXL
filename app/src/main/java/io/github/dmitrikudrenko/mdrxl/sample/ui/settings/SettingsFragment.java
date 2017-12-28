@@ -8,20 +8,19 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
-import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class SettingsFragment extends RxFragment implements SettingsView {
+public class SettingsFragment extends BaseRxFragment implements SettingsView {
 
     @Inject
     Provider<SettingsPresenter> presenterProvider;
@@ -68,7 +67,7 @@ public class SettingsFragment extends RxFragment implements SettingsView {
 
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
-        ButterKnife.bind(this, view);
+        super.onViewCreated(view, savedInstanceState);
 
         final RadioGroup settingsGroup = view.findViewById(R.id.group_network_settings);
         onSettingsChangeListener = new MuteableOnCheckedChangeListener((group, checkedId) -> {

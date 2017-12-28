@@ -8,24 +8,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
-import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoCursor;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotosAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotosAdapterFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class GeraltWomanPhotosFragment extends RxFragment implements GeraltWomanPhotosView {
+public class GeraltWomanPhotosFragment extends BaseRxFragment implements GeraltWomanPhotosView {
     static GeraltWomanPhotosFragment create() {
         return new GeraltWomanPhotosFragment();
     }
@@ -79,7 +78,7 @@ public class GeraltWomanPhotosFragment extends RxFragment implements GeraltWoman
 
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
-        ButterKnife.bind(this, view);
+        super.onViewCreated(view, savedInstanceState);
 
         adapter = adapterFactory.create(getChildFragmentManager());
         viewPager.setAdapter(adapter);

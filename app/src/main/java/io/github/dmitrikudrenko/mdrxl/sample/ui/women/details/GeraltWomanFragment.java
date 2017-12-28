@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -20,17 +19,17 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
-import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomanPhotosNavigation;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
+public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanView {
     @Inject
     Provider<GeraltWomanPresenter> presenterProvider;
 
@@ -88,7 +87,7 @@ public class GeraltWomanFragment extends RxFragment implements GeraltWomanView {
 
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
-        ButterKnife.bind(this, view);
+        super.onViewCreated(view, savedInstanceState);
 
         refreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
         setupInputView(nameView, Fields.NAME);

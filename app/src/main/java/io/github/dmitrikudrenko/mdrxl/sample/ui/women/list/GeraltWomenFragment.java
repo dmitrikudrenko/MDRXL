@@ -13,15 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import butterknife.BindColor;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
-import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomenDetailsNavigation;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapterFactory;
@@ -29,7 +28,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAd
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
+public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenView {
     @Inject
     Provider<GeraltWomenPresenter> presenterProvider;
 
@@ -88,7 +87,8 @@ public class GeraltWomenFragment extends RxFragment implements GeraltWomenView {
 
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
-        ButterKnife.bind(this, view);
+        super.onViewCreated(view, savedInstanceState);
+
         adapter = adapterFactory.create(position -> presenter.onItemSelected(position), presenter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
