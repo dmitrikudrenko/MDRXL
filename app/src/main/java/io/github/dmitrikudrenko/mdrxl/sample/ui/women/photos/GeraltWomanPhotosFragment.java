@@ -17,10 +17,10 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
+import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotosAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotosAdapterFactory;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.di.FragmentScope;
 
 import javax.inject.Inject;
 import javax.inject.Provider;

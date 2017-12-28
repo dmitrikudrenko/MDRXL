@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.di;
+package io.github.dmitrikudrenko.mdrxl.sample.di;
 
 import javax.inject.Scope;
 

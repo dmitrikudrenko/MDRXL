@@ -23,8 +23,8 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
+import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomanPhotosNavigation;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
 
 import javax.inject.Inject;
