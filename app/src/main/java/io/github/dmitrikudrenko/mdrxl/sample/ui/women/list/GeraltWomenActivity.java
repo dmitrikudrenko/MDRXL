@@ -103,6 +103,12 @@ public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWome
         startActivity(GeraltWomanPhotosActivity.intent(this));
     }
 
+    @Override
+    public void finish() {
+        SampleApplication.releaseWomanComponent();
+        super.finish();
+    }
+
     private static class SearchViewExpandListener implements MenuItem.OnActionExpandListener {
         private final Menu menu;
 

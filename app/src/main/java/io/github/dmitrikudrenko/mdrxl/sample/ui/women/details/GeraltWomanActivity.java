@@ -44,9 +44,6 @@ public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWoma
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            SampleApplication.createWomanComponent(getIntent().getLongExtra(ARG_ID, -1));
-        }
         SampleApplication.get().inject(this);
     }
 
