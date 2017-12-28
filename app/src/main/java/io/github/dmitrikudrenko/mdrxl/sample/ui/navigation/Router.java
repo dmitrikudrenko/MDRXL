@@ -31,7 +31,7 @@ public class Router {
                     .replace(R.id.details, geraltWomanFragment, TAG_DETAILS_FRAGMENT)
                     .commitNow();
         } else {
-            activity.startActivity(GeraltWomanActivity.intent(activity, id));
+            activity.startActivity(GeraltWomanActivity.intent(activity));
         }
     }
 

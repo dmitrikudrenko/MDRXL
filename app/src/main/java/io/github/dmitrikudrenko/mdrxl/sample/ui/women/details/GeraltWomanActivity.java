@@ -14,11 +14,8 @@ import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.images.ImageLoader;
 import javax.inject.Inject;
 
 public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWomanFragment> {
-    private static final String ARG_ID = "id";
-
-    public static Intent intent(final Context context, final long id) {
-        return new Intent(context, GeraltWomanActivity.class)
-                .putExtra(ARG_ID, id);
+    public static Intent intent(final Context context) {
+        return new Intent(context, GeraltWomanActivity.class);
     }
 
     @Inject
