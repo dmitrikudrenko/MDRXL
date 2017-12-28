@@ -61,21 +61,8 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
     }
 
     @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (presenter == null) {
-            presenter = (GeraltWomenPresenter) getLastCustomNonConfigurationInstance();
-        }
-    }
-
-    @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
         SampleApplication.get().plus(new Module()).inject(this);
-    }
-
-    @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        return presenter;
     }
 
     @Nullable

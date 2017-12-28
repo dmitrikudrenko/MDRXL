@@ -50,14 +50,6 @@ public class SettingsFragment extends BaseRxFragment implements SettingsView {
         SampleApplication.get().plus(new Module()).inject(this);
     }
 
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (presenter == null) {
-            presenter = (SettingsPresenter) getLastCustomNonConfigurationInstance();
-        }
-    }
-
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
@@ -80,11 +72,6 @@ public class SettingsFragment extends BaseRxFragment implements SettingsView {
             }
         });
         settingsGroup.setOnCheckedChangeListener(onSettingsChangeListener);
-    }
-
-    @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        return presenter;
     }
 
     private void setButtonChecked(final CompoundButton compoundButton, final boolean value) {

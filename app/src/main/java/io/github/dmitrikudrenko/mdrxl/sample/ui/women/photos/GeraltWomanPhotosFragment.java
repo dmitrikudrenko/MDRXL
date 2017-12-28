@@ -56,19 +56,6 @@ public class GeraltWomanPhotosFragment extends BaseRxFragment implements GeraltW
         SampleApplication.getWomanComponent().plus(new Module()).inject(this);
     }
 
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (presenter == null) {
-            presenter = (GeraltWomanPhotosPresenter) getLastCustomNonConfigurationInstance();
-        }
-    }
-
-    @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        return presenter;
-    }
-
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
