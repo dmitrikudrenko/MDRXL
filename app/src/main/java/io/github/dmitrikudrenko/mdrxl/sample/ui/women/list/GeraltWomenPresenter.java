@@ -124,6 +124,14 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
     private void onDataLoaded(final GeraltWomen data) {
         this.data = data;
         getViewState().notifyDataChanged();
+
+        openFirstEntityIfShould();
+    }
+
+    private void openFirstEntityIfShould() {
+        if (multiWindow && selectedItemId < 0 && getItemCount() > 0) {
+            runOnUiThread(() -> onItemSelected(0));
+        }
     }
 
     void onOptionsMenuPrepared() {
