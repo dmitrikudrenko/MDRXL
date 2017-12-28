@@ -19,13 +19,10 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.MuteableOnCheckedChangeListener;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 public class SettingsFragment extends BaseRxFragment implements SettingsView {
 
     @Inject
-    Provider<SettingsPresenter> presenterProvider;
-
     @InjectPresenter
     SettingsPresenter presenter;
 
@@ -40,9 +37,6 @@ public class SettingsFragment extends BaseRxFragment implements SettingsView {
 
     @ProvidePresenter
     public SettingsPresenter providePresenter() {
-        if (presenter == null) {
-            presenter = presenterProvider.get();
-        }
         return presenter;
     }
 

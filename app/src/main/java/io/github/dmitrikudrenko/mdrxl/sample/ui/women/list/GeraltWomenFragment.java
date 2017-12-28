@@ -30,8 +30,6 @@ import javax.inject.Provider;
 
 public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenView {
     @Inject
-    Provider<GeraltWomenPresenter> presenterProvider;
-
     @InjectPresenter
     GeraltWomenPresenter presenter;
 
@@ -57,9 +55,6 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
 
     @ProvidePresenter
     GeraltWomenPresenter providePresenter() {
-        if (presenter == null) {
-            presenter = presenterProvider.get();
-        }
         return presenter;
     }
 

@@ -22,7 +22,6 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotosAdapt
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ToastFactory;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 public class GeraltWomanPhotosFragment extends BaseRxFragment implements GeraltWomanPhotosView {
     static GeraltWomanPhotosFragment create() {
@@ -30,8 +29,6 @@ public class GeraltWomanPhotosFragment extends BaseRxFragment implements GeraltW
     }
 
     @Inject
-    Provider<GeraltWomanPhotosPresenter> presenterProvider;
-
     @InjectPresenter
     GeraltWomanPhotosPresenter presenter;
 
@@ -48,9 +45,6 @@ public class GeraltWomanPhotosFragment extends BaseRxFragment implements GeraltW
 
     @ProvidePresenter
     public GeraltWomanPhotosPresenter providePresenter() {
-        if (presenter == null) {
-            presenter = presenterProvider.get();
-        }
         return presenter;
     }
 
