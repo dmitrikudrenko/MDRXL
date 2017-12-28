@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Optional;
@@ -24,6 +23,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomanPhotosNavigation;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ImageLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ToastFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -37,6 +37,9 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
 
     @Inject
     ImageLoader imageLoader;
+
+    @Inject
+    ToastFactory toastFactory;
 
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
@@ -144,12 +147,12 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
 
     @Override
     public void showError(final String error) {
-        showToast(error);
+        toastFactory.showLong(error);
     }
 
     @Override
     public void showMessage(final String message) {
-        showToast(message);
+        toastFactory.showLong(message);
     }
 
     @Override
@@ -158,10 +161,6 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
         if (activity instanceof GeraltWomanPhotosNavigation) {
             ((GeraltWomanPhotosNavigation) activity).navigateToGeraltWomanPhotos();
         }
-    }
-
-    private void showToast(final String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @dagger.Module

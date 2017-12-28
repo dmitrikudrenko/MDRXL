@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import butterknife.BindColor;
 import butterknife.BindView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -24,6 +23,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.GeraltWomenDetailsNavigation;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapterFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ToastFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -40,6 +40,9 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
 
     @Inject
     Provider<DividerItemDecoration> decorationProvider;
+
+    @Inject
+    ToastFactory toastFactory;
 
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
@@ -97,7 +100,7 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
 
     @Override
     public void showError(final String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        toastFactory.showLong(message);
     }
 
     @Override
