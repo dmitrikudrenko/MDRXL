@@ -11,6 +11,7 @@ public final class GeraltWomenCursor extends CursorWrapper {
     private final int photo;
     private final int profession;
     private final int hairColor;
+    private final int photoCount;
 
     GeraltWomenCursor(final Cursor cursor) {
         super(cursor);
@@ -19,6 +20,7 @@ public final class GeraltWomenCursor extends CursorWrapper {
         photo = cursor.getColumnIndex(GeraltWomenContract.COLUMN_PHOTO);
         profession = cursor.getColumnIndex(GeraltWomenContract.COLUMN_PROFESSION);
         hairColor = cursor.getColumnIndex(GeraltWomenContract.COLUMN_HAIR_COLOR);
+        photoCount = cursor.getColumnIndex(GeraltWomenContract.COLUMN_PHOTO_COUNT);
     }
 
     public int getId() {
@@ -39,6 +41,10 @@ public final class GeraltWomenCursor extends CursorWrapper {
 
     public String getHairColor() {
         return getString(hairColor);
+    }
+
+    public int getPhotoCount() {
+        return getInt(photoCount);
     }
 
     public boolean areContentsTheSame(final GeraltWomenCursor that) {

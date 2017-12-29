@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindView;
+import butterknife.OnPageChange;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
@@ -68,6 +69,16 @@ public class GeraltWomanPhotosFragment extends BaseRxFragment implements GeraltW
     @Override
     public void notifyDataChanged() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showPages(final String value) {
+        ((GeraltWomanPhotosActivity) getActivity()).showPages(value);
+    }
+
+    @OnPageChange(R.id.pager)
+    void onGalleryScroll() {
+        presenter.onGalleryScroll(viewPager.getCurrentItem());
     }
 
     @dagger.Module

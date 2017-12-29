@@ -19,7 +19,13 @@ public class GeraltWomanPhotosActivity extends BaseFragmentHolderRxActivity<Gera
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    public void showPages(final String value) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(value);
         }
     }
 }

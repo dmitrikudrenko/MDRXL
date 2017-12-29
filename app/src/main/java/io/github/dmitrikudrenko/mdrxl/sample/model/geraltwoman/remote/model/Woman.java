@@ -13,6 +13,8 @@ public class Woman {
     private String hairColor;
     @SerializedName("photo")
     private String photo;
+    @SerializedName("photo_count")
+    private int photoCount;
 
     public long getId() {
         return id;
@@ -32,5 +34,9 @@ public class Woman {
 
     public String getPhoto() {
         return photo;
+    }
+
+    public int getPhotoCount() {
+        return photoCount;
     }
 }

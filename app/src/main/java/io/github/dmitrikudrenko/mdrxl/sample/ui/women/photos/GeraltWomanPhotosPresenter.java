@@ -7,12 +7,15 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
+import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanId;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomanPhotosUpdateCommand;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.Gallery;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.ViewPagerAdapterController;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ResourcesManager;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
 
 import javax.inject.Inject;
@@ -28,20 +31,24 @@ public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosVie
     private final GeraltWomanPhotoLoaderFactory loaderFactory;
     private final Provider<GeraltWomanPhotosUpdateCommand> updateCommandProvider;
     private final MessageFactory messageFactory;
+    private final ResourcesManager resourcesManager;
     private final long womanId;
 
     private Photos photos;
+    private int photosCount;
 
     @Inject
     GeraltWomanPhotosPresenter(final RxLoaderManager loaderManager,
                                final GeraltWomanPhotoLoaderFactory loaderFactory,
                                final Provider<GeraltWomanPhotosUpdateCommand> updateCommandProvider,
                                final MessageFactory messageFactory,
+                               final ResourcesManager resourcesManager,
                                @WomanId final long womanId) {
         super(loaderManager);
         this.loaderFactory = loaderFactory;
         this.updateCommandProvider = updateCommandProvider;
         this.messageFactory = messageFactory;
+        this.resourcesManager = resourcesManager;
         this.womanId = womanId;
     }
 
@@ -62,20 +69,27 @@ public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosVie
         return photos.get(position).getUrl();
     }
 
-    private void onDataLoaded(final GeraltWomanPhotoCursor data) {
-        this.photos = new Photos(data);
+    private void onDataLoaded(final Gallery data) {
+        this.photos = new Photos(data.getCursor());
+        this.photosCount = data.getCount();
         getViewState().notifyDataChanged();
+        onGalleryScroll(0);
     }
 
-    private class LoaderCallbacks extends RxLoaderCallbacks<GeraltWomanPhotoCursor> {
+    void onGalleryScroll(final int current) {
+        getViewState().showPages(resourcesManager.getString(R.string.gallery_counter,
+                current + 1, photosCount));
+    }
+
+    private class LoaderCallbacks extends RxLoaderCallbacks<Gallery> {
 
         @Override
-        protected RxLoader<GeraltWomanPhotoCursor> getLoader(final int id, final RxLoaderArguments args) {
+        protected RxLoader<Gallery> getLoader(final int id, final RxLoaderArguments args) {
             return loaderFactory.create(womanId);
         }
 
         @Override
-        protected void onSuccess(final int id, final GeraltWomanPhotoCursor data) {
+        protected void onSuccess(final int id, final Gallery data) {
             onDataLoaded(data);
         }
         @Override

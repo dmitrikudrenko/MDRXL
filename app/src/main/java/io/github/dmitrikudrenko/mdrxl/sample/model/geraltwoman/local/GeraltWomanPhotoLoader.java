@@ -10,7 +10,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.contract.Ge
 import rx.Observable;
 
 @AutoFactory
-public class GeraltWomanPhotoLoader extends RxCursorLoader<GeraltWomanPhotoCursor> {
+public class GeraltWomanPhotoLoader extends RxCursorLoader<Gallery> {
     private final GeraltWomanPhotoRepository repository;
     private final GeraltWomenRepository womenRepository;
     private final long id;
@@ -26,14 +26,16 @@ public class GeraltWomanPhotoLoader extends RxCursorLoader<GeraltWomanPhotoCurso
     }
 
     @Override
-    protected Observable<GeraltWomanPhotoCursor> create(final String query) {
-        final Observable<GeraltWomanPhotoCursor> avatarObservable = womenRepository.get(id)
-                .map(GeraltWomanPhotoCursorFromWoman::new);
-
+    protected Observable<Gallery> create(final String query) {
+        final Observable<GeraltWomenCursor> avatarObservable = womenRepository.get(id);
         final Observable<GeraltWomanPhotoCursor> photosObservable = repository.get(id);
 
-        return Observable.combineLatest(photosObservable, avatarObservable,
-                (photos, avatar) -> new GeraltWomanPhotoCursor(new MergeCursor(new Cursor[]{avatar, photos})));
+        return Observable.combineLatest(avatarObservable, photosObservable, (womenCursor, photos) -> {
+            final GeraltWomanPhotoCursor avatar = new GeraltWomanPhotoCursorFromWoman(womenCursor);
+            womenCursor.moveToFirst();
+            return new Gallery(womenCursor.getPhotoCount() + 1,
+                    new GeraltWomanPhotoCursor(new MergeCursor(new Cursor[]{avatar, photos})));
+        });
     }
 
     private static class GeraltWomanPhotoCursorFromWoman extends GeraltWomanPhotoCursor {

@@ -76,6 +76,7 @@ public final class GeraltWomenRepository implements IRepository<GeraltWomenCurso
                 cv.put(GeraltWomenContract.COLUMN_PROFESSION, woman.getProfession());
                 cv.put(GeraltWomenContract.COLUMN_HAIR_COLOR, woman.getHairColor());
                 cv.put(GeraltWomenContract.COLUMN_PHOTO, woman.getPhoto());
+                cv.put(GeraltWomenContract.COLUMN_PHOTO_COUNT, woman.getPhotoCount());
                 batch.add(cv);
             }
             database.insertOrUpdateInTransaction(contract.tableName(), batch);

@@ -11,6 +11,7 @@ public class GeraltWomenContract implements Contract {
     public static final String COLUMN_PHOTO = "photo";
     public static final String COLUMN_PROFESSION = "profession";
     public static final String COLUMN_HAIR_COLOR = "hair_color";
+    public static final String COLUMN_PHOTO_COUNT = "photo_count";
 
     private static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
@@ -18,6 +19,7 @@ public class GeraltWomenContract implements Contract {
                     COLUMN_NAME + " TEXT," +
                     COLUMN_PHOTO + " TEXT," +
                     COLUMN_PROFESSION + " TEXT," +
+                    COLUMN_PHOTO_COUNT + " INTEGER," +
                     COLUMN_HAIR_COLOR + " TEXT)";
 
     private static final String SELECT_ALL = "SELECT * FROM " + TABLE_NAME;

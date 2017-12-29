@@ -5,42 +5,48 @@
       "name": "Triss Merigold",
       "profession": "Witch",
       "hair_color": "Redhead",
-      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/13277755_521560668030505_144398546_n.jpg?alt=media&token=1ea94dbf-9ec2-48bf-adf7-4f427f9df4bf"
+      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/13277755_521560668030505_144398546_n.jpg?alt=media&token=1ea94dbf-9ec2-48bf-adf7-4f427f9df4bf",
+      "photo_count": 5
     },
     "1": {
       "id": 1,
       "name": "Yennefer from Vengerberg",
       "profession": "Witch",
       "hair_color": "Black",
-      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/6cdfed772817c6349e8e293e614ed04d.jpg?alt=media&token=5aea6686-739e-4035-83ae-91cd67bb501f"
+      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/6cdfed772817c6349e8e293e614ed04d.jpg?alt=media&token=5aea6686-739e-4035-83ae-91cd67bb501f",
+      "photo_count": 0
     },
     "2": {
       "id": 2,
       "name": "Cirilla Fiona Elen Riannon",
       "profession": "Princess of Cintra",
       "hair_color": "Silver",
-      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/witcher3_2015_07_14_17_01_32_197.md.png?alt=media&token=cb30e400-4db1-404c-b8c6-3017f950cf33"
+      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/witcher3_2015_07_14_17_01_32_197.md.png?alt=media&token=cb30e400-4db1-404c-b8c6-3017f950cf33",
+      "photo_count": 0
     },
     "3": {
       "id": 3,
       "name": "Shani",
       "profession": "Medic",
       "hair_color": "Redhead",
-      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/maxresdefault.jpg?alt=media&token=91d2b257-f658-4183-9ef3-9af7f28934a0"
+      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/maxresdefault.jpg?alt=media&token=91d2b257-f658-4183-9ef3-9af7f28934a0",
+      "photo_count": 0
     },
     "4": {
       "id": 4,
       "name": "Sylvia Anna",
       "profession": "Anna Henrietta's sister",
       "hair_color": "Black",
-      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/little_red_sylvia_anna_by_isaac77598-da5mscf.jpg?alt=media&token=9bccd8d2-b957-417a-970b-069ae2b73ce8"
+      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/little_red_sylvia_anna_by_isaac77598-da5mscf.jpg?alt=media&token=9bccd8d2-b957-417a-970b-069ae2b73ce8",
+      "photo_count": 0
     },
     "5": {
       "id": 5,
       "name": "Viola",
       "profession": "Prostitute",
       "hair_color": "Blonde",
-      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/maxresdefault-2.jpg?alt=media&token=d4244374-7841-4ddf-bb9c-064a46a79bd5"
+      "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/maxresdefault-2.jpg?alt=media&token=d4244374-7841-4ddf-bb9c-064a46a79bd5",
+      "photo_count": 0
     }
   },
   "photos": {

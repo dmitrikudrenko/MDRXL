@@ -7,4 +7,6 @@ import io.github.dmitrikudrenko.mdrxl.mvp.RxView;
 @StateStrategyType(SkipStrategy.class)
 public interface GeraltWomanPhotosView extends RxView {
     void notifyDataChanged();
+
+    void showPages(String value);
 }
