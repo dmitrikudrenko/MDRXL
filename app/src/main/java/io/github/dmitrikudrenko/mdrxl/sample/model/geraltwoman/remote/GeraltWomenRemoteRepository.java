@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.remote;
 
 import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.remote.model.Photos;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.remote.model.Women;
 import io.github.dmitrikudrenko.mdrxl.sample.settings.Settings;
 import rx.Single;
@@ -21,6 +22,10 @@ public final class GeraltWomenRemoteRepository {
 
     public Single<Women> getWomen() {
         return womenApi.getWomen();
+    }
+
+    public Single<Photos> getPhotos(final long womanId) {
+        return womenApi.getPhotos(womanId);
     }
 
     public Single<Boolean> save(final UpdateModel model) {

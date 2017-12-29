@@ -11,7 +11,6 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.remote.model.Woma
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.remote.model.Women;
 import rx.Completable;
 import rx.Observable;
-import rx.functions.Action0;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -64,21 +63,18 @@ public final class GeraltWomenRepository implements IRepository<GeraltWomenCurso
     }
 
     public Completable updateAll(final Women women) {
-        return Completable.fromAction(new Action0() {
-            @Override
-            public void call() {
-                final List<ContentValues> batch = new ArrayList<>(women.size());
-                for (final Woman woman : women) {
-                    final ContentValues cv = new ContentValues();
-                    cv.put(GeraltWomenContract._ID, woman.getId());
-                    cv.put(GeraltWomenContract.COLUMN_NAME, woman.getName());
-                    cv.put(GeraltWomenContract.COLUMN_PROFESSION, woman.getProfession());
-                    cv.put(GeraltWomenContract.COLUMN_HAIR_COLOR, woman.getHairColor());
-                    cv.put(GeraltWomenContract.COLUMN_PHOTO, woman.getPhoto());
-                    batch.add(cv);
-                }
-                database.insertOrUpdateInTransaction(contract.tableName(), batch);
+        return Completable.fromAction(() -> {
+            final List<ContentValues> batch = new ArrayList<>(women.size());
+            for (final Woman woman : women) {
+                final ContentValues cv = new ContentValues();
+                cv.put(GeraltWomenContract._ID, woman.getId());
+                cv.put(GeraltWomenContract.COLUMN_NAME, woman.getName());
+                cv.put(GeraltWomenContract.COLUMN_PROFESSION, woman.getProfession());
+                cv.put(GeraltWomenContract.COLUMN_HAIR_COLOR, woman.getHairColor());
+                cv.put(GeraltWomenContract.COLUMN_PHOTO, woman.getPhoto());
+                batch.add(cv);
             }
+            database.insertOrUpdateInTransaction(contract.tableName(), batch);
         });
     }
 }

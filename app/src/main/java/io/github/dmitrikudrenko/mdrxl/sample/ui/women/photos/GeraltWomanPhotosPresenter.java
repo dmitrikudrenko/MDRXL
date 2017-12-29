@@ -9,29 +9,33 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanId;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomanPhotosUpdateCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 @FragmentScope
 @InjectViewState
 public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosView> {
-    private static final String ARG_ID = "id";
     private static final int LOADER_ID = RxLoaders.generateId();
 
     private final GeraltWomanPhotoLoaderFactory loaderFactory;
-    private MessageFactory messageFactory;
+    private final Provider<GeraltWomanPhotosUpdateCommand> updateCommandProvider;
+    private final MessageFactory messageFactory;
     private final long womanId;
 
     @Inject
     GeraltWomanPhotosPresenter(final RxLoaderManager loaderManager,
                                final GeraltWomanPhotoLoaderFactory loaderFactory,
+                               final Provider<GeraltWomanPhotosUpdateCommand> updateCommandProvider,
                                final MessageFactory messageFactory,
                                @WomanId final long womanId) {
         super(loaderManager);
         this.loaderFactory = loaderFactory;
+        this.updateCommandProvider = updateCommandProvider;
         this.messageFactory = messageFactory;
         this.womanId = womanId;
     }
@@ -39,16 +43,15 @@ public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosVie
     @Override
     public void attachView(final GeraltWomanPhotosView view) {
         super.attachView(view);
-        final RxLoaderArguments args = new RxLoaderArguments();
-        args.putLong(ARG_ID, womanId);
-        getLoaderManager().init(LOADER_ID, args, new LoaderCallbacks());
+        getLoaderManager().init(LOADER_ID, null, new LoaderCallbacks());
+        updateCommandProvider.get().updatePhotos(womanId);
     }
 
     private class LoaderCallbacks extends RxLoaderCallbacks<GeraltWomanPhotoCursor> {
 
         @Override
         protected RxLoader<GeraltWomanPhotoCursor> getLoader(final int id, final RxLoaderArguments args) {
-            return loaderFactory.create(args.getLong(ARG_ID));
+            return loaderFactory.create(womanId);
         }
 
         @Override
