@@ -8,6 +8,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.remote.model.Phot
 import rx.Completable;
 import rx.Observable;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,10 @@ public class GeraltWomanPhotoRepository {
                 .map(GeraltWomanPhotoCursor::new);
     }
 
-    public Completable updatePhotos(final Photos photos, final long womanId) {
+    public Completable updatePhotos(@Nullable final Photos photos, final long womanId) {
+        if (photos == null) {
+            return Completable.complete();
+        }
         return Completable.fromAction(() -> {
             final List<ContentValues> batch = new ArrayList<>(photos.size());
             for (final Photo photo : photos) {

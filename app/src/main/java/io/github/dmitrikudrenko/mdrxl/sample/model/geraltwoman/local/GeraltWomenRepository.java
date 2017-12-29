@@ -12,6 +12,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.remote.model.Wome
 import rx.Completable;
 import rx.Observable;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -62,7 +63,10 @@ public final class GeraltWomenRepository implements IRepository<GeraltWomenCurso
         });
     }
 
-    public Completable updateAll(final Women women) {
+    public Completable updateAll(@Nullable final Women women) {
+        if (women == null) {
+            return Completable.complete();
+        }
         return Completable.fromAction(() -> {
             final List<ContentValues> batch = new ArrayList<>(women.size());
             for (final Woman woman : women) {
