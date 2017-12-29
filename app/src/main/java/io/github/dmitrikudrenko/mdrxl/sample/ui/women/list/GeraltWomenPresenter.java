@@ -13,8 +13,8 @@ import io.github.dmitrikudrenko.mdrxl.sample.di.MultiWindow;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenUpdateCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenLoader;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.base.RecyclerViewAdapterController;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.AdapterController;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomanHolder;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.commons.Strings;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 import static io.github.dmitrikudrenko.mdrxl.sample.utils.commons.Preconditions.checkNotNull;
 
 @InjectViewState
-public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implements AdapterController<GeraltWomanHolder> {
+public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implements RecyclerViewAdapterController<GeraltWomanHolder> {
     private static final int LOADER_ID = RxLoaders.generateId();
 
     private final Provider<GeraltWomenLoader> loaderProvider;

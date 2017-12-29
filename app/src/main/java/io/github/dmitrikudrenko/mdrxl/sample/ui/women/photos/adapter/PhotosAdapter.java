@@ -4,51 +4,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import com.google.auto.factory.AutoFactory;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoCursor;
-
-import java.util.AbstractList;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.base.ViewPagerAdapterController;
 
 @AutoFactory
 public class PhotosAdapter extends FragmentStatePagerAdapter {
-    private Photos photos;
+    private final ViewPagerAdapterController<String> adapterController;
 
-    PhotosAdapter(final FragmentManager fm) {
+    PhotosAdapter(final FragmentManager fm,
+                  final ViewPagerAdapterController<String> adapterController) {
         super(fm);
+        this.adapterController = adapterController;
     }
 
     @Override
     public Fragment getItem(final int position) {
-        return PhotoFragment.create(photos.get(position).getUrl());
+        return PhotoFragment.create(adapterController.getData(position));
     }
 
     @Override
     public int getCount() {
-        return photos != null ? photos.size() : 0;
-    }
-
-    public void setPhotos(final GeraltWomanPhotoCursor cursor) {
-        this.photos = new Photos(cursor);
-        notifyDataSetChanged();
-    }
-
-    static class Photos extends AbstractList<GeraltWomanPhotoCursor> {
-        final GeraltWomanPhotoCursor cursor;
-
-        Photos(final GeraltWomanPhotoCursor cursor) {
-            this.cursor = cursor;
-        }
-
-        @Override
-        public GeraltWomanPhotoCursor get(final int index) {
-            if (cursor.moveToPosition(index)) {
-                return cursor;
-            }
-            throw new IndexOutOfBoundsException();
-        }
-
-        @Override
-        public int size() {
-            return cursor.getCount();
-        }
+        return adapterController.getCount();
     }
 }

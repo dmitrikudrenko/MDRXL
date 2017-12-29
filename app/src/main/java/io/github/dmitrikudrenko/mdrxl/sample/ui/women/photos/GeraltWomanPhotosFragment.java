@@ -15,7 +15,6 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotosAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotosAdapterFactory;
@@ -62,13 +61,13 @@ public class GeraltWomanPhotosFragment extends BaseRxFragment implements GeraltW
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = adapterFactory.create(getChildFragmentManager());
+        adapter = adapterFactory.create(getChildFragmentManager(), presenter);
         viewPager.setAdapter(adapter);
     }
 
     @Override
-    public void showData(final GeraltWomanPhotoCursor cursor) {
-        adapter.setPhotos(cursor);
+    public void notifyDataChanged() {
+        adapter.notifyDataSetChanged();
     }
 
     @dagger.Module

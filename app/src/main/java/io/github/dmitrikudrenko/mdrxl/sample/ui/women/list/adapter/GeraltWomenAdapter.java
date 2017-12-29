@@ -7,17 +7,18 @@ import android.view.ViewGroup;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.base.RecyclerViewAdapterController;
 
 @AutoFactory
 public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomanViewHolder> {
     private final GeraltWomanViewHolderFactory viewHolderFactory;
     private final OnItemClickListener itemClickListener;
 
-    private final AdapterController<GeraltWomanHolder> adapterController;
+    private final RecyclerViewAdapterController<GeraltWomanHolder> adapterController;
 
     GeraltWomenAdapter(@Provided final GeraltWomanViewHolderFactory viewHolderFactory,
                        final OnItemClickListener itemClickListener,
-                       final AdapterController<GeraltWomanHolder> adapterController) {
+                       final RecyclerViewAdapterController<GeraltWomanHolder> adapterController) {
         this.itemClickListener = itemClickListener;
         this.viewHolderFactory = viewHolderFactory;
         this.adapterController = adapterController;

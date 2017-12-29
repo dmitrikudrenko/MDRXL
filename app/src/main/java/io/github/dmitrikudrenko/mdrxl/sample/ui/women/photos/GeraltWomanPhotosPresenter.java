@@ -12,20 +12,25 @@ import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanId;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomanPhotosUpdateCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoLoaderFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.base.ViewPagerAdapterController;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+import java.util.AbstractList;
 
 @FragmentScope
 @InjectViewState
-public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosView> {
+public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosView>
+        implements ViewPagerAdapterController<String> {
     private static final int LOADER_ID = RxLoaders.generateId();
 
     private final GeraltWomanPhotoLoaderFactory loaderFactory;
     private final Provider<GeraltWomanPhotosUpdateCommand> updateCommandProvider;
     private final MessageFactory messageFactory;
     private final long womanId;
+
+    private Photos photos;
 
     @Inject
     GeraltWomanPhotosPresenter(final RxLoaderManager loaderManager,
@@ -47,6 +52,21 @@ public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosVie
         updateCommandProvider.get().updatePhotos(womanId);
     }
 
+    @Override
+    public int getCount() {
+        return photos != null ? photos.size() : 0;
+    }
+
+    @Override
+    public String getData(final int position) {
+        return photos.get(position).getUrl();
+    }
+
+    private void onDataLoaded(final GeraltWomanPhotoCursor data) {
+        this.photos = new Photos(data);
+        getViewState().notifyDataChanged();
+    }
+
     private class LoaderCallbacks extends RxLoaderCallbacks<GeraltWomanPhotoCursor> {
 
         @Override
@@ -56,12 +76,33 @@ public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosVie
 
         @Override
         protected void onSuccess(final int id, final GeraltWomanPhotoCursor data) {
-            getViewState().showData(data);
+            onDataLoaded(data);
         }
-
         @Override
         protected void onError(final int id, final Throwable error) {
             messageFactory.showError(error.getMessage());
+        }
+
+    }
+
+    static class Photos extends AbstractList<GeraltWomanPhotoCursor> {
+        final GeraltWomanPhotoCursor cursor;
+
+        Photos(final GeraltWomanPhotoCursor cursor) {
+            this.cursor = cursor;
+        }
+
+        @Override
+        public GeraltWomanPhotoCursor get(final int index) {
+            if (cursor.moveToPosition(index)) {
+                return cursor;
+            }
+            throw new IndexOutOfBoundsException();
+        }
+
+        @Override
+        public int size() {
+            return cursor.getCount();
         }
     }
 }
