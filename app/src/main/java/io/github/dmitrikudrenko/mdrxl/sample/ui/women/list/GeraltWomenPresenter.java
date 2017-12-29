@@ -10,6 +10,7 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.di.MultiWindow;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenUpdateCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenLoader;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
@@ -32,6 +33,7 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
     private static final int LOADER_ID = RxLoaders.generateId();
 
     private final Provider<GeraltWomenLoader> loaderProvider;
+    private final Provider<GeraltWomenUpdateCommand> updateCommandProvider;
     private final boolean multiWindow;
     private final Router router;
     private final MessageFactory messageFactory;
@@ -46,11 +48,13 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
     @Inject
     GeraltWomenPresenter(final RxLoaderManager loaderManager,
                          final Provider<GeraltWomenLoader> loaderProvider,
+                         final Provider<GeraltWomenUpdateCommand> updateCommandProvider,
                          final Router router,
                          final MessageFactory messageFactory,
                          @MultiWindow final boolean multiWindow) {
         super(loaderManager);
         this.loaderProvider = loaderProvider;
+        this.updateCommandProvider = updateCommandProvider;
         this.router = router;
         this.messageFactory = messageFactory;
         this.multiWindow = multiWindow;
@@ -65,11 +69,11 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
     public void attachView(final GeraltWomenView view) {
         super.attachView(view);
         loader = (GeraltWomenLoader) getLoaderManager().init(LOADER_ID, null, new LoaderCallbacks());
+        onRefresh();
     }
 
     void onRefresh() {
-        //???
-        getViewState().stopLoading();
+        updateCommandProvider.get().updateAll();
     }
 
     void onItemSelected(final int position) {
@@ -174,6 +178,7 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
 
         @Override
         protected void onError(final int id, final Throwable error) {
+            getViewState().stopLoading();
             messageFactory.showError(error.getMessage());
         }
 

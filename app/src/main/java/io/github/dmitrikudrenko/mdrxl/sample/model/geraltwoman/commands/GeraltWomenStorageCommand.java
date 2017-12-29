@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman;
+package io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands;
 
 import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenRepository;

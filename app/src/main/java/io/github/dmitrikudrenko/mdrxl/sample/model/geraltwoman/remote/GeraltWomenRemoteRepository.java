@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.remote;
 
 import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.remote.model.Women;
 import io.github.dmitrikudrenko.mdrxl.sample.settings.Settings;
 import rx.Single;
 
@@ -9,10 +10,17 @@ import javax.inject.Provider;
 
 public final class GeraltWomenRemoteRepository {
     private final Provider<Settings> settingsProvider;
+    private final WomenApi womenApi;
 
     @Inject
-    GeraltWomenRemoteRepository(final Provider<Settings> settingsProvider) {
+    GeraltWomenRemoteRepository(final Provider<Settings> settingsProvider,
+                                final WomenApi womenApi) {
         this.settingsProvider = settingsProvider;
+        this.womenApi = womenApi;
+    }
+
+    public Single<Women> getWomen() {
+        return womenApi.getWomen();
     }
 
     public Single<Boolean> save(final UpdateModel model) {

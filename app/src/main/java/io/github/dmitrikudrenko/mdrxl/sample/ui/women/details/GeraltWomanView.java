@@ -3,7 +3,6 @@ package io.github.dmitrikudrenko.mdrxl.sample.ui.women.details;
 import android.support.annotation.StringDef;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.GeraltWoman;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.LoadingRxView;
 
 import static io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.GeraltWomanView.Fields.*;
@@ -13,10 +12,10 @@ public interface GeraltWomanView extends LoadingRxView {
     @StringDef({NAME, PHOTO, PROFESSION, HAIR_COLOR})
     @interface Fields {
 
-        String NAME = GeraltWoman.Fields.NAME;
-        String PHOTO = GeraltWoman.Fields.PHOTO;
-        String PROFESSION = GeraltWoman.Fields.PROFESSION;
-        String HAIR_COLOR = GeraltWoman.Fields.HAIR_COLOR;
+        String NAME = "name";
+        String PHOTO = "photo";
+        String PROFESSION = "profession";
+        String HAIR_COLOR = "hair_color";
     }
     void showName(String value);
 
