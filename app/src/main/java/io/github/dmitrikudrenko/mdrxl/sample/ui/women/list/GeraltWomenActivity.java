@@ -8,13 +8,15 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseFragmentHolderRxActivity;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.base.SearchableController;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.settings.SettingsActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.MuteableSearchViewOnQueryTextListener;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.SearchViewExpandListener;
 
 import javax.annotation.Nullable;
 
-public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWomenFragment> {
+public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWomenFragment>
+        implements SearchableController {
     @Nullable
     @BindView(R.id.details)
     ViewGroup detailsContainer;
@@ -73,6 +75,7 @@ public class GeraltWomenActivity extends BaseFragmentHolderRxActivity<GeraltWome
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
     public void showSearchQuery(final String value) {
         onQueryTextListener.mute();
         searchItem.expandActionView();
