@@ -3,26 +3,26 @@ apply from: '../android.gradle'
 
 dependencies {
     //support
-    api "com.android.support:appcompat-v7:$supportVersion"
+    compileOnly libraries.supportCompat
 
     //unit test
-    testImplementation 'junit:junit:4.12'
+    testImplementation libraries.junit
 
     //instrumentation test
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation libraries.supportTestrunner
+    androidTestImplementation libraries.supportEspresso
 
     //DI
-    api 'com.google.dagger:dagger:2.13'
+    compileOnly libraries.dagger
 
     //mvp
-    api 'com.arello-mobile:moxy:1.5.3'
-    api 'com.arello-mobile:moxy-android:1.5.3'
+    compileOnly libraries.moxy
+    compileOnly libraries.moxyAndroid
 
     //rx
-    api 'io.reactivex:rxandroid:1.2.1'
-    api 'io.reactivex:rxjava:1.3.4'
+    compileOnly libraries.rxAndroid
+    compileOnly libraries.rxJava
 
     //annotations
-    api 'com.google.code.findbugs:jsr305:3.0.1'
+    compileOnly libraries.findBugs
 }
