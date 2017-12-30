@@ -3,6 +3,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.ui.women.details;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -20,6 +21,9 @@ public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWoma
 
     @Inject
     ImageLoader imageLoader;
+
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @BindView(R.id.toolbar_image)
     ImageView toolbarImageView;
@@ -55,9 +59,7 @@ public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWoma
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(value);
         }
-        if (getCollapsingToolbarLayout() != null) {
-            getCollapsingToolbarLayout().setTitle(value);
-        }
+        collapsingToolbarLayout.setTitle(value);
     }
 
     @OnClick(R.id.toolbar_image)

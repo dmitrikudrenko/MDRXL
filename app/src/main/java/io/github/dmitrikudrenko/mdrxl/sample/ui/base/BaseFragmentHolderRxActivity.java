@@ -1,7 +1,6 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.base;
 
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import butterknife.BindView;
@@ -10,8 +9,6 @@ import io.github.dmitrikudrenko.mdrxl.mvp.RxActivity;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 
-import javax.annotation.Nullable;
-
 public abstract class BaseFragmentHolderRxActivity<F extends RxFragment> extends RxActivity {
     private static final String TAG_FRAGMENT = "main_fragment";
 
@@ -19,10 +16,6 @@ public abstract class BaseFragmentHolderRxActivity<F extends RxFragment> extends
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-    @Nullable
-    @BindView(R.id.collapsing_toolbar_layout)
-    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -53,10 +46,5 @@ public abstract class BaseFragmentHolderRxActivity<F extends RxFragment> extends
 
     protected int contentView() {
         return R.layout.a_fragment_holder;
-    }
-
-    @Nullable
-    public CollapsingToolbarLayout getCollapsingToolbarLayout() {
-        return collapsingToolbarLayout;
     }
 }
