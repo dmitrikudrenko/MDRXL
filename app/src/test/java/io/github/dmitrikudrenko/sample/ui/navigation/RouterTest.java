@@ -7,11 +7,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import io.github.dmitrikudrenko.sample.GeraltApplication;
 import io.github.dmitrikudrenko.sample.R;
+import io.github.dmitrikudrenko.sample.ui.settings.SettingsFragment;
+import io.github.dmitrikudrenko.sample.ui.video.list.WitcherVideosFragment;
 import io.github.dmitrikudrenko.sample.ui.video.player.VideoPlayerActivity;
 import io.github.dmitrikudrenko.sample.ui.video.player.VideoPlayerFragment;
 import io.github.dmitrikudrenko.sample.ui.video.queue.VideoQueueActivity;
 import io.github.dmitrikudrenko.sample.ui.women.details.GeraltWomanActivity;
 import io.github.dmitrikudrenko.sample.ui.women.details.GeraltWomanFragment;
+import io.github.dmitrikudrenko.sample.ui.women.list.GeraltWomenFragment;
 import io.github.dmitrikudrenko.sample.ui.women.photos.GeraltWomanPhotosActivity;
 import io.github.dmitrikudrenko.sample.utils.ui.ClickInfo;
 import org.junit.Before;
@@ -38,12 +41,8 @@ public class RouterTest {
     @Test
     public void shouldOpenPhotos() {
         setupRouter(true);
-
         router.openGeraltWomanPhotos();
-        final Intent intent = shadowOf(activity).getNextStartedActivity();
-        assertNotNull(intent);
-        assertNotNull(intent.getComponent());
-        assertEquals(GeraltWomanPhotosActivity.class.getName(), intent.getComponent().getClassName());
+        assertNextStartedActivity(GeraltWomanPhotosActivity.class.getName());
     }
 
     @Test
@@ -54,10 +53,7 @@ public class RouterTest {
         final ClickInfo clickInfo = mock(ClickInfo.class);
         router.openGeraltWoman(id, clickInfo);
 
-        final Intent intent = shadowOf(activity).getNextStartedActivity();
-        assertNotNull(intent);
-        assertNotNull(intent.getComponent());
-        assertEquals(GeraltWomanActivity.class.getName(), intent.getComponent().getClassName());
+        assertNextStartedActivity(GeraltWomanActivity.class.getName());
 
         assertEquals(id, GeraltApplication.getWomanComponent().id());
     }
@@ -72,8 +68,7 @@ public class RouterTest {
 
         assertEquals(id, GeraltApplication.getWomanComponent().id());
 
-        verify(fragmentTransaction).replace(eq(R.id.details),
-                any(GeraltWomanFragment.class), eq("details_fragment"));
+        verifyDetailsFragment(GeraltWomanFragment.class);
     }
 
     @Test
@@ -86,8 +81,7 @@ public class RouterTest {
 
         assertEquals(id, GeraltApplication.getVideoComponent().id());
 
-        verify(fragmentTransaction).replace(eq(R.id.details),
-                any(VideoPlayerFragment.class), eq("details_fragment"));
+        verifyDetailsFragment(VideoPlayerFragment.class);
     }
 
     @Test
@@ -98,10 +92,7 @@ public class RouterTest {
         final ClickInfo clickInfo = mock(ClickInfo.class);
         router.openGeraltVideo(id, clickInfo);
 
-        final Intent intent = shadowOf(activity).getNextStartedActivity();
-        assertNotNull(intent);
-        assertNotNull(intent.getComponent());
-        assertEquals(VideoPlayerActivity.class.getName(), intent.getComponent().getClassName());
+        assertNextStartedActivity(VideoPlayerActivity.class.getName());
 
         assertEquals(id, GeraltApplication.getVideoComponent().id());
     }
@@ -109,21 +100,63 @@ public class RouterTest {
     @Test
     public void shouldOpenVideoQueue() {
         setupRouter(false);
-
         router.openVideoQueue();
+        assertNextStartedActivity(VideoQueueActivity.class.getName());
+    }
 
+    @Test
+    public void shouldOpenGeraltWomen() {
+        setupRouter(true);
+        router.openGeraltWomen();
+        verifyContentFragment(GeraltWomenFragment.class);
+        verifyDetailsFragmentClosed();
+    }
+
+    @Test
+    public void shouldOpenWitcherVideos() {
+        setupRouter(true);
+        router.openWitcherVideos();
+        verifyContentFragment(WitcherVideosFragment.class);
+        verifyDetailsFragmentClosed();
+    }
+
+    @Test
+    public void shouldOpenSettings() {
+        setupRouter(true);
+        router.openSettings();
+        verifyContentFragment(SettingsFragment.class);
+        verifyDetailsFragmentClosed();
+    }
+
+    private void verifyDetailsFragmentClosed() {
+        verify(fragmentTransaction).remove(any(Fragment.class));
+    }
+
+    private <T extends Fragment> void verifyContentFragment(final Class<T> fragmentClass) {
+        verify(fragmentTransaction).replace(eq(R.id.content),
+                any(fragmentClass), eq("content_fragment"));
+    }
+
+    private <T extends Fragment> void verifyDetailsFragment(final Class<T> fragmentClass) {
+        verify(fragmentTransaction).replace(eq(R.id.details),
+                any(fragmentClass), eq("details_fragment"));
+    }
+
+    private void assertNextStartedActivity(final String componentName) {
         final Intent intent = shadowOf(activity).getNextStartedActivity();
         assertNotNull(intent);
         assertNotNull(intent.getComponent());
-        assertEquals(VideoQueueActivity.class.getName(), intent.getComponent().getClassName());
+        assertEquals(componentName, intent.getComponent().getClassName());
     }
 
     private void setupRouter(final boolean multiWindow) {
         if (multiWindow) {
             fragmentTransaction = mock(FragmentTransaction.class);
             final FragmentManager fragmentManager = mock(FragmentManager.class);
+            when(fragmentManager.findFragmentByTag("details_fragment")).thenReturn(mock(Fragment.class));
             when(fragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
             when(fragmentTransaction.replace(anyInt(), any(Fragment.class), anyString())).thenReturn(fragmentTransaction);
+            when(fragmentTransaction.remove(any(Fragment.class))).thenReturn(fragmentTransaction);
             when(activity.getSupportFragmentManager()).thenReturn(fragmentManager);
         }
         router = new Router(activity, multiWindow);

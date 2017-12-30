@@ -47,6 +47,26 @@
       "hair_color": "Blonde",
       "photo": "https://firebasestorage.googleapis.com/v0/b/geralt-f5e41.appspot.com/o/maxresdefault-2.jpg?alt=media&token=d4244374-7841-4ddf-bb9c-064a46a79bd5",
       "photo_count": 0
+    },
+    "6": {
+      "id": 6,
+      "name": "Unknown woman",
+      "photo_count": 0
+    },
+    "7": {
+      "id": 7,
+      "name": "Unknown woman",
+      "photo_count": 0
+    },
+    "8": {
+      "id": 8,
+      "name": "Unknown woman",
+      "photo_count": 0
+    },
+    "9": {
+      "id": 9,
+      "name": "Unknown woman",
+      "photo_count": 0
     }
   },
   "photos": {
