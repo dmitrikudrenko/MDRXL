@@ -1,5 +1,6 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.design.internal.ForegroundLinearLayout;
@@ -52,6 +53,7 @@ public class GeraltWomanViewHolder extends RecyclerView.ViewHolder implements Ge
         profession.setText(value);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void setSelected(final boolean selected) {
         ((ForegroundLinearLayout) itemView).setForeground(selected ? activatedItemForeground : null);

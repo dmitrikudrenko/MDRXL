@@ -13,6 +13,10 @@ android {
         exclude 'plugin.xml'
         exclude 'plugin.properties'
     }
+
+    lintOptions {
+        lintConfig file("lint.xml")
+    }
 }
 
 dependencies {
