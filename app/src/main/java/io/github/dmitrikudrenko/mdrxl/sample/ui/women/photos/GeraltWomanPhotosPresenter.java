@@ -7,7 +7,7 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
-import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
+import io.github.dmitrikudrenko.mdrxl.mvp.RxLoaderPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanId;
@@ -25,7 +25,7 @@ import java.util.AbstractList;
 
 @FragmentScope
 @InjectViewState
-public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosView>
+public class GeraltWomanPhotosPresenter extends RxLoaderPresenter<GeraltWomanPhotosView>
         implements ViewPagerAdapterController<String> {
     private static final int LOADER_ID = RxLoaders.generateId();
     private static final String TAG = "GWomanPhotosPresenter";

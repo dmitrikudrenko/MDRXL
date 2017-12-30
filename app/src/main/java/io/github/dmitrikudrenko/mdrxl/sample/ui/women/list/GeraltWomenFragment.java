@@ -21,6 +21,7 @@ import io.github.dmitrikudrenko.mdrxl.mvp.RxActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
+import io.github.dmitrikudrenko.mdrxl.sample.ui.base.SearchableController;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapterFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
@@ -103,7 +104,7 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
 
     @Override
     public void showSearchQuery(final String value) {
-        ((GeraltWomenActivity) getActivity()).showSearchQuery(value);
+        ((SearchableController) getActivity()).showSearchQuery(value);
     }
 
     public void onSearchQuerySubmitted(final String query) {

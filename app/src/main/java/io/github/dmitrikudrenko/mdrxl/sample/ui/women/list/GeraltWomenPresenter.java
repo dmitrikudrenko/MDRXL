@@ -8,7 +8,7 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
-import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
+import io.github.dmitrikudrenko.mdrxl.mvp.RxLoaderPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.di.MultiWindow;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenUpdateCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 import static io.github.dmitrikudrenko.mdrxl.sample.utils.commons.Preconditions.checkNotNull;
 
 @InjectViewState
-public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implements RecyclerViewAdapterController<GeraltWomanHolder> {
+public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> implements RecyclerViewAdapterController<GeraltWomanHolder> {
     private static final int LOADER_ID = RxLoaders.generateId();
     private static final String TAG = "GeraltWomenPresenter";
 

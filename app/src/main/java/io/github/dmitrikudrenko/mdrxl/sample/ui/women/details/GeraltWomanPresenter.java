@@ -6,7 +6,7 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
-import io.github.dmitrikudrenko.mdrxl.mvp.RxPresenter;
+import io.github.dmitrikudrenko.mdrxl.mvp.RxLoaderPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanId;
 import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
@@ -23,7 +23,7 @@ import javax.inject.Provider;
 
 @FragmentScope
 @InjectViewState
-public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
+public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
     private static final String ARG_ID = "id";
     private static final int LOADER_ID = RxLoaders.generateId();
 
