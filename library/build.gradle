@@ -22,6 +22,7 @@ dependencies {
     //rx
     compileOnly libraries.rxAndroid
     compileOnly libraries.rxJava
+    compile libraries.rxLint //compileOnly not working with rxLint
 
     //annotations
     compileOnly libraries.findBugs

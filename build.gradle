@@ -53,11 +53,13 @@ ext.libraries = [
 
         rxJava             : 'io.reactivex:rxjava:1.3.4',
         rxAndroid          : 'io.reactivex:rxandroid:1.2.1',
+        rxPreferences      : 'com.f2prateek.rx.preferences:rx-preferences:1.0.2',
+        rxLint             : 'nl.littlerobots.rxlint:rxlint:1.6',
 
         findBugs           : 'com.google.code.findbugs:jsr305:3.0.1',
 
         retrofit           : "com.squareup.retrofit2:retrofit:$retrofitVersion",
-        retrofitGson        : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+        retrofitGson       : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
         retrofitRxjava     : "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
 
         gson               : 'com.google.code.gson:gson:2.8.2',
@@ -66,7 +68,5 @@ ext.libraries = [
         butterknife        : "com.jakewharton:butterknife:$butterKnifeVersion",
         butterknifeCompiler: "com.jakewharton:butterknife-compiler:$butterKnifeVersion",
 
-        sqlbrite           : 'com.squareup.sqlbrite:sqlbrite:1.1.2',
-
-        rxPreferences        : 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
+        sqlbrite           : 'com.squareup.sqlbrite:sqlbrite:1.1.2'
 ]

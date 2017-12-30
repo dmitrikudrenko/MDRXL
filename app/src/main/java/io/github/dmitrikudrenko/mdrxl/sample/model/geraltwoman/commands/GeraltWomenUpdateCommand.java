@@ -2,6 +2,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands;
 
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenRepository;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.remote.GeraltWomenRemoteRepository;
+import rx.Completable;
 
 import javax.inject.Inject;
 
@@ -16,9 +17,8 @@ public class GeraltWomenUpdateCommand {
         this.localRepository = localRepository;
     }
 
-    public void updateAll() {
-        remoteRepository.getWomen()
-                .flatMapCompletable(localRepository::updateAll)
-                .subscribe();
+    public Completable updateAll() {
+        return remoteRepository.getWomen()
+                .flatMapCompletable(localRepository::updateAll);
     }
 }

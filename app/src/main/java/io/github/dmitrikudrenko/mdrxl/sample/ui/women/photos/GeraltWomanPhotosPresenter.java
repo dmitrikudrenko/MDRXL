@@ -1,5 +1,6 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos;
 
+import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
@@ -27,6 +28,7 @@ import java.util.AbstractList;
 public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosView>
         implements ViewPagerAdapterController<String> {
     private static final int LOADER_ID = RxLoaders.generateId();
+    private static final String TAG = "GWomanPhotosPresenter";
 
     private final GeraltWomanPhotoLoaderFactory loaderFactory;
     private final Provider<GeraltWomanPhotosUpdateCommand> updateCommandProvider;
@@ -56,7 +58,9 @@ public class GeraltWomanPhotosPresenter extends RxPresenter<GeraltWomanPhotosVie
     public void attachView(final GeraltWomanPhotosView view) {
         super.attachView(view);
         getLoaderManager().init(LOADER_ID, null, new LoaderCallbacks());
-        updateCommandProvider.get().updatePhotos(womanId);
+        add(updateCommandProvider.get().updatePhotos(womanId).subscribe(
+                () -> Log.d(TAG, "Photos refreshed"), error -> Log.e(TAG, error.getMessage(), error))
+        );
     }
 
     @Override

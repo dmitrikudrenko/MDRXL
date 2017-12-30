@@ -67,13 +67,14 @@ public class GeraltWomanPresenter extends RxPresenter<GeraltWomanView> {
 
     void onDataChanged(@GeraltWomanView.Fields final String field, final String value) {
         final GeraltWomenStorageCommand geraltWomenStorageCommand = storageCommandProvider.get();
-        geraltWomenStorageCommand.save(createUpdateModel(field, value))
+        add(geraltWomenStorageCommand.save(createUpdateModel(field, value))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> messageFactory.showMessage("GeraltWoman updated"),
                         error -> {
                             messageFactory.showError(error.getMessage());
                             getLoaderManager().getLoader(LOADER_ID).onContentChanged();
-                        });
+                        })
+        );
     }
 
     private UpdateModel createUpdateModel(final String field, final String value) {

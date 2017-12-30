@@ -45,6 +45,7 @@ dependencies {
     //rx
     implementation libraries.rxAndroid
     implementation libraries.rxJava
+    compile libraries.rxLint //compileOnly not working with rxLint
 
     //unit test
     testImplementation libraries.junit

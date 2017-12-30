@@ -3,9 +3,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.settings;
 import android.content.SharedPreferences;
 import android.support.annotation.StringDef;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
-import rx.Completable;
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 import javax.inject.Inject;
 
@@ -50,7 +48,7 @@ public final class NetworkSettingsRepository {
     }
 
     public void set(@NetworkPreference final String preference) {
-        Completable.fromAction(() -> doSet(preference)).subscribeOn(Schedulers.io()).subscribe();
+        doSet(preference);
     }
 
     private void doSet(@NetworkPreference final String preference) {
@@ -72,7 +70,7 @@ public final class NetworkSettingsRepository {
             editor.putBoolean(KEY_SUCCESS, newSettings.isSuccess())
                     .putBoolean(KEY_TIMEOUT, newSettings.isTimeout())
                     .putBoolean(KEY_ERROR, newSettings.isError());
-            editor.commit();
+            editor.apply();
         }
     }
 }

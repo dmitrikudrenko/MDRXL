@@ -31,6 +31,7 @@ import static io.github.dmitrikudrenko.mdrxl.sample.utils.commons.Preconditions.
 @InjectViewState
 public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implements RecyclerViewAdapterController<GeraltWomanHolder> {
     private static final int LOADER_ID = RxLoaders.generateId();
+    private static final String TAG = "GeraltWomenPresenter";
 
     private final Provider<GeraltWomenLoader> loaderProvider;
     private final Provider<GeraltWomenUpdateCommand> updateCommandProvider;
@@ -58,11 +59,12 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
         this.router = router;
         this.messageFactory = messageFactory;
         this.multiWindow = multiWindow;
-        searchQuerySubject.filter(query -> loader != null)
+        add(searchQuerySubject.filter(query -> loader != null)
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .map(s -> Strings.isBlank(s) ? null : s)
                 .distinctUntilChanged()
-                .subscribe(query -> loader.setSearchQuery(query));
+                .subscribe(query -> loader.setSearchQuery(query), error -> Log.e(TAG, error.getMessage(), error))
+        );
     }
 
     @Override
@@ -73,7 +75,9 @@ public class GeraltWomenPresenter extends RxPresenter<GeraltWomenView> implement
     }
 
     void onRefresh() {
-        updateCommandProvider.get().updateAll();
+        add(updateCommandProvider.get().updateAll().subscribe(
+                () -> Log.d(TAG, "Women refreshed"), error -> Log.e(TAG, error.getMessage(), error))
+        );
     }
 
     void onItemSelected(final int position) {
