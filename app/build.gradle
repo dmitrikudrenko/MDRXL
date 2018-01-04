@@ -67,4 +67,6 @@ dependencies {
 
     //annotations
     compileOnly libraries.findBugs
+
+    implementation libraries.eventBus
 }

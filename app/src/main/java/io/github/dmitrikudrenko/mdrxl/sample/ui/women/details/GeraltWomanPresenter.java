@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.details;
 
 import com.arellomobile.mvp.InjectViewState;
+import io.github.dmitrikudrenko.mdrxl.commands.CommandStarter;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
@@ -10,16 +11,18 @@ import io.github.dmitrikudrenko.mdrxl.mvp.RxLoaderPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanId;
 import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenStorageCommand;
+import io.github.dmitrikudrenko.mdrxl.sample.model.events.GeraltEvents;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenStorageCommandRequest;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.EventBus;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.mvp.EventBusPresenterExtension;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
-import rx.android.schedulers.AndroidSchedulers;
+import org.greenrobot.eventbus.Subscribe;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 @FragmentScope
 @InjectViewState
@@ -28,7 +31,7 @@ public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
     private static final int LOADER_ID = RxLoaders.generateId();
 
     private final GeraltWomanLoaderFactory loaderFactory;
-    private final Provider<GeraltWomenStorageCommand> storageCommandProvider;
+    private final CommandStarter commandStarter;
     private final Router router;
     private final MessageFactory messageFactory;
     private final long id;
@@ -39,16 +42,18 @@ public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
     @Inject
     GeraltWomanPresenter(final RxLoaderManager loaderManager,
                          final GeraltWomanLoaderFactory loaderFactory,
-                         final Provider<GeraltWomenStorageCommand> storageCommandProvider,
+                         final CommandStarter commandStarter,
                          final Router router,
                          final MessageFactory messageFactory,
+                         final EventBus eventBus,
                          @WomanId final long id) {
         super(loaderManager);
         this.loaderFactory = loaderFactory;
-        this.storageCommandProvider = storageCommandProvider;
+        this.commandStarter = commandStarter;
         this.router = router;
         this.messageFactory = messageFactory;
         this.id = id;
+        add(new MessageExtension(eventBus));
     }
 
     @Override
@@ -66,15 +71,7 @@ public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
     }
 
     void onDataChanged(@GeraltWomanView.Fields final String field, final String value) {
-        final GeraltWomenStorageCommand geraltWomenStorageCommand = storageCommandProvider.get();
-        add(geraltWomenStorageCommand.save(createUpdateModel(field, value))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> messageFactory.showMessage("GeraltWoman updated"),
-                        error -> {
-                            messageFactory.showError(error.getMessage());
-                            getLoaderManager().getLoader(LOADER_ID).onContentChanged();
-                        })
-        );
+        commandStarter.execute(new GeraltWomenStorageCommandRequest(createUpdateModel(field, value)));
     }
 
     private UpdateModel createUpdateModel(final String field, final String value) {
@@ -122,5 +119,24 @@ public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
             messageFactory.showError(error.getMessage());
         }
 
+    }
+
+    private class MessageExtension extends EventBusPresenterExtension {
+
+        MessageExtension(final EventBus eventBus) {
+            super(eventBus);
+        }
+
+        @Subscribe
+        public void on(final GeraltEvents.WomanUpdatedSuccess event) {
+            messageFactory.showMessage("GeraltWoman updated");
+        }
+
+        @Subscribe
+        public void on(final GeraltEvents.WomanUpdatedFail event) {
+            final Throwable error = event.getError();
+            messageFactory.showError(error.getMessage());
+            getLoaderManager().getLoader(LOADER_ID).onContentChanged();
+        }
     }
 }

@@ -68,5 +68,7 @@ ext.libraries = [
         butterknife        : "com.jakewharton:butterknife:$butterKnifeVersion",
         butterknifeCompiler: "com.jakewharton:butterknife-compiler:$butterKnifeVersion",
 
-        sqlbrite           : 'com.squareup.sqlbrite:sqlbrite:1.1.2'
+        sqlbrite           : 'com.squareup.sqlbrite:sqlbrite:1.1.2',
+
+        eventBus           : 'org.greenrobot:eventbus:3.1.1'
 ]

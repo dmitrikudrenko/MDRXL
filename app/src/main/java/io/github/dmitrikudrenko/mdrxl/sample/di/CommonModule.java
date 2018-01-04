@@ -3,6 +3,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.di;
 import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.EventBus;
 
 @Module
 public final class CommonModule {
@@ -15,5 +16,10 @@ public final class CommonModule {
     @Provides
     Context provideContext() {
         return context;
+    }
+
+    @Provides
+    EventBus provideEventBus() {
+        return new EventBus(org.greenrobot.eventbus.EventBus.getDefault());
     }
 }

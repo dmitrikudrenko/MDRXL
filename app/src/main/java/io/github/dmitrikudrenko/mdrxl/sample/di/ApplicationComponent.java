@@ -10,7 +10,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotoFragme
 import javax.inject.Singleton;
 
 @Singleton
-@dagger.Component(modules = {CommonModule.class, NetworkModule.class, UiModule.class})
+@dagger.Component(modules = {CommonModule.class, NetworkModule.class, UiModule.class, CommandModule.class})
 public interface ApplicationComponent {
     WomanComponent plus(WomanModule module);
 

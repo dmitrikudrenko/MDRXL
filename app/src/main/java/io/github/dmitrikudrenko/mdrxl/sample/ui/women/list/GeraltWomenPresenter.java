@@ -3,6 +3,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.ui.women.list;
 import android.support.v7.util.DiffUtil;
 import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
+import io.github.dmitrikudrenko.mdrxl.commands.CommandStarter;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
@@ -10,7 +11,7 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxLoaderPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.di.MultiWindow;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenUpdateCommand;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenUpdateCommandRequest;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenLoader;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.RecyclerViewAdapterController;
@@ -34,7 +35,7 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
     private static final String TAG = "GeraltWomenPresenter";
 
     private final Provider<GeraltWomenLoader> loaderProvider;
-    private final Provider<GeraltWomenUpdateCommand> updateCommandProvider;
+    private final CommandStarter commandStarter;
     private final boolean multiWindow;
     private final Router router;
     private final MessageFactory messageFactory;
@@ -49,13 +50,13 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
     @Inject
     GeraltWomenPresenter(final RxLoaderManager loaderManager,
                          final Provider<GeraltWomenLoader> loaderProvider,
-                         final Provider<GeraltWomenUpdateCommand> updateCommandProvider,
+                         final CommandStarter commandStarter,
                          final Router router,
                          final MessageFactory messageFactory,
                          @MultiWindow final boolean multiWindow) {
         super(loaderManager);
         this.loaderProvider = loaderProvider;
-        this.updateCommandProvider = updateCommandProvider;
+        this.commandStarter = commandStarter;
         this.router = router;
         this.messageFactory = messageFactory;
         this.multiWindow = multiWindow;
@@ -75,9 +76,7 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
     }
 
     void onRefresh() {
-        add(updateCommandProvider.get().updateAll().subscribe(
-                () -> Log.d(TAG, "Women refreshed"), error -> Log.e(TAG, error.getMessage(), error))
-        );
+        commandStarter.execute(new GeraltWomenUpdateCommandRequest());
     }
 
     void onItemSelected(final int position) {
