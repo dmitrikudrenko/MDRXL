@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.sample.utils.profiling;
 
 import android.content.Context;
+import android.view.Gravity;
 import com.codemonkeylabs.fpslibrary.TinyDancer;
 
 public class TinyDancerProfilingProcessor implements ProfilingProcessor {
@@ -12,7 +13,9 @@ public class TinyDancerProfilingProcessor implements ProfilingProcessor {
 
     @Override
     public void enable() {
-        TinyDancer.create().show(context);
+        TinyDancer.create()
+                .startingGravity(Gravity.BOTTOM | Gravity.END)
+                .show(context);
     }
 
     @Override
