@@ -7,6 +7,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.di.CommonModule;
 import io.github.dmitrikudrenko.mdrxl.sample.di.DaggerApplicationComponent;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanComponent;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanModule;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.profiling.ProfilingProcessor;
 
 public class SampleApplication extends MultiDexApplication {
     private static ApplicationComponent applicationComponent;
@@ -36,6 +37,10 @@ public class SampleApplication extends MultiDexApplication {
         applicationComponent = DaggerApplicationComponent.builder()
                 .commonModule(new CommonModule(this))
                 .build();
+
+        for (final ProfilingProcessor processor : applicationComponent.profilingProcessors()) {
+            processor.enable();
+        }
     }
 
     public static ApplicationComponent get() {

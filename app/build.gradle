@@ -69,4 +69,8 @@ dependencies {
     compileOnly libraries.findBugs
 
     implementation libraries.eventBus
+
+    debugImplementation libraries.tinydancer
+    releaseImplementation libraries.tinydancerNoop
+    testImplementation libraries.tinydancerNoop
 }

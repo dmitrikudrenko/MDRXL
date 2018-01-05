@@ -6,12 +6,24 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.settings.SettingsFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.GeraltWomanActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.GeraltWomenFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.adapter.PhotoFragment;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.profiling.ProfilingProcessor;
 
 import javax.inject.Singleton;
+import java.util.Set;
 
 @Singleton
-@dagger.Component(modules = {CommonModule.class, NetworkModule.class, UiModule.class, CommandModule.class})
+@dagger.Component(
+        modules = {
+                CommonModule.class,
+                NetworkModule.class,
+                UiModule.class,
+                CommandModule.class,
+                ProfilingModule.class
+        }
+)
 public interface ApplicationComponent {
+    Set<ProfilingProcessor> profilingProcessors();
+
     WomanComponent plus(WomanModule module);
 
     GeraltWomenFragment.Component plus(GeraltWomenFragment.Module module);

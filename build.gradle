@@ -70,5 +70,8 @@ ext.libraries = [
 
         sqlbrite           : 'com.squareup.sqlbrite:sqlbrite:1.1.2',
 
-        eventBus           : 'org.greenrobot:eventbus:3.1.1'
+        eventBus           : 'org.greenrobot:eventbus:3.1.1',
+
+        tinydancer         : 'com.github.brianPlummer:tinydancer:0.1.2',
+        tinydancerNoop     : 'com.github.brianPlummer:tinydancer-noop:0.1.2'
 ]
