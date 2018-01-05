@@ -48,16 +48,14 @@ public final class GeraltWomenCursor extends CursorWrapper {
     }
 
     public boolean areContentsTheSame(final GeraltWomenCursor that) {
-        if (!Objects.notEquals(getName(), that.getName())) {
+        //use only browser fields (GeraltWomenContract.SELECT_ALL_FOR_BROWSER)
+        if (Objects.notEquals(getName(), that.getName())) {
             return false;
         }
-        if (!Objects.notEquals(getPhoto(), that.getPhoto())) {
+        if (Objects.notEquals(getPhoto(), that.getPhoto())) {
             return false;
         }
-        if (!Objects.notEquals(getProfession(), that.getProfession())) {
-            return false;
-        }
-        if (!Objects.notEquals(getHairColor(), that.getHairColor())) {
+        if (Objects.notEquals(getProfession(), that.getProfession())) {
             return false;
         }
         return true;
