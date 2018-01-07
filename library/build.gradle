@@ -3,27 +3,20 @@ apply from: '../android.gradle'
 
 dependencies {
     //support
-    compileOnly libraries.supportCompat
-
-    //unit test
-    testImplementation libraries.junit
-
-    //instrumentation test
-    androidTestImplementation libraries.supportTestrunner
-    androidTestImplementation libraries.supportEspresso
+    implementation libraries.supportCompat
 
     //DI
-    compileOnly libraries.dagger
+    implementation libraries.dagger
 
     //mvp
-    compileOnly libraries.moxy
-    compileOnly libraries.moxyAndroid
+    implementation libraries.moxy
+    implementation libraries.moxyAndroid
 
     //rx
-    compileOnly libraries.rxAndroid
-    compileOnly libraries.rxJava
+    implementation libraries.rxAndroid
+    implementation libraries.rxJava
     compile libraries.rxLint //compileOnly not working with rxLint
 
     //annotations
-    compileOnly libraries.findBugs
+    implementation libraries.findBugs
 }

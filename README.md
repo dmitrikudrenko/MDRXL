@@ -13,3 +13,10 @@ Moxy-Dagger-Rx-Loader
 - [x] Fragments.
 - [ ] Поддержать планшеты.
 - [x] Поиск в списке
+
+Run tests
+=============================
+```groovy
+gradlew testDebugUnitTestCoverage --for Debug
+gradlew testReleaseUnitTestCoverage --for Release
+```

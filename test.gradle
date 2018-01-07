@@ -1,0 +1,35 @@
+apply from: '../jacoco.gradle'
+
+android {
+    defaultConfig {
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
+
+dependencies {
+    //unit test
+    testImplementation libraries.junit
+    testImplementation libraries.mockito
+
+    //instrumentation test
+    testImplementation libraries.robolectric
+    testImplementation libraries.robolectricV4
+    androidTestImplementation libraries.supportTestrunner
+    androidTestImplementation libraries.supportEspresso
+}

@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.loader;
 
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 
 public final class RxLoaderArguments {
     private final Bundle args;
@@ -9,7 +10,8 @@ public final class RxLoaderArguments {
         return new RxLoaderArguments(args);
     }
 
-    private RxLoaderArguments(final Bundle args) {
+    @VisibleForTesting
+    RxLoaderArguments(final Bundle args) {
         this.args = args;
     }
 
