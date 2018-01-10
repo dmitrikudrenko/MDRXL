@@ -20,6 +20,7 @@ public abstract class BaseFragmentHolderRxActivity<F extends RxFragment> extends
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        beforeContentViewSet();
         setContentView(contentView());
         ButterKnife.bind(this);
 
@@ -32,6 +33,9 @@ public abstract class BaseFragmentHolderRxActivity<F extends RxFragment> extends
         } else {
             fragment = (F) fm.findFragmentByTag(TAG_FRAGMENT);
         }
+    }
+
+    protected void beforeContentViewSet() {
     }
 
     protected abstract F createFragment();

@@ -37,11 +37,13 @@ dependencies {
     annotationProcessor libraries.butterknifeCompiler
 
     //network
+    implementation libraries.okHttp
     implementation libraries.retrofit
     implementation libraries.retrofitGson
     implementation libraries.retrofitRxjava
     implementation libraries.gson
     implementation libraries.picasso
+    implementation libraries.picassoOkhttpDownloader
 
     //rx
     implementation libraries.rxAndroid

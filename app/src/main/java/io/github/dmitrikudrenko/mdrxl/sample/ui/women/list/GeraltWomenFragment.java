@@ -24,6 +24,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.base.SearchableController;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapter;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomenAdapterFactory;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ClickInfo;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.ToastFactory;
 
@@ -73,7 +74,8 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = adapterFactory.create(position -> presenter.onItemSelected(position), presenter);
+        adapter = adapterFactory.create((position, v) ->
+                presenter.onItemSelected(ClickInfo.clickInfo(position, v)), presenter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(decorationProvider.get());
