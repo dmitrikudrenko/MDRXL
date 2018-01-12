@@ -202,16 +202,12 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
         }
 
         @Override
-        public boolean areItemsTheSame(final int oldItemPosition, final int newItemPosition) {
-            final GeraltWomenCursor oldItem = getOldItem(oldItemPosition);
-            final GeraltWomenCursor newItem = getNewItem(newItemPosition);
+        protected boolean areItemsTheSame(final GeraltWomenCursor oldItem, final GeraltWomenCursor newItem) {
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(final int oldItemPosition, final int newItemPosition) {
-            final GeraltWomenCursor oldItem = getOldItem(oldItemPosition);
-            final GeraltWomenCursor newItem = getNewItem(newItemPosition);
+        protected boolean areContentsTheSame(final GeraltWomenCursor oldItem, final GeraltWomenCursor newItem) {
             return oldItem.areContentsTheSame(newItem);
         }
     }
