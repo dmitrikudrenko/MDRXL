@@ -6,7 +6,7 @@ import android.support.v4.content.Loader;
 
 import javax.annotation.Nullable;
 
-public final class RxLoaderManager {
+public class RxLoaderManager {
     private final LoaderManager loaderManager;
 
     public RxLoaderManager(final LoaderManager loaderManager) {
