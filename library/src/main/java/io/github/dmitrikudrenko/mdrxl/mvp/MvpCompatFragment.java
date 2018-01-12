@@ -2,10 +2,11 @@ package io.github.dmitrikudrenko.mdrxl.mvp;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import com.arellomobile.mvp.MvpDelegate;
 
-public class MvpCompatFragment extends Fragment {
+public abstract class MvpCompatFragment extends Fragment {
     private boolean mIsStateSaved;
     private MvpDelegate<? extends MvpCompatFragment> mMvpDelegate;
 
@@ -92,11 +93,17 @@ public class MvpCompatFragment extends Fragment {
     /**
      * @return The {@link MvpDelegate} being used by this Fragment.
      */
-    public MvpDelegate getMvpDelegate() {
+    @VisibleForTesting
+    MvpDelegate<? extends MvpCompatFragment> getMvpDelegate() {
         if (mMvpDelegate == null) {
             mMvpDelegate = new MvpDelegate<>(this);
         }
 
         return mMvpDelegate;
+    }
+
+    @VisibleForTesting
+    void setMvpDelegate(final MvpDelegate<? extends MvpCompatFragment> delegate) {
+        this.mMvpDelegate = delegate;
     }
 }

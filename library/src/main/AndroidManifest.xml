@@ -1,1 +1,5 @@
-<manifest package="io.github.dmitrikudrenko.mdrxl"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="io.github.dmitrikudrenko.mdrxl">
+
+    <application android:theme="@style/Theme.AppCompat.Light.NoActionBar"/> <!-- them is need for tests-->
+</manifest>

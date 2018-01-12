@@ -20,11 +20,11 @@ task clean(type: Delete) {
 }
 
 project.ext {
-    androidCompileSdkVersion = 26
+    androidCompileSdkVersion = 27
     androidMinSdkVersion = 21
-    androidTargetSdkVersion = 26
+    androidTargetSdkVersion = 27
 
-    supportVersion = "26.1.0"
+    supportVersion = "27.0.2"
 
     butterKnifeVersion = "8.8.1"
     daggerVersion = "2.13"
@@ -40,8 +40,11 @@ ext.libraries = [
         supportMultidex    : 'com.android.support:multidex:1.0.2',
 
         junit              : 'junit:junit:4.12',
+        mockito            : 'org.mockito:mockito-all:2.0.2-beta',
         supportTestrunner  : 'com.android.support.test:runner:1.0.1',
         supportEspresso    : 'com.android.support.test.espresso:espresso-core:3.0.1',
+        robolectric        : 'org.robolectric:robolectric:3.6.1',
+        robolectricV4      : 'org.robolectric:shadows-support-v4:3.3.2',
 
         dagger             : "com.google.dagger:dagger:$daggerVersion",
         daggerCompiler     : "com.google.dagger:dagger-compiler:$daggerVersion",

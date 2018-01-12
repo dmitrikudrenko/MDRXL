@@ -45,7 +45,7 @@ public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> implements Sea
     }
 
     void onResult(final D data) {
-        Log.d(getClass().getSimpleName(), "onResult " + data.toString());
+        Log.d(getClass().getSimpleName(), "onResult " + String.valueOf(data));
         deliverResult(RxLoaderData.result(data));
     }
 

@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.mvp;
 
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import com.arellomobile.mvp.MvpDelegate;
 
@@ -57,10 +58,16 @@ public abstract class MvpAppCompatActivity extends AppCompatActivity {
     /**
      * @return The {@link MvpDelegate} being used by this Activity.
      */
-    public MvpDelegate getMvpDelegate() {
+    @VisibleForTesting
+    MvpDelegate<? extends MvpAppCompatActivity> getMvpDelegate() {
         if (mMvpDelegate == null) {
             mMvpDelegate = new MvpDelegate<>(this);
         }
         return mMvpDelegate;
+    }
+
+    @VisibleForTesting
+    void setMvpDelegate(final MvpDelegate<? extends MvpAppCompatActivity> delegate) {
+        this.mMvpDelegate = delegate;
     }
 }

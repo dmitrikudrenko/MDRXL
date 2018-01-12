@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-public class RxFragment extends MvpCompatFragment implements RxView {
+public abstract class RxFragment extends MvpCompatFragment implements RxView {
     public static final String TAG_RETAINED = "retained_fragment";
     private RetainedFragment retainedFragment;
 
@@ -50,11 +50,11 @@ public class RxFragment extends MvpCompatFragment implements RxView {
             setRetainInstance(true);
         }
 
-        public void set(final Object data) {
+        private void set(final Object data) {
             this.data = data;
         }
 
-        public Object get() {
+        private Object get() {
             return data;
         }
     }

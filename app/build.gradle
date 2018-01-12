@@ -47,13 +47,6 @@ dependencies {
     implementation libraries.rxJava
     compile libraries.rxLint //compileOnly not working with rxLint
 
-    //unit test
-    testImplementation libraries.junit
-
-    //instrumentation test
-    androidTestImplementation libraries.supportTestrunner
-    androidTestImplementation libraries.supportEspresso
-
     //DI
     implementation libraries.dagger
     annotationProcessor libraries.daggerCompiler
