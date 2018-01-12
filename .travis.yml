@@ -1,0 +1,22 @@
+language: android
+android:
+  components:
+    - tools
+    - build-tools-27.0.3
+    - android-27
+    - add-on
+    - extra
+  licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+
+jdk:
+  - oraclejdk8
+
+after_success:
+  - .buildscript/deploy_snapshot.sh
+  - bash <(curl -s https://codecov.io/bash)
+
+script:
+  - ./gradlew build jacocoTestReport

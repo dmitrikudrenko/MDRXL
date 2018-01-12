@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/dmitrikudrenko/MDRXL.svg?branch=master)](https://travis-ci.org/dmitrikudrenko/MDRXL)
+[![codecov](https://codecov.io/gh/dmitrikudrenko/MDRXL/branch/master/graph/badge.svg)](https://codecov.io/gh/dmitrikudrenko/MDRXL)
+
 # MDRXL
 Moxy-Dagger-Rx-Loader
 
