@@ -17,6 +17,7 @@ import java.util.Set;
                 CommonModule.class,
                 NetworkModule.class,
                 UiModule.class,
+                ConfigurationModule.class,
                 CommandModule.class,
                 ProfilingModule.class
         }

@@ -6,11 +6,11 @@ import rx.Observable;
 
 import javax.inject.Inject;
 
-public final class GeraltWomenLoader extends RxCursorLoader<GeraltWomenCursor> {
+public class GeraltWomenLoader extends RxCursorLoader<GeraltWomenCursor> {
     private final GeraltWomenRepository repository;
 
     @Inject
-    GeraltWomenLoader(final Context context, final GeraltWomenRepository repository) {
+    public GeraltWomenLoader(final Context context, final GeraltWomenRepository repository) {
         super(context);
         this.repository = repository;
     }

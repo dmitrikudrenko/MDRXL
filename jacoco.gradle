@@ -25,7 +25,7 @@ project.afterEvaluate {
             def testTaskName = "test${sourceName.capitalize()}UnitTest"
 
             // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
-            task "${testTaskName}Coverage" (type:JacocoReport, dependsOn: "$testTaskName") {
+            task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
                 group = "Reporting"
                 description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
 
@@ -34,7 +34,17 @@ project.afterEvaluate {
                         excludes: ['**/R.class',
                                    '**/R$*.class',
                                    '**/BuildConfig.*',
-                                   '**/Manifest*.*']
+                                   '**/Manifest*.*',
+                                   '**/*_ViewBinding*.class',
+                                   '**/*_MembersInjector.class',
+                                   '**/Dagger*Component.class',
+                                   '**/Dagger*Component$Builder.class',
+                                   '**/*ComponentImpl.class',
+                                   '**/*$$State*.class',
+                                   '**/*$$PresentersBinder*.class',
+                                   '**/*$$ViewStateProvider.class',
+                                   '**/*_Factory.class',
+                                   '**/*Module_*Factory.class']
                 )
 
                 def coverageSourceDirs = [

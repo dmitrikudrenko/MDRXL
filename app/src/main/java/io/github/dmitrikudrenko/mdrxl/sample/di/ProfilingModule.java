@@ -11,7 +11,8 @@ import io.github.dmitrikudrenko.mdrxl.sample.utils.profiling.TinyDancerProfiling
 class ProfilingModule {
     @IntoSet
     @Provides
-    static ProfilingProcessor tinydancerProfilingProcessor(final Context context) {
-        return new TinyDancerProfilingProcessor(context);
+    static ProfilingProcessor tinydancerProfilingProcessor(final Context context,
+                                                           @UnderTest final boolean underTest) {
+        return new TinyDancerProfilingProcessor(context, underTest);
     }
 }

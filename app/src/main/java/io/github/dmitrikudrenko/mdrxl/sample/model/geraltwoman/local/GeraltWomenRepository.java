@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public final class GeraltWomenRepository implements IRepository<GeraltWomenCursor> {
+public class GeraltWomenRepository implements IRepository<GeraltWomenCursor> {
     private final Database database;
     private final GeraltWomenContract contract;
 

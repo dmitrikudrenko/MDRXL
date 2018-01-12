@@ -5,7 +5,7 @@ import android.database.CursorWrapper;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.contract.GeraltWomenContract;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.commons.Objects;
 
-public final class GeraltWomenCursor extends CursorWrapper {
+public class GeraltWomenCursor extends CursorWrapper {
     private final int id;
     private final int name;
     private final int photo;
