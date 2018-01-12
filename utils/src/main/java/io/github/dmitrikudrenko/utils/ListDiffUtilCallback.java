@@ -25,11 +25,21 @@ public abstract class ListDiffUtilCallback<T> extends DiffUtil.Callback {
         return newList.size();
     }
 
-    protected T getOldItem(final int position) {
-        return oldList.get(position);
+    @Override
+    public boolean areItemsTheSame(final int oldItemPosition, final int newItemPosition) {
+        if (oldList == null) throw new NullPointerException();
+
+        return areItemsTheSame(oldList.get(oldItemPosition), newList.get(newItemPosition));
     }
 
-    protected T getNewItem(final int position) {
-        return newList.get(position);
+    @Override
+    public boolean areContentsTheSame(final int oldItemPosition, final int newItemPosition) {
+        if (oldList == null) throw new NullPointerException();
+
+        return areContentsTheSame(oldList.get(oldItemPosition), newList.get(newItemPosition));
     }
+
+    protected abstract boolean areItemsTheSame(T oldItem, T newItem);
+
+    protected abstract boolean areContentsTheSame(T oldItem, T newItem);
 }
