@@ -1,4 +1,4 @@
-package io.github.dmitrikudrenko.mdrxl.sample.ui.base;
+package io.github.dmitrikudrenko.ui;
 
 public interface ViewPagerAdapterController<T> {
     int getCount();

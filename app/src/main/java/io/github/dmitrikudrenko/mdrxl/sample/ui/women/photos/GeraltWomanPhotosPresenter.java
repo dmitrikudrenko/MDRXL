@@ -15,9 +15,9 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWo
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.Gallery;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoLoaderFactory;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.base.ViewPagerAdapterController;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ResourcesManager;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
+import io.github.dmitrikudrenko.ui.ViewPagerAdapterController;
 
 import javax.inject.Inject;
 import java.util.AbstractList;

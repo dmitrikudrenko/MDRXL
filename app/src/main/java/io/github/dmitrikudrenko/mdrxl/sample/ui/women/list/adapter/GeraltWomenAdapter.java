@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.base.RecyclerViewAdapterController;
+import io.github.dmitrikudrenko.ui.RecyclerViewAdapterController;
 
 @AutoFactory
 public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomanViewHolder> {

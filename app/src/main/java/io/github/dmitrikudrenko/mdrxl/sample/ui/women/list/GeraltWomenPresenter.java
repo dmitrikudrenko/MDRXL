@@ -14,20 +14,19 @@ import io.github.dmitrikudrenko.mdrxl.sample.di.MultiWindow;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenUpdateCommandRequest;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenLoader;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.base.RecyclerViewAdapterController;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomanHolder;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.commons.Strings;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
+import io.github.dmitrikudrenko.ui.RecyclerViewAdapterController;
+import io.github.dmitrikudrenko.utils.ListCursor;
+import io.github.dmitrikudrenko.utils.ListDiffUtilCallback;
 import rx.subjects.BehaviorSubject;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Provider;
-import java.util.AbstractList;
 import java.util.concurrent.TimeUnit;
-
-import static io.github.dmitrikudrenko.mdrxl.sample.utils.commons.Preconditions.checkNotNull;
 
 @InjectViewState
 public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> implements RecyclerViewAdapterController<GeraltWomanHolder> {
@@ -187,65 +186,32 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
 
     }
 
-    private static class GeraltWomen extends AbstractList<GeraltWomenCursor> {
-        final GeraltWomenCursor cursor;
-
+    private static class GeraltWomen extends ListCursor<GeraltWomenCursor> {
         GeraltWomen(final GeraltWomenCursor cursor) {
-            this.cursor = cursor;
-        }
-
-        @Override
-        public GeraltWomenCursor get(final int index) {
-            if (cursor.isClosed()) {
-                Log.d("GeraltWomenAdapter", "Cursor is closed: " + cursor.toString());
-            }
-            if (cursor.moveToPosition(index)) {
-                return cursor;
-            }
-            throw new IndexOutOfBoundsException();
-        }
-
-        @Override
-        public int size() {
-            return cursor.getCount();
+            super(cursor);
         }
 
         GeraltWomen copy() {
-            return new GeraltWomen(cursor);
+            return new GeraltWomen(getCursor());
         }
     }
 
-    private static class GeraltWomenDiffUtilCallback extends DiffUtil.Callback {
-        @Nullable
-        private final GeraltWomen oldData;
-        private final GeraltWomen newData;
-
+    private static class GeraltWomenDiffUtilCallback extends ListDiffUtilCallback<GeraltWomenCursor> {
         GeraltWomenDiffUtilCallback(@Nullable final GeraltWomen oldData, final GeraltWomen newData) {
-            this.oldData = oldData;
-            this.newData = newData;
-        }
-
-        @Override
-        public int getOldListSize() {
-            return oldData != null ? oldData.size() : 0;
-        }
-
-        @Override
-        public int getNewListSize() {
-            return newData.size();
+            super(newData, oldData);
         }
 
         @Override
         public boolean areItemsTheSame(final int oldItemPosition, final int newItemPosition) {
-            final GeraltWomenCursor oldItem = checkNotNull(oldData).get(oldItemPosition);
-            final GeraltWomenCursor newItem = newData.get(newItemPosition);
+            final GeraltWomenCursor oldItem = getOldItem(oldItemPosition);
+            final GeraltWomenCursor newItem = getNewItem(newItemPosition);
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
         public boolean areContentsTheSame(final int oldItemPosition, final int newItemPosition) {
-            final GeraltWomenCursor oldItem = checkNotNull(oldData).get(oldItemPosition);
-            final GeraltWomenCursor newItem = newData.get(newItemPosition);
+            final GeraltWomenCursor oldItem = getOldItem(oldItemPosition);
+            final GeraltWomenCursor newItem = getNewItem(newItemPosition);
             return oldItem.areContentsTheSame(newItem);
         }
     }

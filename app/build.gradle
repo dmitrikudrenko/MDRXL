@@ -21,6 +21,7 @@ android {
 
 dependencies {
     implementation project(':library')
+    implementation project(':utils')
     implementation libraries.supportMultidex
     implementation libraries.supportCompat
     implementation libraries.supportRecyclerview

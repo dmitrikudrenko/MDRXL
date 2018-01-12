@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import com.google.auto.factory.AutoFactory;
-import io.github.dmitrikudrenko.mdrxl.sample.ui.base.ViewPagerAdapterController;
+import io.github.dmitrikudrenko.ui.ViewPagerAdapterController;
 
 @AutoFactory
 public class PhotosAdapter extends FragmentStatePagerAdapter {
