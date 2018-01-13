@@ -1,6 +1,8 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.list;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.DiffUtil;
 import io.github.dmitrikudrenko.mdrxl.RxTest;
 import io.github.dmitrikudrenko.mdrxl.commands.CommandStarter;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
@@ -22,6 +24,7 @@ import rx.Observable;
 import static org.mockito.AdditionalMatchers.or;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.isNull;
 import static org.mockito.Mockito.*;
@@ -40,6 +43,7 @@ public class GeraltWomenPresenterTest extends RxTest {
     private GeraltWomenLoader loader;
     private GeraltWomenRepository repository;
     private MessageFactory messageFactory;
+    private Router router;
 
     @Before
     public void setUp() {
@@ -51,41 +55,50 @@ public class GeraltWomenPresenterTest extends RxTest {
         repository = mock(GeraltWomenRepository.class);
         loader = new GeraltWomenLoader(activity, repository);
         messageFactory = mock(MessageFactory.class);
+        router = mock(Router.class);
 
-        presenter = new GeraltWomenPresenter(
+        view = mock(GeraltWomenView.class);
+        state = mock(GeraltWomenView$$State.class);
+    }
+
+    @NonNull
+    private GeraltWomenPresenter createPresenter(final boolean multiWindow) {
+        return new GeraltWomenPresenter(
                 loaderManager,
                 () -> loader,
                 commandStarter,
-                mock(Router.class),
+                router,
                 messageFactory,
-                true
+                multiWindow
         );
-        view = mock(GeraltWomenView.class);
-        state = mock(GeraltWomenView$$State.class);
-
-        presenter.setViewState(state);
     }
 
-    private void attach() throws InterruptedException {
+    private void attach() {
+        attach(false);
+    }
+
+    private void attach(final boolean multiWindow) {
+        presenter = createPresenter(multiWindow);
+        presenter.setViewState(state);
         presenter.attachView(view);
         await();
     }
 
     @Test
-    public void shouldLoadDataOnAttachView() throws InterruptedException {
+    public void shouldLoadDataOnAttachView() {
         attach();
         verify(loaderManager).init(anyInt(), any(), any());
         verify(commandStarter).execute(any(GeraltWomenUpdateCommandRequest.class));
     }
 
     @Test
-    public void shouldStartLoadingViewOnAttachView() throws InterruptedException {
+    public void shouldStartLoadingViewOnAttachView() {
         attach();
         verify(state).startLoading();
     }
 
     @Test
-    public void shouldStopLoadingAndShowErrorMessageIfError() throws InterruptedException {
+    public void shouldStopLoadingAndShowErrorMessageIfError() {
         final String errorMessage = "Error message";
         final Throwable error = new RuntimeException(errorMessage);
         when(repository.get(any(String.class))).thenReturn(Observable.error(error));
@@ -97,7 +110,7 @@ public class GeraltWomenPresenterTest extends RxTest {
     }
 
     @Test
-    public void shouldStopLoadingAndShowDataIfSuccess() throws InterruptedException {
+    public void shouldStopLoadingAndShowDataIfSuccess() {
         when(repository.get(or(anyString(), (String) isNull())))
                 .thenReturn(Observable.just(mock(GeraltWomenCursor.class)));
 
@@ -106,7 +119,26 @@ public class GeraltWomenPresenterTest extends RxTest {
         verify(state).stopLoading();
     }
 
-    private void await() throws InterruptedException {
-        Thread.sleep(TEST_TIMEOUT_MS);
+    @Test
+    public void shouldOpenFirstElementIfExistsAndTablet() throws InterruptedException {
+        final GeraltWomenCursor cursor = mock(GeraltWomenCursor.class);
+        when(cursor.getCount()).thenReturn(1);
+        when(cursor.moveToPosition(anyInt())).thenReturn(true);
+        when(cursor.getId()).thenReturn(1);
+        when(repository.get(or(anyString(), (String) isNull())))
+                .thenReturn(Observable.just(cursor));
+
+        attach(true);
+
+        verify(state).notifyDataChanged(any(DiffUtil.DiffResult.class));
+        verify(router).openGeraltWoman(anyLong());
+    }
+
+    private void await() {
+        try {
+            Thread.sleep(TEST_TIMEOUT_MS);
+        } catch (final InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
