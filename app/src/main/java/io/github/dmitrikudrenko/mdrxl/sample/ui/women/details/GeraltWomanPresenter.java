@@ -12,6 +12,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanId;
 import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.sample.model.events.GeraltEvents;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomanUpdateCommandRequest;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenStorageCommandRequest;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
@@ -36,9 +37,6 @@ public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
     private final MessageFactory messageFactory;
     private final long id;
 
-    @Nullable
-    private GeraltWomenCursor data;
-
     @Inject
     GeraltWomanPresenter(final RxLoaderManager loaderManager,
                          final GeraltWomanLoaderFactory loaderFactory,
@@ -62,12 +60,11 @@ public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
         final RxLoaderArguments args = new RxLoaderArguments();
         args.putLong(ARG_ID, id);
         getLoaderManager().init(LOADER_ID, args, new LoaderCallbacks());
+        onRefresh();
     }
 
     void onRefresh() {
-        //???
-        getViewState().stopLoading();
-        notifyViewState(data);
+        commandStarter.execute(new GeraltWomanUpdateCommandRequest(id));
     }
 
     void onDataChanged(@GeraltWomanView.Fields final String field, final String value) {
@@ -79,7 +76,6 @@ public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
     }
 
     private void onDataLoaded(final GeraltWomenCursor data) {
-        this.data = data;
         data.moveToFirst();
         notifyViewState(data);
     }

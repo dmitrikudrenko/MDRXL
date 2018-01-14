@@ -31,6 +31,7 @@ project.ext {
     butterKnifeVersion = "8.8.1"
     daggerVersion = "2.13"
     moxyVersion = "1.5.3"
+    okhttpVersion = "3.9.1"
     retrofitVersion = "2.3.0"
 }
 
@@ -63,10 +64,11 @@ ext.libraries = [
 
         findBugs               : 'com.google.code.findbugs:jsr305:3.0.1',
 
-        okHttp                 : 'com.squareup.okhttp3:okhttp:3.9.1',
+        okHttp                 : "com.squareup.okhttp3:okhttp:$okhttpVersion",
         retrofit               : "com.squareup.retrofit2:retrofit:$retrofitVersion",
         retrofitGson           : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
         retrofitRxjava         : "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
+        okhttplogging          : "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
 
         gson                   : 'com.google.code.gson:gson:2.8.2',
         picasso                : 'com.squareup.picasso:picasso:2.5.2',

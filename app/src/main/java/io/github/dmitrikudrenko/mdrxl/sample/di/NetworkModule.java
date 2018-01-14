@@ -6,9 +6,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dagger.Module;
 import dagger.Provides;
+import dagger.multibindings.IntoSet;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.remote.WomenApi;
 import io.github.dmitrikudrenko.mdrxl.sample.settings.NetworkSettingsRepository;
 import io.github.dmitrikudrenko.mdrxl.sample.settings.Settings;
+import okhttp3.Cache;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -16,11 +21,17 @@ import rx.Scheduler;
 import rx.schedulers.Schedulers;
 
 import javax.inject.Singleton;
+import java.util.Set;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 @Module
 final class NetworkModule {
+    private static final long CACHE_SIZE = 100 * 1024 * 1024;
+
+    @interface NetworkScheduler {
+    }
+
     @NetworkSettingsRepository.NetworkPreferences
     @Provides
     SharedPreferences provideNetworkSharedPreferences(final Context context) {
@@ -44,10 +55,23 @@ final class NetworkModule {
     }
 
     @Provides
+    OkHttpClient provideHttpClient(final Context context, final Set<Interceptor> interceptors) {
+        final OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        for (final Interceptor interceptor : interceptors) {
+            builder.addNetworkInterceptor(interceptor);
+        }
+        return builder
+                .cache(new Cache(context.getCacheDir(), CACHE_SIZE))
+                .build();
+    }
+
+    @Provides
     Retrofit provideRetrofit(final Gson gson,
-                             @NetworkScheduler final Scheduler networkScheduler) {
+                             @NetworkScheduler final Scheduler networkScheduler,
+                             final OkHttpClient httpClient) {
         return new Retrofit.Builder()
                 .baseUrl("https://geralt-f5e41.firebaseio.com/")
+                .callFactory(httpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(networkScheduler))
                 .build();
@@ -59,6 +83,9 @@ final class NetworkModule {
         return retrofit.create(WomenApi.class);
     }
 
-    @interface NetworkScheduler {
+    @Provides
+    @IntoSet
+    Interceptor provideLoggingInterceptor() {
+        return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
     }
 }
