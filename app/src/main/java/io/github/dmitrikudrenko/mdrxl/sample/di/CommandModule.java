@@ -7,6 +7,8 @@ import io.github.dmitrikudrenko.mdrxl.commands.CommandKey;
 import io.github.dmitrikudrenko.mdrxl.commands.CommandWithScheduler;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomanPhotosUpdateCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomanPhotosUpdateCommandRequest;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomanUpdateCommand;
+import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomanUpdateCommandRequest;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenStorageCommand;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenStorageCommandRequest;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenUpdateCommand;
@@ -35,6 +37,13 @@ class CommandModule {
     @IntoMap
     @CommandKey(GeraltWomenUpdateCommandRequest.class)
     static CommandWithScheduler bindGeraltWomenUpdateCommand(final Provider<GeraltWomenUpdateCommand> provider) {
+        return new CommandWithScheduler<>(provider, Schedulers.io());
+    }
+
+    @Provides
+    @IntoMap
+    @CommandKey(GeraltWomanUpdateCommandRequest.class)
+    static CommandWithScheduler bindGeraltWomanUpdateCommand(final Provider<GeraltWomanUpdateCommand> provider) {
         return new CommandWithScheduler<>(provider, Schedulers.io());
     }
 }

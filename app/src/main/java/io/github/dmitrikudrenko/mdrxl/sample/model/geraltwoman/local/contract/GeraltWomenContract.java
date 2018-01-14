@@ -26,7 +26,7 @@ public class GeraltWomenContract implements Contract {
     private static final String SELECT_ALL_FOR_BROWSER = "SELECT " +
             _ID + ", " + COLUMN_NAME + ", " + COLUMN_PHOTO + ", " + COLUMN_PROFESSION +
             " FROM " + TABLE_NAME;
-    private static final String BY_ID = _ID + "=?";
+    public static final String BY_ID = _ID + "=?";
     private static final String SELECT_BY_ID = SELECT_ALL + " WHERE " + BY_ID;
 
     private static final String SELECT_WITH_QUERY = SELECT_ALL_FOR_BROWSER + " WHERE " +

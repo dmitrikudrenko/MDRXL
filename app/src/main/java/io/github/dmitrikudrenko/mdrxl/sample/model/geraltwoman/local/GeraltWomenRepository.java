@@ -3,6 +3,7 @@ package io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
 import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.contract.GeraltWomenContract;
 import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.repository.Database;
@@ -70,16 +71,32 @@ public class GeraltWomenRepository implements IRepository<GeraltWomenCursor> {
         return Completable.fromAction(() -> {
             final List<ContentValues> batch = new ArrayList<>(women.size());
             for (final Woman woman : women) {
-                final ContentValues cv = new ContentValues();
-                cv.put(GeraltWomenContract._ID, woman.getId());
-                cv.put(GeraltWomenContract.COLUMN_NAME, woman.getName());
-                cv.put(GeraltWomenContract.COLUMN_PROFESSION, woman.getProfession());
-                cv.put(GeraltWomenContract.COLUMN_HAIR_COLOR, woman.getHairColor());
-                cv.put(GeraltWomenContract.COLUMN_PHOTO, woman.getPhoto());
-                cv.put(GeraltWomenContract.COLUMN_PHOTO_COUNT, woman.getPhotoCount());
+                final ContentValues cv = womanToContentValues(woman);
                 batch.add(cv);
             }
             database.insertOrUpdateInTransaction(contract.tableName(), batch);
+        });
+    }
+
+    @NonNull
+    private ContentValues womanToContentValues(final Woman woman) {
+        final ContentValues cv = new ContentValues();
+        cv.put(GeraltWomenContract._ID, woman.getId());
+        cv.put(GeraltWomenContract.COLUMN_NAME, woman.getName());
+        cv.put(GeraltWomenContract.COLUMN_PROFESSION, woman.getProfession());
+        cv.put(GeraltWomenContract.COLUMN_HAIR_COLOR, woman.getHairColor());
+        cv.put(GeraltWomenContract.COLUMN_PHOTO, woman.getPhoto());
+        cv.put(GeraltWomenContract.COLUMN_PHOTO_COUNT, woman.getPhotoCount());
+        return cv;
+    }
+
+    public Completable update(@Nullable final Woman woman) {
+        if (woman == null) {
+            return Completable.complete();
+        }
+        return Completable.fromAction(() -> {
+            database.update(contract.tableName(), womanToContentValues(woman),
+                    GeraltWomenContract.BY_ID, String.valueOf(woman.getId()));
         });
     }
 }

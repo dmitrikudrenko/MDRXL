@@ -41,6 +41,7 @@ dependencies {
     implementation libraries.retrofit
     implementation libraries.retrofitGson
     implementation libraries.retrofitRxjava
+    implementation libraries.okhttplogging
     implementation libraries.gson
     implementation libraries.picasso
     implementation libraries.picassoOkhttpDownloader
