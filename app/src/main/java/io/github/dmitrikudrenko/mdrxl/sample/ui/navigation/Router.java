@@ -1,5 +1,9 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.navigation;
 
+import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.view.View;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.SampleApplication;
@@ -7,6 +11,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.di.MultiWindow;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.GeraltWomanActivity;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.details.GeraltWomanFragment;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos.GeraltWomanPhotosActivity;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ClickInfo;
 
 import javax.inject.Inject;
 
@@ -23,7 +28,8 @@ public class Router {
         this.multiWindow = multiWindow;
     }
 
-    public void openGeraltWoman(final long id) {
+    @SuppressWarnings("unchecked")
+    public void openGeraltWoman(final long id, final ClickInfo clickInfo) {
         SampleApplication.createWomanComponent(id);
         if (multiWindow) {
             final GeraltWomanFragment geraltWomanFragment = GeraltWomanFragment.create();
@@ -31,7 +37,14 @@ public class Router {
                     .replace(R.id.details, geraltWomanFragment, TAG_DETAILS_FRAGMENT)
                     .commitNow();
         } else {
-            activity.startActivity(GeraltWomanActivity.intent(activity));
+            final View view = clickInfo.getView();
+            Bundle bundle = null;
+            if (view != null) {
+                bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        activity, Pair.create(view.findViewWithTag("photo"), "photo")
+                ).toBundle();
+            }
+            activity.startActivity(GeraltWomanActivity.intent(activity), bundle);
         }
     }
 

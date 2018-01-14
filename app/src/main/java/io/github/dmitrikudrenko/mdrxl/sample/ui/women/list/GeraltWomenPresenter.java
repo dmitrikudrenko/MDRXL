@@ -17,6 +17,7 @@ import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomen
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.women.list.adapter.GeraltWomanHolder;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.commons.Strings;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ClickInfo;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
 import io.github.dmitrikudrenko.ui.RecyclerViewAdapterController;
 import io.github.dmitrikudrenko.utils.ListCursor;
@@ -78,8 +79,8 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
         commandStarter.execute(new GeraltWomenUpdateCommandRequest());
     }
 
-    void onItemSelected(final int position) {
-        final long itemId = getItemId(position);
+    void onItemSelected(final ClickInfo clickInfo) {
+        final long itemId = getItemId(clickInfo.getPosition());
         if (multiWindow) {
             if (itemId != selectedItemId) {
                 final long oldSelectedItemId = selectedItemId;
@@ -89,12 +90,12 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
                 if (oldSelectedItemPosition >= 0) {
                     getViewState().notifyDataChanged(oldSelectedItemPosition);
                 }
-                getViewState().notifyDataChanged(position);
+                getViewState().notifyDataChanged(clickInfo.getPosition());
 
-                router.openGeraltWoman(itemId);
+                router.openGeraltWoman(itemId, clickInfo);
             }
         } else {
-            router.openGeraltWoman(itemId);
+            router.openGeraltWoman(itemId, clickInfo);
         }
     }
 
@@ -153,7 +154,7 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
 
     private void openFirstEntityIfShould() {
         if (multiWindow && selectedItemId < 0 && getItemCount() > 0) {
-            runOnUiThread(() -> onItemSelected(0));
+            runOnUiThread(() -> onItemSelected(ClickInfo.clickInfo(0)));
         }
     }
 
