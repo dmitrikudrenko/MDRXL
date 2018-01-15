@@ -1,16 +1,16 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.details;
 
 import android.support.v7.app.AppCompatActivity;
+import io.github.dmitrikudrenko.core.commands.GeraltWomanUpdateCommandRequest;
+import io.github.dmitrikudrenko.core.events.EventSource;
+import io.github.dmitrikudrenko.core.local.loader.GeraltWomanLoaderFactory;
+import io.github.dmitrikudrenko.core.local.repository.GeraltWomenRepository;
 import io.github.dmitrikudrenko.mdrxl.commands.CommandStarter;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderCallbacks;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.mdrxl.sample.BuildConfig;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomanUpdateCommandRequest;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoaderFactory;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenRepository;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.EventBus;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +36,7 @@ public class GeraltWomanPresenterTest {
     private CommandStarter commandStarter;
     private Router router;
     private MessageFactory messageFactory;
-    private EventBus eventBus;
+    private EventSource eventSource;
     private final int id = 0;
 
     private GeraltWomanView view;
@@ -51,14 +51,14 @@ public class GeraltWomanPresenterTest {
         commandStarter = mock(CommandStarter.class);
         router = mock(Router.class);
         messageFactory = mock(MessageFactory.class);
-        eventBus = mock(EventBus.class);
+        eventSource = mock(EventSource.class);
         presenter = new GeraltWomanPresenter(
                 loaderManager,
                 new GeraltWomanLoaderFactory(() -> activity, () -> repository),
                 commandStarter,
                 router,
                 messageFactory,
-                eventBus,
+                eventSource,
                 id
         );
 

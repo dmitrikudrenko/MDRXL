@@ -2,21 +2,7 @@ apply plugin: 'com.android.library'
 apply from: '../android.gradle'
 
 dependencies {
-    //support
-    implementation libraries.supportCompat
-
-    //DI
-    implementation libraries.dagger
-
     //mvp
     implementation libraries.moxy
     implementation libraries.moxyAndroid
-
-    //rx
-    implementation libraries.rxAndroid
-    implementation libraries.rxJava
-    compile libraries.rxLint //compileOnly not working with rxLint
-
-    //annotations
-    implementation libraries.findBugs
 }

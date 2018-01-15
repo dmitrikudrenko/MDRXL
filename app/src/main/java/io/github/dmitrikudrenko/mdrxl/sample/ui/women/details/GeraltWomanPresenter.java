@@ -1,6 +1,13 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.details;
 
 import com.arellomobile.mvp.InjectViewState;
+import io.github.dmitrikudrenko.core.commands.GeraltWomanUpdateCommandRequest;
+import io.github.dmitrikudrenko.core.commands.GeraltWomenStorageCommandRequest;
+import io.github.dmitrikudrenko.core.events.EventSource;
+import io.github.dmitrikudrenko.core.events.GeraltEvents;
+import io.github.dmitrikudrenko.core.local.cursor.GeraltWomenCursor;
+import io.github.dmitrikudrenko.core.local.loader.GeraltWomanLoaderFactory;
+import io.github.dmitrikudrenko.core.remote.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.commands.CommandStarter;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
@@ -10,15 +17,8 @@ import io.github.dmitrikudrenko.mdrxl.loader.RxLoaders;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxLoaderPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanId;
-import io.github.dmitrikudrenko.mdrxl.sample.model.UpdateModel;
-import io.github.dmitrikudrenko.mdrxl.sample.model.events.GeraltEvents;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomanUpdateCommandRequest;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomenStorageCommandRequest;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanLoaderFactory;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomenCursor;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.navigation.Router;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.EventBus;
-import io.github.dmitrikudrenko.mdrxl.sample.utils.mvp.EventBusPresenterExtension;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.mvp.EventSourcePresenterExtension;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -43,7 +43,7 @@ public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
                          final CommandStarter commandStarter,
                          final Router router,
                          final MessageFactory messageFactory,
-                         final EventBus eventBus,
+                         final EventSource eventSource,
                          @WomanId final long id) {
         super(loaderManager);
         this.loaderFactory = loaderFactory;
@@ -51,7 +51,7 @@ public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
         this.router = router;
         this.messageFactory = messageFactory;
         this.id = id;
-        add(new MessageExtension(eventBus));
+        add(new MessageExtension(eventSource));
     }
 
     @Override
@@ -117,10 +117,10 @@ public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
 
     }
 
-    private class MessageExtension extends EventBusPresenterExtension {
+    private class MessageExtension extends EventSourcePresenterExtension {
 
-        MessageExtension(final EventBus eventBus) {
-            super(eventBus);
+        MessageExtension(final EventSource eventSource) {
+            super(eventSource);
         }
 
         @Subscribe

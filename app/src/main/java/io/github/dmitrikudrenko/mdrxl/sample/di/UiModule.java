@@ -7,6 +7,9 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import dagger.Module;
 import dagger.Provides;
+import io.github.dmitrikudrenko.core.events.EventSender;
+import io.github.dmitrikudrenko.core.events.EventSource;
+import io.github.dmitrikudrenko.mdrxl.sample.utils.EventBus;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.images.CircleTransform;
 import okhttp3.OkHttpClient;
 
@@ -29,5 +32,15 @@ class UiModule {
     @Provides
     Resources provideResources(final Context context) {
         return context.getResources();
+    }
+
+    @Provides
+    EventSender provideEventSender() {
+        return new EventBus(org.greenrobot.eventbus.EventBus.getDefault());
+    }
+
+    @Provides
+    EventSource provideEventSource(final EventSender eventSender) {
+        return (EventSource) eventSender;
     }
 }

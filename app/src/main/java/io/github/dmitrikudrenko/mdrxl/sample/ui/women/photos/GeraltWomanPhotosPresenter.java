@@ -1,6 +1,10 @@
 package io.github.dmitrikudrenko.mdrxl.sample.ui.women.photos;
 
 import com.arellomobile.mvp.InjectViewState;
+import io.github.dmitrikudrenko.core.commands.GeraltWomanPhotosUpdateCommandRequest;
+import io.github.dmitrikudrenko.core.local.Gallery;
+import io.github.dmitrikudrenko.core.local.cursor.GeraltWomanPhotoCursor;
+import io.github.dmitrikudrenko.core.local.loader.GeraltWomanPhotoLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.commands.CommandStarter;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
@@ -11,10 +15,6 @@ import io.github.dmitrikudrenko.mdrxl.mvp.RxLoaderPresenter;
 import io.github.dmitrikudrenko.mdrxl.sample.R;
 import io.github.dmitrikudrenko.mdrxl.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanId;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.commands.GeraltWomanPhotosUpdateCommandRequest;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.Gallery;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoCursor;
-import io.github.dmitrikudrenko.mdrxl.sample.model.geraltwoman.local.GeraltWomanPhotoLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.ResourcesManager;
 import io.github.dmitrikudrenko.mdrxl.sample.utils.ui.messages.MessageFactory;
 import io.github.dmitrikudrenko.ui.ViewPagerAdapterController;
