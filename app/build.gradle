@@ -13,57 +13,28 @@ android {
         exclude 'plugin.xml'
         exclude 'plugin.properties'
     }
-
-    lintOptions {
-        lintConfig file("lint.xml")
-    }
 }
 
 dependencies {
-    implementation project(':library')
-    implementation project(':utils')
+    implementation project(':core')
     implementation libraries.supportMultidex
     implementation libraries.supportCompat
     implementation libraries.supportRecyclerview
     implementation libraries.supportCardview
     implementation libraries.supportDesign
 
-    //storage
-    implementation libraries.sqlbrite
-    implementation libraries.rxPreferences
-
     //view injection
     implementation libraries.butterknife
     annotationProcessor libraries.butterknifeCompiler
 
     //network
-    implementation libraries.okHttp
-    implementation libraries.retrofit
-    implementation libraries.retrofitGson
-    implementation libraries.retrofitRxjava
-    implementation libraries.okhttplogging
-    implementation libraries.gson
     implementation libraries.picasso
     implementation libraries.picassoOkhttpDownloader
-
-    //rx
-    implementation libraries.rxAndroid
-    implementation libraries.rxJava
-    compile libraries.rxLint //compileOnly not working with rxLint
-
-    //DI
-    implementation libraries.dagger
-    annotationProcessor libraries.daggerCompiler
-    implementation libraries.autoFactory
-    annotationProcessor libraries.autoFactory
 
     //mvp
     implementation libraries.moxy
     implementation libraries.moxyAndroid
     annotationProcessor libraries.moxyCompiler
-
-    //annotations
-    compileOnly libraries.findBugs
 
     implementation libraries.eventBus
 

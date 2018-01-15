@@ -1,0 +1,19 @@
+apply plugin: 'com.android.library'
+apply from: '../android.gradle'
+
+dependencies {
+    api project(":library")
+    api project(':utils')
+
+    //storage
+    api libraries.sqlbrite
+    api libraries.rxPreferences
+
+    //network
+    api libraries.okHttp
+    api libraries.retrofit
+    api libraries.retrofitGson
+    api libraries.retrofitRxjava
+    api libraries.okhttplogging
+    api libraries.gson
+}

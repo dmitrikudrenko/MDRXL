@@ -1,5 +1,8 @@
 package io.github.dmitrikudrenko.mdrxl.sample.di;
 
+import io.github.dmitrikudrenko.core.di.CommandModule;
+import io.github.dmitrikudrenko.core.di.CommonModule;
+import io.github.dmitrikudrenko.core.di.NetworkModule;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanComponent;
 import io.github.dmitrikudrenko.mdrxl.sample.di.woman.WomanModule;
 import io.github.dmitrikudrenko.mdrxl.sample.ui.settings.SettingsFragment;

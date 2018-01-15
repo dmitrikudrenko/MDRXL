@@ -1,8 +1,11 @@
 package io.github.dmitrikudrenko.mdrxl.sample.utils;
 
 import android.util.Log;
+import io.github.dmitrikudrenko.core.events.EventListener;
+import io.github.dmitrikudrenko.core.events.EventSender;
+import io.github.dmitrikudrenko.core.events.EventSource;
 
-public class EventBus {
+public class EventBus implements EventSender, EventSource {
     private static final String TAG = "EventBus";
 
     private final org.greenrobot.eventbus.EventBus eventBus;
@@ -11,19 +14,22 @@ public class EventBus {
         this.eventBus = eventBus;
     }
 
-    public void register(final Object object) {
-        eventBus.register(object);
-    }
-
-    public void unregister(final Object object) {
-        eventBus.unregister(object);
-    }
-
+    @Override
     public void post(final Object event) {
         try {
             eventBus.post(event);
         } catch (final Throwable th) {
             Log.e(TAG, th.getMessage(), th);
         }
+    }
+
+    @Override
+    public void register(final EventListener listener) {
+        eventBus.register(listener);
+    }
+
+    @Override
+    public void unregister(final EventListener listener) {
+        eventBus.unregister(listener);
     }
 }
