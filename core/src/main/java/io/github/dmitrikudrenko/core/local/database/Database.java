@@ -16,7 +16,7 @@ public class Database {
     private final BriteDatabase briteDatabase;
 
     @Inject
-    Database(final GeraltWomenSqliteOpenHelper helper) {
+    public Database(final GeraltWomenSqliteOpenHelper helper) {
         final SqlBrite sqlBrite = new SqlBrite.Builder().build();
         this.briteDatabase = sqlBrite.wrapDatabaseHelper(helper, Schedulers.io());
     }
@@ -32,7 +32,11 @@ public class Database {
 
     public int update(final String table, final ContentValues values,
                       @Nullable final String whereClause, @Nullable final String... whereArgs) {
-        return briteDatabase.update(table, values, whereClause, whereArgs);
+        final int updated = briteDatabase.update(table, values, whereClause, whereArgs);
+        if (updated == 0) {
+            briteDatabase.insert(table, values);
+        }
+        return updated;
     }
 
     public int insertOrUpdateInTransaction(final String table, final List<ContentValues> batch) {

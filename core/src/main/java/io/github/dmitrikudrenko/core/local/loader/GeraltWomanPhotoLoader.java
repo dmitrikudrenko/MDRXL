@@ -9,19 +9,18 @@ import io.github.dmitrikudrenko.core.local.Gallery;
 import io.github.dmitrikudrenko.core.local.cursor.GeraltWomanPhotoCursor;
 import io.github.dmitrikudrenko.core.local.cursor.GeraltWomenCursor;
 import io.github.dmitrikudrenko.core.local.database.contract.GeraltWomenPhotoContract;
-import io.github.dmitrikudrenko.core.local.repository.GeraltWomanPhotoRepository;
 import io.github.dmitrikudrenko.core.local.repository.GeraltWomenRepository;
 import io.github.dmitrikudrenko.mdrxl.loader.RxCursorLoader;
 import rx.Observable;
 
 @AutoFactory
 public class GeraltWomanPhotoLoader extends RxCursorLoader<Gallery> {
-    private final GeraltWomanPhotoRepository repository;
+    private final GeraltWomenRepository repository;
     private final GeraltWomenRepository womenRepository;
     private final long id;
 
     GeraltWomanPhotoLoader(@Provided final Context context,
-                           @Provided final GeraltWomanPhotoRepository repository,
+                           @Provided final GeraltWomenRepository repository,
                            @Provided final GeraltWomenRepository womenRepository,
                            final long id) {
         super(context);
@@ -32,8 +31,8 @@ public class GeraltWomanPhotoLoader extends RxCursorLoader<Gallery> {
 
     @Override
     protected Observable<Gallery> create(final String query) {
-        final Observable<GeraltWomenCursor> avatarObservable = womenRepository.get(id);
-        final Observable<GeraltWomanPhotoCursor> photosObservable = repository.get(id);
+        final Observable<GeraltWomenCursor> avatarObservable = womenRepository.getWoman(id);
+        final Observable<GeraltWomanPhotoCursor> photosObservable = repository.getPhotos(id);
 
         return Observable.combineLatest(avatarObservable, photosObservable, (womenCursor, photos) -> {
             final GeraltWomanPhotoCursor avatar = new GeraltWomanPhotoCursorFromWoman(womenCursor);

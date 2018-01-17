@@ -68,6 +68,7 @@ ext.libraries = [
         retrofit               : "com.squareup.retrofit2:retrofit:$retrofitVersion",
         retrofitGson           : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
         retrofitRxjava         : "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
+        retrofitMock           : "com.squareup.retrofit2:retrofit-mock:$retrofitVersion",
         okhttplogging          : "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
 
         gson                   : 'com.google.code.gson:gson:2.8.2',

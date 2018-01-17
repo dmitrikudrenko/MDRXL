@@ -16,4 +16,6 @@ dependencies {
     api libraries.retrofitRxjava
     api libraries.okhttplogging
     api libraries.gson
+
+    testImplementation libraries.retrofitMock
 }

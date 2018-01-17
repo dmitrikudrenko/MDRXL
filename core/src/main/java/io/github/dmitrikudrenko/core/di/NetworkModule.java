@@ -34,28 +34,28 @@ public final class NetworkModule {
 
     @NetworkPreferences
     @Provides
-    SharedPreferences provideNetworkSharedPreferences(final Context context) {
+    public SharedPreferences provideNetworkSharedPreferences(final Context context) {
         return getDefaultSharedPreferences(context);
     }
 
     @Provides
-    Settings provideSettings(final NetworkSettingsRepository repository) {
+    public Settings provideSettings(final NetworkSettingsRepository repository) {
         return repository.getSync();
     }
 
     @Provides
-    Gson provideGson() {
+    public Gson provideGson() {
         return new GsonBuilder().create();
     }
 
     @NetworkScheduler
     @Provides
-    Scheduler provideScheduler() {
+    public Scheduler provideScheduler() {
         return Schedulers.io();
     }
 
     @Provides
-    OkHttpClient provideHttpClient(final Context context, final Set<Interceptor> interceptors) {
+    public OkHttpClient provideHttpClient(final Context context, final Set<Interceptor> interceptors) {
         final OkHttpClient.Builder builder = new OkHttpClient.Builder();
         for (final Interceptor interceptor : interceptors) {
             builder.addNetworkInterceptor(interceptor);
@@ -66,7 +66,7 @@ public final class NetworkModule {
     }
 
     @Provides
-    Retrofit provideRetrofit(final Gson gson,
+    public Retrofit provideRetrofit(final Gson gson,
                              @NetworkScheduler final Scheduler networkScheduler,
                              final OkHttpClient httpClient) {
         return new Retrofit.Builder()
@@ -79,13 +79,13 @@ public final class NetworkModule {
 
     @Singleton
     @Provides
-    WomenApi provideWomenApi(final Retrofit retrofit) {
+    public WomenApi provideWomenApi(final Retrofit retrofit) {
         return retrofit.create(WomenApi.class);
     }
 
     @Provides
     @IntoSet
-    Interceptor provideLoggingInterceptor() {
+    public Interceptor provideLoggingInterceptor() {
         return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
     }
 }

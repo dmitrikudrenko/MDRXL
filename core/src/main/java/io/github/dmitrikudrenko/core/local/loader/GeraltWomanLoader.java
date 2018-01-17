@@ -23,6 +23,6 @@ public final class GeraltWomanLoader extends RxCursorLoader<GeraltWomenCursor> {
 
     @Override
     protected Observable<GeraltWomenCursor> create(final String query) {
-        return repository.get(id);
+        return repository.getWoman(id);
     }
 }
