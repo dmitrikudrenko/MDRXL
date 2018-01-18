@@ -7,10 +7,15 @@ import io.github.dmitrikudrenko.core.di.NetworkPreferences;
 import rx.Observable;
 
 import javax.inject.Inject;
+import java.util.concurrent.TimeUnit;
 
 import static io.github.dmitrikudrenko.core.remote.settings.NetworkSettingsRepository.NetworkPreference.*;
 
 public final class NetworkSettingsRepository {
+    private static final boolean DEFAULT_SUCCESS = true;
+    private static final boolean DEFAULT_TIMEOUT = false;
+    private static final boolean DEFAULT_ERROR = false;
+
     @StringDef({KEY_TIMEOUT, KEY_ERROR, KEY_SUCCESS})
     public @interface NetworkPreference {
         String KEY_SUCCESS = "success";
@@ -27,48 +32,45 @@ public final class NetworkSettingsRepository {
         this.rxSharedPreferences = RxSharedPreferences.create(sharedPreferences);
     }
 
-    @SuppressWarnings("ConstantConditions")
     public Settings getSync() {
         return new Settings(
-                rxSharedPreferences.getBoolean(KEY_SUCCESS,true).get(),
-                rxSharedPreferences.getBoolean(KEY_TIMEOUT, false).get(),
-                rxSharedPreferences.getBoolean(KEY_ERROR, false).get()
+                sharedPreferences.getBoolean(KEY_SUCCESS, DEFAULT_SUCCESS),
+                sharedPreferences.getBoolean(KEY_TIMEOUT, DEFAULT_TIMEOUT),
+                sharedPreferences.getBoolean(KEY_ERROR, DEFAULT_ERROR)
         );
     }
 
     public Observable<Settings> get() {
-        return Observable.combineLatest(
-                rxSharedPreferences.getBoolean(KEY_SUCCESS).asObservable(),
-                rxSharedPreferences.getBoolean(KEY_TIMEOUT).asObservable(),
-                rxSharedPreferences.getBoolean(KEY_ERROR).asObservable(),
-                Settings::new
-        ).filter(Settings::isValid);
+        return Observable
+                .combineLatest(
+                        rxSharedPreferences.getBoolean(KEY_SUCCESS, DEFAULT_SUCCESS).asObservable(),
+                        rxSharedPreferences.getBoolean(KEY_TIMEOUT, DEFAULT_TIMEOUT).asObservable(),
+                        rxSharedPreferences.getBoolean(KEY_ERROR, DEFAULT_ERROR).asObservable(),
+                        Settings::new
+                )
+                .debounce(100, TimeUnit.MILLISECONDS)
+                .map(settings -> settings.isValid() ? settings : Settings.success());
     }
 
     public void set(@NetworkPreference final String preference) {
-        doSet(preference);
-    }
-
-    private void doSet(@NetworkPreference final String preference) {
-        Settings newSettings = null;
         switch (preference) {
             case KEY_SUCCESS:
-                newSettings = Settings.success();
+                doSet(Settings.success());
                 break;
             case KEY_TIMEOUT:
-                newSettings = Settings.timeout();
+                doSet(Settings.timeout());
                 break;
             case KEY_ERROR:
-                newSettings = Settings.error();
+                doSet(Settings.error());
                 break;
         }
+    }
 
-        if (newSettings != null) {
-            final SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(KEY_SUCCESS, newSettings.isSuccess())
-                    .putBoolean(KEY_TIMEOUT, newSettings.isTimeout())
-                    .putBoolean(KEY_ERROR, newSettings.isError());
-            editor.apply();
-        }
+    private void doSet(final Settings settings) {
+        sharedPreferences.edit()
+                .putBoolean(KEY_SUCCESS, settings.isSuccess())
+                .putBoolean(KEY_TIMEOUT, settings.isTimeout())
+                .putBoolean(KEY_ERROR, settings.isError())
+                .apply();
     }
 }
