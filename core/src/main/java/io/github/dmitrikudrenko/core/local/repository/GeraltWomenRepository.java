@@ -4,10 +4,14 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
+import io.github.dmitrikudrenko.core.local.cursor.GeraltWomanPhotoCursor;
 import io.github.dmitrikudrenko.core.local.cursor.GeraltWomenCursor;
 import io.github.dmitrikudrenko.core.local.database.Database;
 import io.github.dmitrikudrenko.core.local.database.contract.GeraltWomenContract;
+import io.github.dmitrikudrenko.core.local.database.contract.GeraltWomenPhotoContract;
 import io.github.dmitrikudrenko.core.remote.UpdateModel;
+import io.github.dmitrikudrenko.core.remote.model.Photo;
+import io.github.dmitrikudrenko.core.remote.model.Photos;
 import io.github.dmitrikudrenko.core.remote.model.Woman;
 import io.github.dmitrikudrenko.core.remote.model.Women;
 import rx.Completable;
@@ -20,37 +24,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public class GeraltWomenRepository implements IRepository<GeraltWomenCursor> {
+public class GeraltWomenRepository {
     private final Database database;
-    private final GeraltWomenContract contract;
 
     @Inject
-    GeraltWomenRepository(final Database database,
-                          final GeraltWomenContract contract) {
+    public GeraltWomenRepository(final Database database) {
         this.database = database;
-        this.contract = contract;
     }
 
-    @Override
-    public Observable<GeraltWomenCursor> get(final long id) {
-        return database.createQuery(contract.tableName(), contract.selectById(), String.valueOf(id))
+    public Observable<GeraltWomenCursor> getWoman(final long id) {
+        return database.createQuery(GeraltWomenContract.TABLE_NAME, GeraltWomenContract.SELECT_BY_ID, String.valueOf(id))
                 .map(GeraltWomenCursor::new);
     }
 
-    @Override
-    public Observable<GeraltWomenCursor> get() {
-        return get(null);
+    public Observable<GeraltWomenCursor> getWomen() {
+        return getWomen(null);
     }
 
-    @Override
-    public Observable<GeraltWomenCursor> get(final String query) {
+    public Observable<GeraltWomenCursor> getWomen(final String query) {
         final Observable<Cursor> databaseQuery;
         if (query != null) {
             final String likeQuery = "%" + query + "%";
-            databaseQuery = database.createQuery(contract.tableName(), contract.selectWithQuery(),
+            databaseQuery = database.createQuery(GeraltWomenContract.TABLE_NAME, GeraltWomenContract.SELECT_WITH_QUERY,
                     likeQuery, likeQuery, likeQuery);
         } else {
-            databaseQuery = database.createQuery(contract.tableName(), contract.selectAllForBrowser());
+            databaseQuery = database.createQuery(GeraltWomenContract.TABLE_NAME, GeraltWomenContract.SELECT_ALL_FOR_BROWSER);
         }
         return databaseQuery.map(GeraltWomenCursor::new);
     }
@@ -59,7 +57,7 @@ public class GeraltWomenRepository implements IRepository<GeraltWomenCursor> {
         return Completable.fromAction(() -> {
             final ContentValues cv = new ContentValues();
             model.fill(cv);
-            database.update(contract.tableName(), cv, BaseColumns._ID + "=?",
+            database.update(GeraltWomenContract.TABLE_NAME, cv, BaseColumns._ID + "=?",
                     String.valueOf(model.getId()));
         });
     }
@@ -74,7 +72,7 @@ public class GeraltWomenRepository implements IRepository<GeraltWomenCursor> {
                 final ContentValues cv = womanToContentValues(woman);
                 batch.add(cv);
             }
-            database.insertOrUpdateInTransaction(contract.tableName(), batch);
+            database.insertOrUpdateInTransaction(GeraltWomenContract.TABLE_NAME, batch);
         });
     }
 
@@ -94,9 +92,34 @@ public class GeraltWomenRepository implements IRepository<GeraltWomenCursor> {
         if (woman == null) {
             return Completable.complete();
         }
+        return Completable.fromAction(() -> database.update(GeraltWomenContract.TABLE_NAME,
+                womanToContentValues(woman), GeraltWomenContract.BY_ID, String.valueOf(woman.getId())));
+    }
+
+    public Observable<GeraltWomanPhotoCursor> getPhotos(final long womanId) {
+        return database.createQuery(GeraltWomenPhotoContract.TABLE_NAME,
+                GeraltWomenPhotoContract.SELECT_BY_WOMAN_ID, String.valueOf(womanId))
+                .map(GeraltWomanPhotoCursor::new);
+    }
+
+    public Completable updatePhotos(@Nullable final Photos photos, final long womanId) {
+        if (photos == null) {
+            return Completable.complete();
+        }
         return Completable.fromAction(() -> {
-            database.update(contract.tableName(), womanToContentValues(woman),
-                    GeraltWomenContract.BY_ID, String.valueOf(woman.getId()));
+            final List<ContentValues> batch = new ArrayList<>(photos.size());
+            for (final Photo photo : photos) {
+                if (photo == null) {
+                    //firebase returns 'null' as first item
+                    continue;
+                }
+                final ContentValues cv = new ContentValues();
+                cv.put(GeraltWomenPhotoContract._ID, photo.getId());
+                cv.put(GeraltWomenPhotoContract.COLUMN_URL, photo.getUrl());
+                cv.put(GeraltWomenPhotoContract.COLUMN_WOMAN_ID, womanId);
+                batch.add(cv);
+            }
+            database.insertOrUpdateInTransaction(GeraltWomenPhotoContract.TABLE_NAME, batch);
         });
     }
 }

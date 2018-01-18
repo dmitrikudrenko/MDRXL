@@ -1,6 +1,6 @@
 package io.github.dmitrikudrenko.core.commands;
 
-import io.github.dmitrikudrenko.core.local.repository.GeraltWomanPhotoRepository;
+import io.github.dmitrikudrenko.core.local.repository.GeraltWomenRepository;
 import io.github.dmitrikudrenko.core.remote.GeraltWomenRemoteRepository;
 import io.github.dmitrikudrenko.mdrxl.commands.Command;
 import rx.Completable;
@@ -9,11 +9,11 @@ import javax.inject.Inject;
 
 public class GeraltWomanPhotosUpdateCommand implements Command<GeraltWomanPhotosUpdateCommandRequest> {
     private final GeraltWomenRemoteRepository remoteRepository;
-    private final GeraltWomanPhotoRepository localRepository;
+    private final GeraltWomenRepository localRepository;
 
     @Inject
     GeraltWomanPhotosUpdateCommand(final GeraltWomenRemoteRepository remoteRepository,
-                                   final GeraltWomanPhotoRepository localRepository) {
+                                   final GeraltWomenRepository localRepository) {
         this.remoteRepository = remoteRepository;
         this.localRepository = localRepository;
     }

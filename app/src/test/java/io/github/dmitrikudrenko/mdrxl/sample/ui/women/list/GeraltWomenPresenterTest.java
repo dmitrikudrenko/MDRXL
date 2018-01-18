@@ -105,7 +105,7 @@ public class GeraltWomenPresenterTest extends RxTest {
     public void shouldStopLoadingAndShowErrorMessageIfError() {
         final String errorMessage = "Error message";
         final Throwable error = new RuntimeException(errorMessage);
-        when(repository.get(any(String.class))).thenReturn(Observable.error(error));
+        when(repository.getWomen(any(String.class))).thenReturn(Observable.error(error));
 
         attach();
 
@@ -115,7 +115,7 @@ public class GeraltWomenPresenterTest extends RxTest {
 
     @Test
     public void shouldStopLoadingAndShowDataIfSuccess() {
-        when(repository.get(or(anyString(), (String) isNull())))
+        when(repository.getWomen(or(anyString(), (String) isNull())))
                 .thenReturn(Observable.just(mock(GeraltWomenCursor.class)));
 
         attach();
@@ -138,7 +138,7 @@ public class GeraltWomenPresenterTest extends RxTest {
         when(cursor.getCount()).thenReturn(1);
         when(cursor.moveToPosition(anyInt())).thenReturn(true);
         when(cursor.getId()).thenReturn(1);
-        when(repository.get(or(anyString(), (String) isNull())))
+        when(repository.getWomen(or(anyString(), (String) isNull())))
                 .thenReturn(Observable.just(cursor));
     }
 

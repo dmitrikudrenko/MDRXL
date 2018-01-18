@@ -14,8 +14,8 @@ public final class GeraltWomenRemoteRepository {
     private final WomenApi womenApi;
 
     @Inject
-    GeraltWomenRemoteRepository(final Provider<Settings> settingsProvider,
-                                final WomenApi womenApi) {
+    public GeraltWomenRemoteRepository(final Provider<Settings> settingsProvider,
+                                       final WomenApi womenApi) {
         this.settingsProvider = settingsProvider;
         this.womenApi = womenApi;
     }
