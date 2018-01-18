@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Map;
 
+@Singleton
 public class CommandStarter {
     private static final String TAG = "CommandStarter";
 
