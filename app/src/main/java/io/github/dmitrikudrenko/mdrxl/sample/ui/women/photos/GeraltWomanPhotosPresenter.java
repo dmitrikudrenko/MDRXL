@@ -54,10 +54,15 @@ public class GeraltWomanPhotosPresenter extends RxLoaderPresenter<GeraltWomanPho
     }
 
     @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        commandStarter.execute(new GeraltWomanPhotosUpdateCommandRequest(womanId));
+    }
+
+    @Override
     public void attachView(final GeraltWomanPhotosView view) {
         super.attachView(view);
         getLoaderManager().init(LOADER_ID, null, new LoaderCallbacks());
-        commandStarter.execute(new GeraltWomanPhotosUpdateCommandRequest(womanId));
     }
 
     @Override

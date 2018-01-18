@@ -69,10 +69,15 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
     }
 
     @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        onRefresh();
+    }
+
+    @Override
     public void attachView(final GeraltWomenView view) {
         super.attachView(view);
         loader = (GeraltWomenLoader) getLoaderManager().init(LOADER_ID, null, new LoaderCallbacks());
-        onRefresh();
     }
 
     void onRefresh() {
