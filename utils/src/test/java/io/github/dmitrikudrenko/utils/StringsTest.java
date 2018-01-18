@@ -8,6 +8,7 @@ public class StringsTest {
     @Test
     public void common() {
         //not blank
+        assertFalse(Strings.isNotBlank(null));
         assertFalse(Strings.isNotBlank(""));
         assertFalse(Strings.isNotBlank(" "));
         assertFalse(Strings.isNotBlank("  "));

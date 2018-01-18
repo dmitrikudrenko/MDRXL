@@ -2,7 +2,10 @@ package io.github.dmitrikudrenko.utils;
 
 import javax.annotation.Nullable;
 
-public class Strings {
+public final class Strings {
+    private Strings() {
+    }
+
     public static boolean isBlank(@Nullable final String string) {
         if (string == null) {
             return true;

@@ -2,7 +2,10 @@ package io.github.dmitrikudrenko.utils;
 
 import javax.annotation.Nullable;
 
-public class Objects {
+public final class Objects {
+    private Objects() {
+    }
+
     public static boolean equals(@Nullable final Object o1, @Nullable final Object o2) {
         if (o1 == null) {
             return o2 == null;
