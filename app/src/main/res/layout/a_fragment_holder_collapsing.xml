@@ -22,7 +22,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <io.github.dmitrikudrenko.mdrxl.sample.utils.ui.RoundedColorView
+            <io.github.dmitrikudrenko.sample.utils.ui.RoundedColorView
                 android:id="@+id/reveal_image"
                 android:layout_width="48dp"
                 android:layout_height="48dp"

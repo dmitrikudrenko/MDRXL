@@ -3,7 +3,7 @@ apply from: '../android.gradle'
 
 android {
     defaultConfig {
-        applicationId "io.github.dmitrikudrenko.mdrxl.sample"
+        applicationId "io.github.dmitrikudrenko.sample"
         multiDexEnabled true
     }
 
