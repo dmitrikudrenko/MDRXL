@@ -3,7 +3,7 @@ package io.github.dmitrikudrenko.core.local.cursor;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import io.github.dmitrikudrenko.core.local.database.contract.GeraltWomenContract;
-import io.github.dmitrikudrenko.utils.Objects;
+import io.github.dmitrikudrenko.utils.common.Objects;
 
 public class GeraltWomenCursor extends CursorWrapper {
     private final int id;
