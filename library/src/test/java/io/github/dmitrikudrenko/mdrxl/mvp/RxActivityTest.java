@@ -17,15 +17,12 @@ public class RxActivityTest {
 
     @Before
     public void setUp() {
-        activity = spy(Robolectric.setupActivity(RxActivityImpl.class));
+        activity = spy(Robolectric.setupActivity(RxActivity.class));
     }
 
     @Test
     public void shouldBackPressedIfNavigatedUp() {
         activity.onSupportNavigateUp();
         verify(activity).onBackPressed();
-    }
-
-    public static class RxActivityImpl extends RxActivity {
     }
 }

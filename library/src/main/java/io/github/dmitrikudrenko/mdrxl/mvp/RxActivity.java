@@ -2,7 +2,7 @@ package io.github.dmitrikudrenko.mdrxl.mvp;
 
 import android.os.Bundle;
 
-public abstract class RxActivity extends MvpAppCompatActivity implements RxView {
+public class RxActivity extends MvpAppCompatActivity implements RxView {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         beforeOnCreate(savedInstanceState);
