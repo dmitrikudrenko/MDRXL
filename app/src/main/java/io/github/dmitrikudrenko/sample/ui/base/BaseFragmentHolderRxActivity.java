@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.sample.ui.base;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import butterknife.BindView;
@@ -48,6 +49,7 @@ public abstract class BaseFragmentHolderRxActivity<F extends RxFragment> extends
         return toolbar;
     }
 
+    @LayoutRes
     protected int contentView() {
         return R.layout.a_fragment_holder;
     }
