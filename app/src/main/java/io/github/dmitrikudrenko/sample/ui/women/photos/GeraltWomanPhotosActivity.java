@@ -3,6 +3,7 @@ package io.github.dmitrikudrenko.sample.ui.women.photos;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import io.github.dmitrikudrenko.sample.R;
 import io.github.dmitrikudrenko.sample.ui.base.BaseFragmentHolderRxActivity;
 
 public class GeraltWomanPhotosActivity extends BaseFragmentHolderRxActivity<GeraltWomanPhotosFragment> {
@@ -27,5 +28,10 @@ public class GeraltWomanPhotosActivity extends BaseFragmentHolderRxActivity<Gera
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(value);
         }
+    }
+
+    @Override
+    protected int contentView() {
+        return R.layout.a_photos;
     }
 }
