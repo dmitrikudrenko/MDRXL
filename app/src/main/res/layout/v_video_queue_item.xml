@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    tools:background="@color/selectedVideoItemBackground">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="88dp"
+            android:layout_height="48dp"
+            tools:scaleType="centerCrop"
+            tools:src="@tools:sample/avatars"/>
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/thumbnail"
+            android:layout_alignEnd="@+id/thumbnail"
+            android:padding="2dp"
+            android:textColor="@color/textColorSecondaryDark"
+            android:textSize="12sp"
+            tools:text="@tools:sample/date/hhmmss"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        tools:text="@tools:sample/full_names"
+        tools:textColor="#000"/>
+
+    <ImageView
+        android:id="@+id/options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        android:paddingTop="16dp"
+        app:srcCompat="@drawable/ic_more_vertical"/>
+
+</LinearLayout>

@@ -17,8 +17,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.github.dmitrikudrenko.sample.GeraltApplication;
 import io.github.dmitrikudrenko.sample.R;
-import io.github.dmitrikudrenko.sample.SampleApplication;
 import io.github.dmitrikudrenko.sample.ui.base.BaseFragmentHolderRxActivity;
 import io.github.dmitrikudrenko.sample.utils.ui.TransitionListenerAdapter;
 import io.github.dmitrikudrenko.sample.utils.ui.ViewUtils;
@@ -68,7 +68,7 @@ public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWoma
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        SampleApplication.get().inject(this);
+        GeraltApplication.get().inject(this);
     }
 
     @Override

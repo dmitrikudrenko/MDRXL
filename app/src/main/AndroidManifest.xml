@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".SampleApplication"
+        android:name=".GeraltApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
+
+        <!-- women -->
         <activity android:name=".ui.women.list.GeraltWomenActivity">
+
+        </activity>
+        <activity android:name=".ui.women.details.GeraltWomanActivity"/>
+        <activity
+            android:name=".ui.women.photos.GeraltWomanPhotosActivity"
+            android:theme="@style/PhotosTheme"/>
+
+        <!-- settings -->
+        <activity android:name=".ui.settings.SettingsActivity"/>
+
+        <!-- video -->
+        <activity android:name=".ui.video.list.WitcherVideosActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -21,9 +35,33 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.video.player.VideoPlayerActivity"
+            android:label="@string/video"
+            android:launchMode="singleTop"
+            android:theme="@style/PhotosTheme"/>
+        <activity
+            android:name=".ui.video.queue.VideoQueueActivity"
+            android:label="@string/video"
+            android:launchMode="singleTop"
+            android:theme="@style/PhotosTheme"/>
 
-        <activity android:name=".ui.women.details.GeraltWomanActivity"/>
-        <activity android:name=".ui.women.photos.GeraltWomanPhotosActivity" android:theme="@style/PhotosTheme"/>
-        <activity android:name=".ui.settings.SettingsActivity"/>
+        <activity
+            android:name=".cast.ExpandedControlsActivity"
+            android:label="@string/video"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/PhotosTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.video.list.WitcherVideosActivity"/>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
+            android:value="io.github.dmitrikudrenko.sample.cast.CastOptionsProvider"/>
     </application>
 </manifest>

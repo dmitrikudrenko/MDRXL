@@ -10,10 +10,10 @@ import io.github.dmitrikudrenko.core.local.database.Database;
 import io.github.dmitrikudrenko.core.local.database.contract.GeraltWomenContract;
 import io.github.dmitrikudrenko.core.local.database.contract.GeraltWomenPhotoContract;
 import io.github.dmitrikudrenko.core.remote.UpdateModel;
-import io.github.dmitrikudrenko.core.remote.model.Photo;
-import io.github.dmitrikudrenko.core.remote.model.Photos;
-import io.github.dmitrikudrenko.core.remote.model.Woman;
-import io.github.dmitrikudrenko.core.remote.model.Women;
+import io.github.dmitrikudrenko.core.remote.model.woman.Woman;
+import io.github.dmitrikudrenko.core.remote.model.woman.Women;
+import io.github.dmitrikudrenko.core.remote.model.woman.photo.Photo;
+import io.github.dmitrikudrenko.core.remote.model.woman.photo.Photos;
 import rx.Completable;
 import rx.Observable;
 
@@ -109,10 +109,6 @@ public class GeraltWomenRepository {
         return Completable.fromAction(() -> {
             final List<ContentValues> batch = new ArrayList<>(photos.size());
             for (final Photo photo : photos) {
-                if (photo == null) {
-                    //firebase returns 'null' as first item
-                    continue;
-                }
                 final ContentValues cv = new ContentValues();
                 cv.put(GeraltWomenPhotoContract._ID, photo.getId());
                 cv.put(GeraltWomenPhotoContract.COLUMN_URL, photo.getUrl());

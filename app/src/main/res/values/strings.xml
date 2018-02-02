@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">Geralt women</string>
+    <string name="video">Video</string>
 
     <string name="name">Name</string>
     <string name="profession">Profession</string>
     <string name="hair_color">Hair Color</string>
 
     <string name="gallery_counter">%1$d from %2$d</string>
+
+    <string name="media_route_menu_title">Транслировать</string>
+    <string name="play">Воспроизвести</string>
+    <string name="add_queue">Добавить в очередь</string>
+    <string name="queue">Очередь</string>
 </resources>

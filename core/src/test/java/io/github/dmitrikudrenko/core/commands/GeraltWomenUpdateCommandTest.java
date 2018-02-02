@@ -1,11 +1,8 @@
 package io.github.dmitrikudrenko.core.commands;
 
 import io.github.dmitrikudrenko.core.local.cursor.GeraltWomenCursor;
-import io.github.dmitrikudrenko.core.remote.model.Women;
+import io.github.dmitrikudrenko.core.remote.model.woman.Women;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 import rx.Single;
 
 import java.io.IOException;
@@ -14,8 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 import static junit.framework.Assert.*;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE)
 public class GeraltWomenUpdateCommandTest extends CommandTest {
     private GeraltWomenUpdateCommand command;
 
@@ -24,7 +19,7 @@ public class GeraltWomenUpdateCommandTest extends CommandTest {
         super.setUp();
         command = new GeraltWomenUpdateCommand(
                 remoteRepository,
-                localRepository
+                womenLocalRepository
         );
     }
 
@@ -32,7 +27,7 @@ public class GeraltWomenUpdateCommandTest extends CommandTest {
     public void shouldLoadData() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
 
-        localRepository.getWomen().subscribe(
+        womenLocalRepository.getWomen().subscribe(
                 women -> {
                     if (women.getCount() == 0 && latch.getCount() == 1) {
                         //first loading empty data, it's ok
@@ -42,7 +37,6 @@ public class GeraltWomenUpdateCommandTest extends CommandTest {
                     }
                 },
                 error -> {
-                    latch.countDown();
                     throw new AssertionError();
                 }
         );

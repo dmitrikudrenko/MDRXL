@@ -3,6 +3,7 @@ package io.github.dmitrikudrenko.sample.ui.women.list;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,9 +18,8 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
-import io.github.dmitrikudrenko.mdrxl.mvp.RxActivity;
+import io.github.dmitrikudrenko.sample.GeraltApplication;
 import io.github.dmitrikudrenko.sample.R;
-import io.github.dmitrikudrenko.sample.SampleApplication;
 import io.github.dmitrikudrenko.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.sample.ui.base.SearchableController;
 import io.github.dmitrikudrenko.sample.ui.women.list.adapter.GeraltWomenAdapter;
@@ -60,7 +60,7 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        SampleApplication.get().plus(new Module()).inject(this);
+        GeraltApplication.get().plus(new Module()).inject(this);
     }
 
     @Nullable
@@ -133,8 +133,8 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
         }
 
         @Provides
-        RxActivity provideActivity() {
-            return (RxActivity) getActivity();
+        AppCompatActivity provideActivity() {
+            return (AppCompatActivity) getActivity();
         }
 
         @Provides

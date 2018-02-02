@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
-import io.github.dmitrikudrenko.core.remote.WomenApi;
+import io.github.dmitrikudrenko.core.remote.WitcherApi;
 import io.github.dmitrikudrenko.core.remote.settings.NetworkSettingsRepository;
 import io.github.dmitrikudrenko.core.remote.settings.Settings;
 import okhttp3.Cache;
@@ -79,8 +79,8 @@ public final class NetworkModule {
 
     @Singleton
     @Provides
-    public WomenApi provideWomenApi(final Retrofit retrofit) {
-        return retrofit.create(WomenApi.class);
+    public WitcherApi provideWomenApi(final Retrofit retrofit) {
+        return retrofit.create(WitcherApi.class);
     }
 
     @Provides

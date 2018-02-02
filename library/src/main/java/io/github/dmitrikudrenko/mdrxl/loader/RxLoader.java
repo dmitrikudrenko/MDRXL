@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -40,8 +41,12 @@ public abstract class RxLoader<D> extends Loader<RxLoaderData<D>> implements Sea
 
         if (subjectSubscription == null) {
             subjectSubscription = searchQuerySubject.flatMap(this::create)
-                    .subscribeOn(Schedulers.io()).subscribe(subject);
+                    .subscribeOn(subscribeOn()).subscribe(subject);
         }
+    }
+
+    protected Scheduler subscribeOn() {
+        return Schedulers.io();
     }
 
     void onResult(final D data) {

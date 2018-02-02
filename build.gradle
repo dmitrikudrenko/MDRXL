@@ -27,6 +27,7 @@ project.ext {
     androidBuildToolsVersion = '27.0.3'
 
     supportVersion = "27.0.2"
+    googleplayservicesVersion = "11.8.0"
 
     butterKnifeVersion = "8.8.1"
     daggerVersion = "2.13"
@@ -40,6 +41,8 @@ ext.libraries = [
         supportRecyclerview    : "com.android.support:recyclerview-v7:$supportVersion",
         supportCardview        : "com.android.support:cardview-v7:$supportVersion",
         supportDesign          : "com.android.support:design:$supportVersion",
+        supportMediaRouter     : "com.android.support:mediarouter-v7:$supportVersion",
+        playservicesCast       : "com.google.android.gms:play-services-cast-framework:$googleplayservicesVersion",
         supportMultidex        : 'com.android.support:multidex:1.0.2',
 
         junit                  : 'junit:junit:4.12',
@@ -83,5 +86,9 @@ ext.libraries = [
         eventBus               : 'org.greenrobot:eventbus:3.1.1',
 
         tinydancer             : 'com.github.brianPlummer:tinydancer:0.1.2',
-        tinydancerNoop         : 'com.github.brianPlummer:tinydancer-noop:0.1.2'
+        tinydancerNoop         : 'com.github.brianPlummer:tinydancer-noop:0.1.2',
+
+        exomedia               : 'com.devbrackets.android:exomedia:4.1.0',
+
+        immutables             : 'org.immutables:value:2.5.5'
 ]

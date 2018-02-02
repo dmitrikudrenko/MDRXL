@@ -4,7 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import io.github.dmitrikudrenko.core.commands.GeraltWomanPhotosUpdateCommandRequest;
 import io.github.dmitrikudrenko.core.local.Gallery;
 import io.github.dmitrikudrenko.core.local.cursor.GeraltWomanPhotoCursor;
-import io.github.dmitrikudrenko.core.local.loader.GeraltWomanPhotoLoaderFactory;
+import io.github.dmitrikudrenko.core.local.loader.women.GeraltWomanPhotoLoaderFactory;
 import io.github.dmitrikudrenko.mdrxl.commands.CommandStarter;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;

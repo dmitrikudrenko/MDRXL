@@ -1,9 +1,8 @@
-apply plugin: 'com.android.library'
-apply from: '../android.gradle'
+apply from: '../android-lib.gradle'
 
 dependencies {
-    api project(":library")
-    api project(':utils')
+    implementation project(":library")
+    implementation project(':utils')
 
     //storage
     api libraries.sqlbrite
