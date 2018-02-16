@@ -6,8 +6,19 @@
     <color name="colorAccentDark">#00796B</color>
 
     <color name="textColorPrimary">#e6000000</color>
-    <color name="actionBarColorPrimary">#fff</color>
+    <color name="textColorSecondary">#96000000</color>
+    <color name="textColorSecondaryDark">#e0ffffff</color>
+    <color name="actionBarColorPrimary">#ffffff</color>
     <color name="actionBarColorSecondary">#aaffffff</color>
     <color name="listDivider">#1f000000</color>
     <color name="selectedItemColor">#1f000000</color>
+    <color name="listBackground">#dddddd</color>
+
+    <color name="videoPLayerBackground">#000000</color>
+    <color name="videoActionsBackground">#ffffff</color>
+    <color name="videoActionsForeground">#a0000000</color>
+    <color name="videoActionsForegroundDefault">#000000</color>
+    <color name="videoActionsTint">#fff</color>
+    <color name="videoItemBackground">#a0000000</color>
+    <color name="selectedVideoItemBackground">#32ffffff</color>
 </resources>

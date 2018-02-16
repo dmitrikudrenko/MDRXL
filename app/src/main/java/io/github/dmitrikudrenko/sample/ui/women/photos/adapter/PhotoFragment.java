@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.dmitrikudrenko.sample.GeraltApplication;
 import io.github.dmitrikudrenko.sample.R;
-import io.github.dmitrikudrenko.sample.SampleApplication;
 import io.github.dmitrikudrenko.sample.utils.ui.images.ImageLoader;
 
 import javax.inject.Inject;
@@ -35,7 +35,7 @@ public class PhotoFragment extends Fragment {
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SampleApplication.get().inject(this);
+        GeraltApplication.get().inject(this);
     }
 
     @Nullable

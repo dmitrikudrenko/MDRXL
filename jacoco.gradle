@@ -44,7 +44,8 @@ project.afterEvaluate {
                                    '**/*$$PresentersBinder*.class',
                                    '**/*$$ViewStateProvider.class',
                                    '**/*_Factory.class',
-                                   '**/*Module_*Factory.class']
+                                   '**/*Module_*Factory.class',
+                                   '**/Immutable*.class']
                 )
 
                 def coverageSourceDirs = [

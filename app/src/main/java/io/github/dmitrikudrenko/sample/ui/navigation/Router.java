@@ -3,11 +3,14 @@ package io.github.dmitrikudrenko.sample.ui.navigation;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import io.github.dmitrikudrenko.mdrxl.mvp.RxActivity;
+import io.github.dmitrikudrenko.sample.GeraltApplication;
 import io.github.dmitrikudrenko.sample.R;
-import io.github.dmitrikudrenko.sample.SampleApplication;
 import io.github.dmitrikudrenko.sample.di.MultiWindow;
+import io.github.dmitrikudrenko.sample.ui.video.player.VideoPlayerActivity;
+import io.github.dmitrikudrenko.sample.ui.video.player.VideoPlayerFragment;
+import io.github.dmitrikudrenko.sample.ui.video.queue.VideoQueueActivity;
 import io.github.dmitrikudrenko.sample.ui.women.details.GeraltWomanActivity;
 import io.github.dmitrikudrenko.sample.ui.women.details.GeraltWomanFragment;
 import io.github.dmitrikudrenko.sample.ui.women.photos.GeraltWomanPhotosActivity;
@@ -18,11 +21,11 @@ import javax.inject.Inject;
 public class Router {
     private static final String TAG_DETAILS_FRAGMENT = "details_fragment";
 
-    private final RxActivity activity;
+    private final AppCompatActivity activity;
     private final boolean multiWindow;
 
     @Inject
-    Router(final RxActivity activity,
+    Router(final AppCompatActivity activity,
            @MultiWindow final boolean multiWindow) {
         this.activity = activity;
         this.multiWindow = multiWindow;
@@ -30,11 +33,11 @@ public class Router {
 
     @SuppressWarnings("unchecked")
     public void openGeraltWoman(final long id, final ClickInfo clickInfo) {
-        SampleApplication.createWomanComponent(id);
+        GeraltApplication.createWomanComponent(id);
         if (multiWindow) {
-            final GeraltWomanFragment geraltWomanFragment = GeraltWomanFragment.create();
+            final GeraltWomanFragment fragment = GeraltWomanFragment.create();
             activity.getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.details, geraltWomanFragment, TAG_DETAILS_FRAGMENT)
+                    .replace(R.id.details, fragment, TAG_DETAILS_FRAGMENT)
                     .commitNow();
         } else {
             final View view = clickInfo.getView();
@@ -50,5 +53,21 @@ public class Router {
 
     public void openGeraltWomanPhotos() {
         activity.startActivity(GeraltWomanPhotosActivity.intent(activity));
+    }
+
+    public void openGeraltVideo(final long itemId, final ClickInfo clickInfo) {
+        GeraltApplication.createVideoComponent(itemId);
+        if (multiWindow) {
+            final VideoPlayerFragment fragment = VideoPlayerFragment.create();
+            activity.getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.details, fragment, TAG_DETAILS_FRAGMENT)
+                    .commitNow();
+        } else {
+            activity.startActivity(VideoPlayerActivity.intent(activity));
+        }
+    }
+
+    public void openVideoQueue() {
+        activity.startActivity(VideoQueueActivity.intent(activity));
     }
 }

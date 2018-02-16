@@ -3,6 +3,7 @@ package io.github.dmitrikudrenko.sample.ui.women.details;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,8 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
-import io.github.dmitrikudrenko.mdrxl.mvp.RxActivity;
+import io.github.dmitrikudrenko.sample.GeraltApplication;
 import io.github.dmitrikudrenko.sample.R;
-import io.github.dmitrikudrenko.sample.SampleApplication;
 import io.github.dmitrikudrenko.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.sample.utils.ui.images.ImageLoader;
@@ -60,7 +60,7 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        SampleApplication.getWomanComponent().plus(new Module()).inject(this);
+        GeraltApplication.getWomanComponent().plus(new Module()).inject(this);
     }
 
     @Nullable
@@ -144,8 +144,8 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
         }
 
         @Provides
-        RxActivity provideActivity() {
-            return (RxActivity) getActivity();
+        AppCompatActivity provideActivity() {
+            return (AppCompatActivity) getActivity();
         }
 
         @Provides

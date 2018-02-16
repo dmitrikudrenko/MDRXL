@@ -14,10 +14,6 @@ public class ClickInfo {
         this.view = view;
     }
 
-    public static ClickInfo clickInfo(final View view) {
-        return new ClickInfo(-1, view);
-    }
-
     public static ClickInfo clickInfo(final int position) {
         return new ClickInfo(position, null);
     }

@@ -5,7 +5,7 @@ import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
 import io.github.dmitrikudrenko.core.commands.GeraltWomenUpdateCommandRequest;
 import io.github.dmitrikudrenko.core.local.cursor.GeraltWomenCursor;
-import io.github.dmitrikudrenko.core.local.loader.GeraltWomenLoader;
+import io.github.dmitrikudrenko.core.local.loader.women.GeraltWomenLoader;
 import io.github.dmitrikudrenko.mdrxl.commands.CommandStarter;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderArguments;
@@ -91,7 +91,7 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
                 final long oldSelectedItemId = selectedItemId;
                 this.selectedItemId = itemId;
 
-                final int oldSelectedItemPosition = getPosition(oldSelectedItemId);
+                final int oldSelectedItemPosition = data.indexOf(oldSelectedItemId);
                 if (oldSelectedItemPosition >= 0) {
                     getViewState().notifyDataChanged(oldSelectedItemPosition);
                 }
@@ -114,17 +114,6 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
 
     void onSearchClosed() {
         loader.flushSearch();
-    }
-
-    private int getPosition(final long itemId) {
-        int index = 0;
-        for (final GeraltWomenCursor cursor : data) {
-            if (cursor.getId() == itemId) {
-                return index;
-            }
-            index++;
-        }
-        return -1;
     }
 
     @Override
@@ -199,6 +188,17 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
 
         GeraltWomen copy() {
             return new GeraltWomen(getCursor());
+        }
+
+        int indexOf(final long itemId) {
+            int index = 0;
+            for (final GeraltWomenCursor cursor : this) {
+                if (cursor.getId() == itemId) {
+                    return index;
+                }
+                index++;
+            }
+            return -1;
         }
     }
 

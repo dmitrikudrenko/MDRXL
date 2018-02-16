@@ -17,11 +17,15 @@ android {
 
 dependencies {
     implementation project(':core')
+    implementation project(':cast')
+    implementation project(':library')
+    implementation project(':utils')
     implementation libraries.supportMultidex
     implementation libraries.supportCompat
     implementation libraries.supportRecyclerview
     implementation libraries.supportCardview
     implementation libraries.supportDesign
+    implementation libraries.supportMediaRouter
 
     //view injection
     implementation libraries.butterknife
@@ -41,4 +45,7 @@ dependencies {
     debugImplementation libraries.tinydancer
     releaseImplementation libraries.tinydancerNoop
     testImplementation libraries.tinydancerNoop
+
+    //exoplayer
+    implementation libraries.exomedia
 }

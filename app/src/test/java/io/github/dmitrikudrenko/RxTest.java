@@ -10,6 +10,8 @@ import rx.plugins.RxJavaHooks;
 import rx.schedulers.Schedulers;
 
 public abstract class RxTest {
+    private static final int TEST_TIMEOUT_MS = 2000;
+
     @CallSuper
     @Before
     public void setUp() {
@@ -27,5 +29,13 @@ public abstract class RxTest {
     public void tearDown() throws Exception {
         RxJavaHooks.reset();
         RxAndroidPlugins.getInstance().reset();
+    }
+
+    protected void await() {
+        try {
+            Thread.sleep(TEST_TIMEOUT_MS);
+        } catch (final InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

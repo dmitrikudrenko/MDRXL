@@ -16,7 +16,7 @@ public class Database {
     private final BriteDatabase briteDatabase;
 
     @Inject
-    public Database(final GeraltWomenSqliteOpenHelper helper) {
+    public Database(final WitcherSqliteOpenHelper helper) {
         final SqlBrite sqlBrite = new SqlBrite.Builder().build();
         this.briteDatabase = sqlBrite.wrapDatabaseHelper(helper, Schedulers.io());
     }

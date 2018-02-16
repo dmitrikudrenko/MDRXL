@@ -1,0 +1,6 @@
+<resources>
+
+    <declare-styleable name="RoundedColorView">
+        <attr name="backgroundColor" format="color"/>
+    </declare-styleable>
+</resources>

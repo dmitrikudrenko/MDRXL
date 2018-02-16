@@ -3,6 +3,8 @@ package io.github.dmitrikudrenko.core.di;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoMap;
+import io.github.dmitrikudrenko.core.commands.GeraltVideosUpdateCommand;
+import io.github.dmitrikudrenko.core.commands.GeraltVideosUpdateCommandRequest;
 import io.github.dmitrikudrenko.core.commands.GeraltWomanPhotosUpdateCommand;
 import io.github.dmitrikudrenko.core.commands.GeraltWomanPhotosUpdateCommandRequest;
 import io.github.dmitrikudrenko.core.commands.GeraltWomanUpdateCommand;
@@ -44,6 +46,13 @@ public final class CommandModule {
     @IntoMap
     @CommandKey(GeraltWomanUpdateCommandRequest.class)
     static CommandWithScheduler bindGeraltWomanUpdateCommand(final Provider<GeraltWomanUpdateCommand> provider) {
+        return new CommandWithScheduler<>(provider, Schedulers.io());
+    }
+
+    @Provides
+    @IntoMap
+    @CommandKey(GeraltVideosUpdateCommandRequest.class)
+    static CommandWithScheduler bindGeraltVideosUpdateCommand(final Provider<GeraltVideosUpdateCommand> provider) {
         return new CommandWithScheduler<>(provider, Schedulers.io());
     }
 }

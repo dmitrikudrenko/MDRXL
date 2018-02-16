@@ -6,7 +6,7 @@ import io.github.dmitrikudrenko.core.commands.GeraltWomenStorageCommandRequest;
 import io.github.dmitrikudrenko.core.events.EventSource;
 import io.github.dmitrikudrenko.core.events.GeraltEvents;
 import io.github.dmitrikudrenko.core.local.cursor.GeraltWomenCursor;
-import io.github.dmitrikudrenko.core.local.loader.GeraltWomanLoaderFactory;
+import io.github.dmitrikudrenko.core.local.loader.women.GeraltWomanLoaderFactory;
 import io.github.dmitrikudrenko.core.remote.UpdateModel;
 import io.github.dmitrikudrenko.mdrxl.commands.CommandStarter;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoader;

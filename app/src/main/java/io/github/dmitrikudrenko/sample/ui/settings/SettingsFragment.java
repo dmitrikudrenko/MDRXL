@@ -13,8 +13,8 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
+import io.github.dmitrikudrenko.sample.GeraltApplication;
 import io.github.dmitrikudrenko.sample.R;
-import io.github.dmitrikudrenko.sample.SampleApplication;
 import io.github.dmitrikudrenko.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.sample.utils.ui.MuteableOnCheckedChangeListener;
 
@@ -42,7 +42,7 @@ public class SettingsFragment extends BaseRxFragment implements SettingsView {
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        SampleApplication.get().plus(new Module()).inject(this);
+        GeraltApplication.get().plus(new Module()).inject(this);
     }
 
     @Nullable

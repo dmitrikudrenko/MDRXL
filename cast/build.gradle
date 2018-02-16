@@ -1,0 +1,13 @@
+apply from: '../android-lib.gradle'
+
+dependencies {
+    implementation project(':utils')
+
+    api (libraries.playservicesCast) {
+        exclude group: 'com.android.support', module: 'mediarouter-v7'
+        exclude group: 'com.android.support', module: 'support-media-compat'
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
+    compileOnly libraries.immutables
+    annotationProcessor libraries.immutables
+}

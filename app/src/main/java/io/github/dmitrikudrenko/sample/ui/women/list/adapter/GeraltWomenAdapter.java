@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 import io.github.dmitrikudrenko.sample.R;
+import io.github.dmitrikudrenko.sample.utils.ui.OnItemClickListener;
 import io.github.dmitrikudrenko.utils.ui.RecyclerViewAdapterController;
 
 @AutoFactory
@@ -47,9 +48,5 @@ public class GeraltWomenAdapter extends RecyclerView.Adapter<GeraltWomanViewHold
     @Override
     public int getItemCount() {
         return adapterController.getItemCount();
-    }
-
-    public interface OnItemClickListener {
-        void onClick(int position, View view);
     }
 }

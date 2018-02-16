@@ -13,8 +13,8 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
+import io.github.dmitrikudrenko.sample.GeraltApplication;
 import io.github.dmitrikudrenko.sample.R;
-import io.github.dmitrikudrenko.sample.SampleApplication;
 import io.github.dmitrikudrenko.sample.di.FragmentScope;
 import io.github.dmitrikudrenko.sample.ui.base.BaseRxFragment;
 import io.github.dmitrikudrenko.sample.ui.women.photos.adapter.PhotosAdapter;
@@ -48,7 +48,7 @@ public class GeraltWomanPhotosFragment extends BaseRxFragment implements GeraltW
 
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
-        SampleApplication.getWomanComponent().plus(new Module()).inject(this);
+        GeraltApplication.getWomanComponent().plus(new Module()).inject(this);
     }
 
     @Nullable

@@ -1,25 +1,21 @@
 package io.github.dmitrikudrenko.sample.ui.women.list;
 
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
 import android.view.View;
-import io.github.dmitrikudrenko.RxTest;
 import io.github.dmitrikudrenko.core.commands.GeraltWomenUpdateCommandRequest;
 import io.github.dmitrikudrenko.core.local.cursor.GeraltWomenCursor;
-import io.github.dmitrikudrenko.core.local.loader.GeraltWomenLoader;
+import io.github.dmitrikudrenko.core.local.loader.women.GeraltWomenLoader;
 import io.github.dmitrikudrenko.core.local.repository.GeraltWomenRepository;
 import io.github.dmitrikudrenko.mdrxl.commands.CommandStarter;
-import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.sample.BuildConfig;
+import io.github.dmitrikudrenko.sample.ui.PresenterTest;
 import io.github.dmitrikudrenko.sample.ui.navigation.Router;
 import io.github.dmitrikudrenko.sample.utils.ui.ClickInfo;
-import io.github.dmitrikudrenko.sample.utils.ui.messages.MessageFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import rx.Observable;
@@ -35,30 +31,22 @@ import static org.mockito.Mockito.*;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
-public class GeraltWomenPresenterTest extends RxTest {
-    private static final int TEST_TIMEOUT_MS = 2000;
-
+public class GeraltWomenPresenterTest extends PresenterTest {
     private GeraltWomenPresenter presenter;
     private GeraltWomenView view;
     private GeraltWomenView$$State state;
 
-    private RxLoaderManager loaderManager;
     private CommandStarter commandStarter;
     private GeraltWomenLoader loader;
     private GeraltWomenRepository repository;
-    private MessageFactory messageFactory;
     private Router router;
 
     @Before
     public void setUp() {
         super.setUp();
-        final AppCompatActivity activity = Robolectric.setupActivity(AppCompatActivity.class);
-
-        loaderManager = spy(new RxLoaderManager(activity.getSupportLoaderManager()));
         commandStarter = mock(CommandStarter.class);
         repository = mock(GeraltWomenRepository.class);
         loader = new GeraltWomenLoader(activity, repository);
-        messageFactory = mock(MessageFactory.class);
         router = mock(Router.class);
 
         view = mock(GeraltWomenView.class);
@@ -68,7 +56,7 @@ public class GeraltWomenPresenterTest extends RxTest {
     @NonNull
     private GeraltWomenPresenter createPresenter(final boolean multiWindow) {
         return new GeraltWomenPresenter(
-                loaderManager,
+                rxLoaderManager,
                 () -> loader,
                 commandStarter,
                 router,
@@ -91,7 +79,7 @@ public class GeraltWomenPresenterTest extends RxTest {
     @Test
     public void shouldLoadDataOnAttachView() {
         attach();
-        verify(loaderManager).init(anyInt(), any(), any());
+        verify(rxLoaderManager).init(anyInt(), any(), any());
         verify(commandStarter).execute(any(GeraltWomenUpdateCommandRequest.class));
     }
 
@@ -124,7 +112,7 @@ public class GeraltWomenPresenterTest extends RxTest {
     }
 
     @Test
-    public void shouldOpenFirstElementIfExistsAndTablet() throws InterruptedException {
+    public void shouldOpenFirstElementIfExistsAndTablet() {
         setupData();
 
         attach(true);
@@ -156,13 +144,5 @@ public class GeraltWomenPresenterTest extends RxTest {
                 return clickInfo.equals(argument);
             }
         }));
-    }
-
-    private void await() {
-        try {
-            Thread.sleep(TEST_TIMEOUT_MS);
-        } catch (final InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

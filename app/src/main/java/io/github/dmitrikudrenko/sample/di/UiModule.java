@@ -9,8 +9,11 @@ import dagger.Module;
 import dagger.Provides;
 import io.github.dmitrikudrenko.core.events.EventSender;
 import io.github.dmitrikudrenko.core.events.EventSource;
+import io.github.dmitrikudrenko.sample.R;
 import io.github.dmitrikudrenko.sample.utils.EventBus;
 import io.github.dmitrikudrenko.sample.utils.ui.images.CircleTransform;
+import io.github.dmitrikudrenko.sample.utils.ui.images.ColorFilterTransformation;
+import io.github.dmitrikudrenko.sample.utils.ui.images.RoundedCornersTransform;
 import okhttp3.OkHttpClient;
 
 @Module
@@ -27,6 +30,18 @@ class UiModule {
     @Provides
     Transformation providePhotoTransformation() {
         return new CircleTransform();
+    }
+
+    @ThumbnailTransformation
+    @Provides
+    Transformation provideThumbnailTransformation(final Resources resources) {
+        return new RoundedCornersTransform((int) resources.getDimension(R.dimen.thumbnail_corner), 0);
+    }
+
+    @DimThumbnailTransformation
+    @Provides
+    Transformation provideDimThumbnailTransformation(final Resources resources) {
+        return new ColorFilterTransformation(resources.getColor(R.color.videoActionsForeground));
     }
 
     @Provides
