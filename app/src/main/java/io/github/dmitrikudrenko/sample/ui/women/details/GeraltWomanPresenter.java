@@ -91,7 +91,7 @@ public class GeraltWomanPresenter extends RxLoaderPresenter<GeraltWomanView> {
         }
 
         getViewState().showName(data.getName());
-        getViewState().showPhoto(data.getPhoto());
+        getViewState().showPhoto(data.getPhoto(), data.getAvatar());
         getViewState().showProfession(data.getProfession());
         getViewState().showHairColor(data.getHairColor());
     }

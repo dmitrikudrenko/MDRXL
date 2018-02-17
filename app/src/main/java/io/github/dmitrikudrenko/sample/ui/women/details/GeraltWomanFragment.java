@@ -120,9 +120,9 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
     }
 
     @Override
-    public void showPhoto(final String value) {
+    public void showPhoto(final String value, final String placeholder) {
         if (galleryView == null) {
-            ((GeraltWomanActivity) getActivity()).loadPhotoIntoToolbar(value);
+            ((GeraltWomanActivity) getActivity()).loadPhotoIntoToolbar(value, placeholder);
         }
     }
 

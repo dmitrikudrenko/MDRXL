@@ -13,6 +13,10 @@ public class Woman {
     private String hairColor;
     @SerializedName("photo")
     private String photo;
+    @SerializedName("avatar")
+    private String avatar;
+    @SerializedName("placeholder")
+    private String placeholder;
     @SerializedName("photo_count")
     private int photoCount;
 
@@ -38,5 +42,13 @@ public class Woman {
 
     public int getPhotoCount() {
         return photoCount;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public String getPlaceholder() {
+        return placeholder;
     }
 }

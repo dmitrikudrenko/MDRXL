@@ -8,7 +8,9 @@ import io.github.dmitrikudrenko.utils.common.Objects;
 public class GeraltWomenCursor extends CursorWrapper {
     private final int id;
     private final int name;
+    private final int avatar;
     private final int photo;
+    private final int placeholder;
     private final int profession;
     private final int hairColor;
     private final int photoCount;
@@ -18,6 +20,8 @@ public class GeraltWomenCursor extends CursorWrapper {
         id = cursor.getColumnIndex(GeraltWomenContract._ID);
         name = cursor.getColumnIndex(GeraltWomenContract.COLUMN_NAME);
         photo = cursor.getColumnIndex(GeraltWomenContract.COLUMN_PHOTO);
+        avatar = cursor.getColumnIndex(GeraltWomenContract.COLUMN_AVATAR);
+        placeholder = cursor.getColumnIndex(GeraltWomenContract.COLUMN_PLACEHOLDER);
         profession = cursor.getColumnIndex(GeraltWomenContract.COLUMN_PROFESSION);
         hairColor = cursor.getColumnIndex(GeraltWomenContract.COLUMN_HAIR_COLOR);
         photoCount = cursor.getColumnIndex(GeraltWomenContract.COLUMN_PHOTO_COUNT);
@@ -33,6 +37,14 @@ public class GeraltWomenCursor extends CursorWrapper {
 
     public String getPhoto() {
         return getString(photo);
+    }
+
+    public String getAvatar() {
+        return getString(avatar);
+    }
+
+    public String getPlaceholder() {
+        return getString(placeholder);
     }
 
     public String getProfession() {
@@ -52,7 +64,7 @@ public class GeraltWomenCursor extends CursorWrapper {
         if (Objects.notEquals(getName(), that.getName())) {
             return false;
         }
-        if (Objects.notEquals(getPhoto(), that.getPhoto())) {
+        if (Objects.notEquals(getAvatar(), that.getAvatar())) {
             return false;
         }
         if (Objects.notEquals(getProfession(), that.getProfession())) {
