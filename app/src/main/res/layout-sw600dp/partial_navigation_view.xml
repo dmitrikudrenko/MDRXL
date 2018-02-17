@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<io.github.dmitrikudrenko.sample.utils.ui.view.LeftNavigationView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:foreground="?attr/selectableItemBackground"
+    app:lnv_itemIconTint="@color/navigation_item"
+    app:lnv_menu="@menu/m_navigation"/>

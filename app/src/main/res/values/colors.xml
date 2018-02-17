@@ -21,4 +21,6 @@
     <color name="videoActionsTint">#fff</color>
     <color name="videoItemBackground">#a0000000</color>
     <color name="selectedVideoItemBackground">#32ffffff</color>
+
+    <color name="menuItemColor">#8a9faf</color>
 </resources>

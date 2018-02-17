@@ -8,7 +8,11 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindColor;
@@ -20,11 +24,13 @@ import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.loader.RxLoaderManager;
 import io.github.dmitrikudrenko.sample.GeraltApplication;
 import io.github.dmitrikudrenko.sample.R;
+import io.github.dmitrikudrenko.sample.ui.RootActivity;
 import io.github.dmitrikudrenko.sample.ui.base.BaseRxFragment;
-import io.github.dmitrikudrenko.sample.ui.base.SearchableController;
 import io.github.dmitrikudrenko.sample.ui.women.list.adapter.GeraltWomenAdapter;
 import io.github.dmitrikudrenko.sample.ui.women.list.adapter.GeraltWomenAdapterFactory;
 import io.github.dmitrikudrenko.sample.utils.ui.ClickInfo;
+import io.github.dmitrikudrenko.sample.utils.ui.MuteableSearchViewOnQueryTextListener;
+import io.github.dmitrikudrenko.sample.utils.ui.SearchViewExpandListener;
 import io.github.dmitrikudrenko.sample.utils.ui.messages.MessageFactory;
 import io.github.dmitrikudrenko.sample.utils.ui.messages.ToastFactory;
 
@@ -53,6 +59,10 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
 
     private GeraltWomenAdapter adapter;
 
+    private MenuItem searchItem;
+    private SearchView searchView;
+    private MuteableSearchViewOnQueryTextListener onQueryTextListener;
+
     @ProvidePresenter
     GeraltWomenPresenter providePresenter() {
         return presenter;
@@ -61,6 +71,12 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
     @Override
     protected void beforeOnCreate(final Bundle savedInstanceState) {
         GeraltApplication.get().plus(new Module()).inject(this);
+    }
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -85,6 +101,50 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
     }
 
     @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.m_search, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(final Menu menu) {
+        searchItem = menu.findItem(R.id.search);
+        searchItem.setOnActionExpandListener(new SearchViewExpandListener(menu) {
+            @Override
+            public boolean onMenuItemActionExpand(final MenuItem item) {
+                onSearchOpened();
+                return super.onMenuItemActionExpand(item);
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(final MenuItem item) {
+                onSearchClosed();
+                return super.onMenuItemActionCollapse(item);
+            }
+        });
+
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setIconified(false);
+        onQueryTextListener = new MuteableSearchViewOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(final String query) {
+                onSearchQuerySubmitted(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String query) {
+                onSearchQueryChanged(query);
+                return false;
+            }
+        });
+        searchView.setOnQueryTextListener(onQueryTextListener);
+
+        presenter.onOptionsMenuPrepared();
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public void startLoading() {
         refreshLayout.setRefreshing(true);
     }
@@ -106,23 +166,28 @@ public class GeraltWomenFragment extends BaseRxFragment implements GeraltWomenVi
 
     @Override
     public void showSearchQuery(final String value) {
-        ((SearchableController) getActivity()).showSearchQuery(value);
+        onQueryTextListener.mute();
+        searchItem.expandActionView();
+        searchView.setQuery(value, false);
+        searchView.clearFocus();
+        onQueryTextListener.unmute();
     }
 
-    public void onSearchQuerySubmitted(final String query) {
+    private void onSearchQuerySubmitted(final String query) {
         presenter.onSearchQuerySubmitted(query);
     }
 
-    public void onSearchQueryChanged(final String query) {
+    private void onSearchQueryChanged(final String query) {
         presenter.onSearchQueryChanged(query);
     }
 
-    public void onSearchClosed() {
+    private void onSearchClosed() {
         presenter.onSearchClosed();
+        ((RootActivity) getActivity()).showNavigationView();
     }
 
-    public void onOptionsMenuPrepared() {
-        presenter.onOptionsMenuPrepared();
+    private void onSearchOpened() {
+        ((RootActivity) getActivity()).hideNavigationView();
     }
 
     @dagger.Module

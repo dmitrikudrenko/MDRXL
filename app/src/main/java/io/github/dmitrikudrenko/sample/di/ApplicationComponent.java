@@ -9,6 +9,7 @@ import io.github.dmitrikudrenko.sample.di.video.VideoComponent;
 import io.github.dmitrikudrenko.sample.di.video.VideoModule;
 import io.github.dmitrikudrenko.sample.di.woman.WomanComponent;
 import io.github.dmitrikudrenko.sample.di.woman.WomanModule;
+import io.github.dmitrikudrenko.sample.ui.RootActivity;
 import io.github.dmitrikudrenko.sample.ui.settings.SettingsFragment;
 import io.github.dmitrikudrenko.sample.ui.video.list.CastingDialogFragment;
 import io.github.dmitrikudrenko.sample.ui.video.list.WitcherVideosFragment;
@@ -49,6 +50,8 @@ public interface ApplicationComponent {
     VideoQueueFragment.Component plus(VideoQueueFragment.Module module);
 
     ExpandedControlsActivity.Component plus(ExpandedControlsActivity.Module module);
+
+    RootActivity.Component plus(RootActivity.Module module);
 
     void inject(PhotoFragment fragment);
 

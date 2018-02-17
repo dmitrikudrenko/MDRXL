@@ -3,4 +3,10 @@
     <declare-styleable name="RoundedColorView">
         <attr name="backgroundColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="LeftNavigationView">
+        <attr name="lnv_itemBackground" format="reference"/>
+        <attr name="lnv_itemIconTint" format="color|reference"/>
+        <attr name="lnv_menu" format="reference"/>
+    </declare-styleable>
 </resources>

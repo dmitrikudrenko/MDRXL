@@ -14,20 +14,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
 
-        <!-- women -->
-        <activity android:name=".ui.women.list.GeraltWomenActivity">
-
-        </activity>
-        <activity android:name=".ui.women.details.GeraltWomanActivity"/>
-        <activity
-            android:name=".ui.women.photos.GeraltWomanPhotosActivity"
-            android:theme="@style/PhotosTheme"/>
-
-        <!-- settings -->
-        <activity android:name=".ui.settings.SettingsActivity"/>
-
-        <!-- video -->
-        <activity android:name=".ui.video.list.WitcherVideosActivity">
+        <activity android:name=".ui.RootActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -35,6 +22,14 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+
+        <!-- women -->
+        <activity android:name=".ui.women.details.GeraltWomanActivity"/>
+        <activity
+            android:name=".ui.women.photos.GeraltWomanPhotosActivity"
+            android:theme="@style/PhotosTheme"/>
+
+        <!-- video -->
         <activity
             android:name=".ui.video.player.VideoPlayerActivity"
             android:label="@string/video"
@@ -55,9 +50,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.video.list.WitcherVideosActivity"/>
         </activity>
 
         <meta-data
