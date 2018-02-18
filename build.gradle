@@ -58,6 +58,7 @@ ext.libraries = [
 
         moxy                   : "com.arello-mobile:moxy:$moxyVersion",
         moxyAndroid            : "com.arello-mobile:moxy-android:$moxyVersion",
+        moxyAppcompat          : "com.arello-mobile:moxy-app-compat:$moxyVersion",
         moxyCompiler           : "com.arello-mobile:moxy-compiler:$moxyVersion",
 
         rxJava                 : 'io.reactivex:rxjava:1.3.4',

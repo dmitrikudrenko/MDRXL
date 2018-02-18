@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.mdrxl.mvp;
 
 import android.os.Bundle;
+import com.arellomobile.mvp.MvpAppCompatActivity;
 
 public class RxActivity extends MvpAppCompatActivity implements RxView {
     @Override

@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import com.arellomobile.mvp.MvpAppCompatFragment;
 
-public abstract class RxFragment extends MvpCompatFragment implements RxView {
+public abstract class RxFragment extends MvpAppCompatFragment implements RxView {
     public static final String TAG_RETAINED = "retained_fragment";
     private RetainedFragment retainedFragment;
 

@@ -38,6 +38,7 @@ dependencies {
     //mvp
     implementation libraries.moxy
     implementation libraries.moxyAndroid
+    implementation libraries.moxyAppcompat
     annotationProcessor libraries.moxyCompiler
 
     implementation libraries.eventBus
