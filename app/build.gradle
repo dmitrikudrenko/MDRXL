@@ -32,8 +32,10 @@ dependencies {
     annotationProcessor libraries.butterknifeCompiler
 
     //network
-    implementation libraries.picasso
-    implementation libraries.picassoOkhttpDownloader
+    implementation libraries.glide
+    implementation libraries.glideOkhttp
+    implementation libraries.glideTransformations
+    annotationProcessor libraries.glideCompiler
 
     //mvp
     implementation libraries.moxy

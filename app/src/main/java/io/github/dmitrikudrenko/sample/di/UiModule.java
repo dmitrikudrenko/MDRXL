@@ -2,40 +2,35 @@ package io.github.dmitrikudrenko.sample.di;
 
 import android.content.Context;
 import android.content.res.Resources;
-import com.jakewharton.picasso.OkHttp3Downloader;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
+import com.bumptech.glide.load.Transformation;
 import dagger.Module;
 import dagger.Provides;
 import io.github.dmitrikudrenko.core.events.EventSender;
 import io.github.dmitrikudrenko.core.events.EventSource;
 import io.github.dmitrikudrenko.sample.R;
 import io.github.dmitrikudrenko.sample.utils.EventBus;
-import io.github.dmitrikudrenko.sample.utils.ui.images.CircleTransform;
-import io.github.dmitrikudrenko.sample.utils.ui.images.ColorFilterTransformation;
-import io.github.dmitrikudrenko.sample.utils.ui.images.RoundedCornersTransform;
-import okhttp3.OkHttpClient;
+import jp.wasabeef.glide.transformations.ColorFilterTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 @Module
 class UiModule {
 
-    @Provides
-    Picasso providePicasso(final Context context, final OkHttpClient httpClient) {
-        return new Picasso.Builder(context)
-                .downloader(new OkHttp3Downloader(httpClient))
-                .build();
-    }
+//    @Provides
+//    RequestManager provideGlide(final Context context) {
+//        return Glide.with(context);
+//    }
 
     @PhotoTransformation
     @Provides
     Transformation providePhotoTransformation() {
-        return new CircleTransform();
+        return new CropCircleTransformation();
     }
 
     @ThumbnailTransformation
     @Provides
     Transformation provideThumbnailTransformation(final Resources resources) {
-        return new RoundedCornersTransform((int) resources.getDimension(R.dimen.thumbnail_corner), 0);
+        return new RoundedCornersTransformation((int) resources.getDimension(R.dimen.thumbnail_corner), 0);
     }
 
     @DimThumbnailTransformation

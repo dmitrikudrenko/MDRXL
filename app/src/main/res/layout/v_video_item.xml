@@ -23,7 +23,6 @@
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"
             android:layout_height="196dp"
-            android:tag="thumbnail"
             tools:ignore="ContentDescription"/>
 
         <TextView
@@ -35,7 +34,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:fontFamily="sans-serif-medium"
-            android:tag="name"
             android:textColor="@color/textColorPrimary"
             android:textSize="22sp"
             tools:text="Witcher 3 Trailer"/>

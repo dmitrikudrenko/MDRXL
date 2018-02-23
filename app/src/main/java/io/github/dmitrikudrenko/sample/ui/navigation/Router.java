@@ -50,7 +50,7 @@ public class Router {
             Bundle bundle = null;
             if (view != null) {
                 bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity, Pair.create(view.findViewWithTag("photo"), "photo")
+                        activity, Pair.create(view.findViewById(R.id.photo), "photo")
                 ).toBundle();
             }
             activity.startActivity(GeraltWomanActivity.intent(activity), bundle);
