@@ -54,6 +54,10 @@ public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWoma
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        if (savedInstanceState != null) {
+            revealImage.setVisibility(View.INVISIBLE);
+            toolbarImageView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

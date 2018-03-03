@@ -3,7 +3,6 @@ package io.github.dmitrikudrenko.sample.ui.women.details;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,11 +140,6 @@ public class GeraltWomanFragment extends BaseRxFragment implements GeraltWomanVi
         @Provides
         RxLoaderManager provideLoaderManager() {
             return new RxLoaderManager(getLoaderManager());
-        }
-
-        @Provides
-        AppCompatActivity provideActivity() {
-            return (AppCompatActivity) getActivity();
         }
 
         @Provides

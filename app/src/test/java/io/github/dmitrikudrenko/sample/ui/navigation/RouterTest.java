@@ -159,6 +159,6 @@ public class RouterTest {
             when(fragmentTransaction.remove(any(Fragment.class))).thenReturn(fragmentTransaction);
             when(activity.getSupportFragmentManager()).thenReturn(fragmentManager);
         }
-        router = new Router(activity, multiWindow);
+        router = new Router(() -> activity, multiWindow);
     }
 }

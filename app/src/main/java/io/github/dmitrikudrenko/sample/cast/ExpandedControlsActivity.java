@@ -1,7 +1,6 @@
 package io.github.dmitrikudrenko.sample.cast;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.google.android.gms.cast.framework.CastButtonFactory;
@@ -56,11 +55,6 @@ public class ExpandedControlsActivity extends ExpandedControllerActivity {
         @Provides
         int provideOptionsMenu() {
             return R.menu.m_expanded_controllers;
-        }
-
-        @Provides
-        AppCompatActivity provideActivity() {
-            return ExpandedControlsActivity.this;
         }
     }
 

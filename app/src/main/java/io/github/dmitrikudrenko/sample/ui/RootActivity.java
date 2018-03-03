@@ -1,7 +1,6 @@
 package io.github.dmitrikudrenko.sample.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,7 +10,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
-import dagger.Provides;
 import dagger.Subcomponent;
 import io.github.dmitrikudrenko.mdrxl.mvp.RxActivity;
 import io.github.dmitrikudrenko.sample.GeraltApplication;
@@ -102,10 +100,7 @@ public class RootActivity extends RxActivity implements RootView {
 
     @dagger.Module
     public class Module {
-        @Provides
-        AppCompatActivity provideActivity() {
-            return RootActivity.this;
-        }
+
     }
 
     @Subcomponent(modules = Module.class)
