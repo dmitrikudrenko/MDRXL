@@ -20,6 +20,12 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+configurations.all {
+    resolutionStrategy {
+        force libraries.okHttp
+    }
+}
+
 project.ext {
     androidCompileSdkVersion = 27
     androidMinSdkVersion = 21
@@ -32,7 +38,7 @@ project.ext {
     butterKnifeVersion = "8.8.1"
     daggerVersion = "2.13"
     moxyVersion = "1.5.3"
-    okhttpVersion = "3.9.1"
+    okhttpVersion = "3.10.0"
     retrofitVersion = "2.3.0"
 }
 

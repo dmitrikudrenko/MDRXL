@@ -15,7 +15,7 @@ import io.github.dmitrikudrenko.core.commands.GeraltWomenUpdateCommand;
 import io.github.dmitrikudrenko.core.commands.GeraltWomenUpdateCommandRequest;
 import io.github.dmitrikudrenko.mdrxl.commands.CommandKey;
 import io.github.dmitrikudrenko.mdrxl.commands.CommandWithScheduler;
-import rx.schedulers.Schedulers;
+import rx.Scheduler;
 
 import javax.inject.Provider;
 
@@ -24,35 +24,40 @@ public final class CommandModule {
     @Provides
     @IntoMap
     @CommandKey(GeraltWomanPhotosUpdateCommandRequest.class)
-    static CommandWithScheduler bindGeraltWomanPhotosUpdateCommand(final Provider<GeraltWomanPhotosUpdateCommand> provider) {
-        return new CommandWithScheduler<>(provider, Schedulers.io());
+    static CommandWithScheduler bindGeraltWomanPhotosUpdateCommand(final Provider<GeraltWomanPhotosUpdateCommand> p,
+                                                                   @NetworkModule.NetworkScheduler final Scheduler scheduler) {
+        return new CommandWithScheduler<>(p, scheduler);
     }
 
     @Provides
     @IntoMap
     @CommandKey(GeraltWomenStorageCommandRequest.class)
-    static CommandWithScheduler bindGeraltWomenStorageCommand(final Provider<GeraltWomenStorageCommand> provider) {
-        return new CommandWithScheduler<>(provider, Schedulers.io());
+    static CommandWithScheduler bindGeraltWomenStorageCommand(final Provider<GeraltWomenStorageCommand> p,
+                                                              @NetworkModule.NetworkScheduler final Scheduler scheduler) {
+        return new CommandWithScheduler<>(p, scheduler);
     }
 
     @Provides
     @IntoMap
     @CommandKey(GeraltWomenUpdateCommandRequest.class)
-    static CommandWithScheduler bindGeraltWomenUpdateCommand(final Provider<GeraltWomenUpdateCommand> provider) {
-        return new CommandWithScheduler<>(provider, Schedulers.io());
+    static CommandWithScheduler bindGeraltWomenUpdateCommand(final Provider<GeraltWomenUpdateCommand> p,
+                                                             @NetworkModule.NetworkScheduler final Scheduler scheduler) {
+        return new CommandWithScheduler<>(p, scheduler);
     }
 
     @Provides
     @IntoMap
     @CommandKey(GeraltWomanUpdateCommandRequest.class)
-    static CommandWithScheduler bindGeraltWomanUpdateCommand(final Provider<GeraltWomanUpdateCommand> provider) {
-        return new CommandWithScheduler<>(provider, Schedulers.io());
+    static CommandWithScheduler bindGeraltWomanUpdateCommand(final Provider<GeraltWomanUpdateCommand> p,
+                                                             @NetworkModule.NetworkScheduler final Scheduler scheduler) {
+        return new CommandWithScheduler<>(p, scheduler);
     }
 
     @Provides
     @IntoMap
     @CommandKey(GeraltVideosUpdateCommandRequest.class)
-    static CommandWithScheduler bindGeraltVideosUpdateCommand(final Provider<GeraltVideosUpdateCommand> provider) {
-        return new CommandWithScheduler<>(provider, Schedulers.io());
+    static CommandWithScheduler bindGeraltVideosUpdateCommand(final Provider<GeraltVideosUpdateCommand> p,
+                                                              @NetworkModule.NetworkScheduler final Scheduler scheduler) {
+        return new CommandWithScheduler<>(p, scheduler);
     }
 }

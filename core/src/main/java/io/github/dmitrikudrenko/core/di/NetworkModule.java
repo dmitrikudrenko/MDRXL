@@ -60,15 +60,13 @@ public final class NetworkModule {
         for (final Interceptor interceptor : interceptors) {
             builder.addNetworkInterceptor(interceptor);
         }
-        return builder
-                .cache(new Cache(context.getCacheDir(), CACHE_SIZE))
-                .build();
+        return builder.cache(new Cache(context.getCacheDir(), CACHE_SIZE)).build();
     }
 
     @Provides
     public Retrofit provideRetrofit(final Gson gson,
-                             @NetworkScheduler final Scheduler networkScheduler,
-                             final OkHttpClient httpClient) {
+                                    @NetworkScheduler final Scheduler networkScheduler,
+                                    final OkHttpClient httpClient) {
         return new Retrofit.Builder()
                 .baseUrl("https://geralt-f5e41.firebaseio.com/")
                 .callFactory(httpClient)
