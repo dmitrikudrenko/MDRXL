@@ -22,24 +22,26 @@ import io.github.dmitrikudrenko.sample.ui.women.photos.GeraltWomanPhotosActivity
 import io.github.dmitrikudrenko.sample.utils.ui.ClickInfo;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 public class Router {
     private static final String TAG_CONTENT_FRAGMENT = "content_fragment";
     private static final String TAG_DETAILS_FRAGMENT = "details_fragment";
 
-    private final AppCompatActivity activity;
+    private final Provider<AppCompatActivity> activityProvider;
     private final boolean multiWindow;
 
     @Inject
-    Router(final AppCompatActivity activity,
+    Router(final Provider<AppCompatActivity> activityProvider,
            @MultiWindow final boolean multiWindow) {
-        this.activity = activity;
+        this.activityProvider = activityProvider;
         this.multiWindow = multiWindow;
     }
 
     @SuppressWarnings("unchecked")
     public void openGeraltWoman(final long id, final ClickInfo clickInfo) {
         GeraltApplication.createWomanComponent(id);
+        final AppCompatActivity activity = activityProvider.get();
         if (multiWindow) {
             final GeraltWomanFragment fragment = GeraltWomanFragment.create();
             activity.getSupportFragmentManager().beginTransaction()
@@ -58,11 +60,13 @@ public class Router {
     }
 
     public void openGeraltWomanPhotos() {
+        final AppCompatActivity activity = activityProvider.get();
         activity.startActivity(GeraltWomanPhotosActivity.intent(activity));
     }
 
     public void openGeraltVideo(final long itemId, final ClickInfo clickInfo) {
         GeraltApplication.createVideoComponent(itemId);
+        final AppCompatActivity activity = activityProvider.get();
         if (multiWindow) {
             final VideoPlayerFragment fragment = VideoPlayerFragment.create();
             activity.getSupportFragmentManager().beginTransaction()
@@ -74,40 +78,44 @@ public class Router {
     }
 
     public void openVideoQueue() {
+        final AppCompatActivity activity = activityProvider.get();
         activity.startActivity(VideoQueueActivity.intent(activity));
     }
 
     public void openGeraltWomen() {
+        final AppCompatActivity activity = activityProvider.get();
         final GeraltWomenFragment fragment = new GeraltWomenFragment();
         activity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, fragment, TAG_CONTENT_FRAGMENT)
                 .commitNow();
         if (multiWindow) {
-            removeDetailsFragment();
+            removeDetailsFragment(activity);
         }
     }
 
     public void openSettings() {
+        final AppCompatActivity activity = activityProvider.get();
         final SettingsFragment fragment = new SettingsFragment();
         activity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, fragment, TAG_CONTENT_FRAGMENT)
                 .commitNow();
         if (multiWindow) {
-            removeDetailsFragment();
+            removeDetailsFragment(activity);
         }
     }
 
     public void openWitcherVideos() {
+        final AppCompatActivity activity = activityProvider.get();
         final WitcherVideosFragment fragment = new WitcherVideosFragment();
         activity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, fragment, TAG_CONTENT_FRAGMENT)
                 .commitNow();
         if (multiWindow) {
-            removeDetailsFragment();
+            removeDetailsFragment(activity);
         }
     }
 
-    private void removeDetailsFragment() {
+    private void removeDetailsFragment(final AppCompatActivity activity) {
         final FragmentManager fm = activity.getSupportFragmentManager();
         final Fragment detailsFragment = fm.findFragmentByTag(TAG_DETAILS_FRAGMENT);
         if (detailsFragment != null) {

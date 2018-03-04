@@ -45,7 +45,7 @@ public class WitcherVideoViewHolder extends RecyclerView.ViewHolder implements W
 
     @Override
     public void showThumbnail(final String value) {
-        imageLoader.loadFitCroppedImageInto(value, thumbnail);
+        imageLoader.loadFitCroppedImageInto(value, thumbnail, null);
     }
 
     @Override

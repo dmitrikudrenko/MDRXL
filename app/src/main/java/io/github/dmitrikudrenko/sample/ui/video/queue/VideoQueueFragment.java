@@ -2,7 +2,6 @@ package io.github.dmitrikudrenko.sample.ui.video.queue;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -83,11 +82,6 @@ public class VideoQueueFragment extends BaseRxFragment implements VideoQueueView
         @Provides
         RxLoaderManager provideLoaderManager() {
             return new RxLoaderManager(getLoaderManager());
-        }
-
-        @Provides
-        AppCompatActivity provideActivity() {
-            return (AppCompatActivity) getActivity();
         }
 
         @Provides

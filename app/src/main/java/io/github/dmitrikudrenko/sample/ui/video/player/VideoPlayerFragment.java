@@ -3,7 +3,6 @@ package io.github.dmitrikudrenko.sample.ui.video.player;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -153,11 +152,6 @@ public class VideoPlayerFragment extends BaseRxFragment implements VideoPlayerVi
         @Provides
         RxLoaderManager provideLoaderManager() {
             return new RxLoaderManager(getLoaderManager());
-        }
-
-        @Provides
-        AppCompatActivity provideActivity() {
-            return (AppCompatActivity) getActivity();
         }
 
         @Provides
