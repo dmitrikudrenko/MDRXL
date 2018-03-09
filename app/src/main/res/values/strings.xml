@@ -12,4 +12,5 @@
     <string name="play">Воспроизвести</string>
     <string name="add_queue">Добавить в очередь</string>
     <string name="queue">Очередь</string>
+    <string name="picture_in_picture">Minimize</string>
 </resources>

@@ -73,11 +73,12 @@ public class VideoPlayerPresenter extends RxLoaderPresenter<VideoPlayerView> {
 
     @Override
     public void detachView(final VideoPlayerView view) {
-        super.detachView(view);
         if (playerObserver == view) {
+            getViewState().pausePlayer();
             playerPosition = playerObserver.getCurrentPosition();
             playerObserver = null;
         }
+        super.detachView(view);
     }
 
     void onControlsShown() {
