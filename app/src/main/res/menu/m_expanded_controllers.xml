@@ -12,4 +12,9 @@
         android:icon="@drawable/ic_list"
         android:title="@string/queue"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/pip"
+        android:icon="@drawable/ic_picture_in_picture"
+        android:title="@string/picture_in_picture"
+        app:showAsAction="ifRoom"/>
 </menu>

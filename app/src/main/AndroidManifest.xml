@@ -32,9 +32,13 @@
         <!-- video -->
         <activity
             android:name=".ui.video.player.VideoPlayerActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:label="@string/video"
             android:launchMode="singleTop"
-            android:theme="@style/PhotosTheme"/>
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
+            android:theme="@style/PhotosTheme"
+            tools:ignore="UnusedAttribute"/>
         <activity
             android:name=".ui.video.queue.VideoQueueActivity"
             android:label="@string/video"

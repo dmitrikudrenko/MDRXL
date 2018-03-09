@@ -10,4 +10,6 @@ public interface VideoPlayerView extends RxView {
     void showActionBar();
 
     void stopPlayer();
+
+    void pausePlayer();
 }

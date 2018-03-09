@@ -1,6 +1,7 @@
 package io.github.dmitrikudrenko.sample.ui.video.player;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import butterknife.BindView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.devbrackets.android.exomedia.listener.VideoControlsVisibilityListener;
+import com.devbrackets.android.exomedia.ui.widget.VideoControls;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 import dagger.Provides;
@@ -76,15 +78,42 @@ public class VideoPlayerFragment extends BaseRxFragment implements VideoPlayerVi
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.queue) {
-            startActivity(VideoQueueActivity.intent(getActivity()));
+        final int itemId = item.getItemId();
+        switch (itemId) {
+            case R.id.queue:
+                startActivity(VideoQueueActivity.intent(getActivity()));
+                break;
+            case R.id.pip:
+                startPictureInPictureMode();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startPictureInPictureMode() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            getActivity().enterPictureInPictureMode();
+        }
+    }
+
+    @Override
+    public void onPictureInPictureModeChanged(final boolean isInPictureInPictureMode) {
+        final VideoControls videoControls = playerView.getVideoControls();
+        if (isInPictureInPictureMode) {
+            videoControls.hide();
+        } else {
+            videoControls.show();
+        }
     }
 
     @Override
     public void stopPlayer() {
         playerView.stopPlayback();
+    }
+
+    @Override
+    public void pausePlayer() {
+        playerView.pause();
     }
 
     @Nullable
