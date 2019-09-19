@@ -39,8 +39,8 @@ public class GeraltWomanViewHolder extends RecyclerView.ViewHolder implements Ge
     }
 
     @Override
-    public void showPhoto(final String value) {
-        imageLoader.loadPhotoInto(value, photo);
+    public void showPhoto(final String value, final String placeholder) {
+        imageLoader.loadPhotoInto(value, placeholder, photo);
     }
 
     @Override

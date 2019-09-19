@@ -84,6 +84,8 @@ public class GeraltWomenRepository {
         cv.put(GeraltWomenContract.COLUMN_PROFESSION, woman.getProfession());
         cv.put(GeraltWomenContract.COLUMN_HAIR_COLOR, woman.getHairColor());
         cv.put(GeraltWomenContract.COLUMN_PHOTO, woman.getPhoto());
+        cv.put(GeraltWomenContract.COLUMN_AVATAR, woman.getAvatar());
+        cv.put(GeraltWomenContract.COLUMN_PLACEHOLDER, woman.getPlaceholder());
         cv.put(GeraltWomenContract.COLUMN_PHOTO_COUNT, woman.getPhotoCount());
         return cv;
     }

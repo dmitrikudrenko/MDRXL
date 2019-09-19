@@ -22,4 +22,9 @@ public final class Strings {
     public static boolean isNotBlank(@Nullable final String string) {
         return !isBlank(string);
     }
+
+    @Nullable
+    public static String nullIfBlank(@Nullable final String string) {
+        return isNotBlank(string) ? string : null;
+    }
 }

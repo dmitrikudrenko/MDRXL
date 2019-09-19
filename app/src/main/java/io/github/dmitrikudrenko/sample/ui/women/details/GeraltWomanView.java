@@ -19,7 +19,7 @@ public interface GeraltWomanView extends LoadingRxView {
     }
     void showName(String value);
 
-    void showPhoto(String value);
+    void showPhoto(String value, String placeholder);
 
     void showProfession(String value);
 

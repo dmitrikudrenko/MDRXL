@@ -76,8 +76,8 @@ public class GeraltWomanActivity extends BaseFragmentHolderRxActivity<GeraltWoma
         return R.layout.a_fragment_holder_collapsing;
     }
 
-    void loadPhotoIntoToolbar(final String url) {
-        imageLoader.loadFitCroppedImageInto(url, toolbarImageView);
+    void loadPhotoIntoToolbar(final String url, final String placeholder) {
+        imageLoader.loadFitCroppedImageInto(url, placeholder, toolbarImageView);
     }
 
     public void showTitle(final String value) {

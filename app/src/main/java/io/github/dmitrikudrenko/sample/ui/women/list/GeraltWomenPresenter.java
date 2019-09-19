@@ -129,7 +129,7 @@ public class GeraltWomenPresenter extends RxLoaderPresenter<GeraltWomenView> imp
     @Override
     public void bind(final GeraltWomanHolder holder, final int position) {
         final GeraltWomenCursor cursor = data.get(position);
-        holder.showPhoto(cursor.getPhoto());
+        holder.showPhoto(cursor.getAvatar(), cursor.getPlaceholder());
         holder.showName(cursor.getName());
         holder.showProfession(cursor.getProfession());
         holder.setSelected(selectedItemId == cursor.getId());
